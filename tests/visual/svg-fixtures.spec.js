@@ -3,9 +3,9 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 
 const charts = [
-  { name: "line-chart", file: "exercise_log_line.svg", width: 760, height: 430 },
-  { name: "volume-chart", file: "exercise_log_volume.svg", width: 760, height: 430 },
-  { name: "attendance-heatmap", file: "exercise_log_heatmap.svg", width: 283, height: 184 },
+  { name: "line-chart", file: "tests/fixtures/exercise_log_line.svg", width: 760, height: 430 },
+  { name: "volume-chart", file: "tests/fixtures/exercise_log_volume.svg", width: 760, height: 430 },
+  { name: "attendance-heatmap", file: "tests/fixtures/exercise_log_heatmap.svg", width: 283, height: 184 },
 ];
 
 for (const chart of charts) {

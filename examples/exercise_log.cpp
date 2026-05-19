@@ -1,12 +1,18 @@
 #include <svgplot/svgplot.hpp>
 
-int main() {
+#include <filesystem>
+#include <iostream>
+
+int main() try {
     using svgplot::Bar;
     using svgplot::ChartOptions;
     using svgplot::HeatmapCell;
     using svgplot::HeatmapOptions;
     using svgplot::Point;
     using svgplot::Series;
+
+    const auto output_dir = std::filesystem::path{"generated"};
+    std::filesystem::create_directories(output_dir);
 
     ChartOptions line_options;
     line_options.title = "Exercise Log - Working Weight";
@@ -21,7 +27,8 @@ int main() {
         {"Deadlift", {{1, 225}, {2, 245}, {3, 255}, {4, 275}, {5, 295}}, "#059669"},
     };
 
-    svgplot::line_chart(weight_series, line_options).save("exercise_log_line.svg");
+    const auto line_chart = svgplot::line_chart(weight_series, line_options);
+    line_chart.save(output_dir / "exercise_log_line.svg");
 
     ChartOptions volume_options;
     volume_options.title = "Exercise Log - Weekly Volume";
@@ -38,7 +45,8 @@ int main() {
         {"W5", 138, "#2563eb"},
     };
 
-    svgplot::bar_chart(weekly_volume, volume_options).save("exercise_log_volume.svg");
+    const auto volume_chart = svgplot::bar_chart(weekly_volume, volume_options);
+    volume_chart.save(output_dir / "exercise_log_volume.svg");
 
     HeatmapOptions heatmap_options;
     heatmap_options.title = "Exercise Log - Attendance";
@@ -73,5 +81,9 @@ int main() {
         {svgplot::parse_date("2026-03-27"), 1, "Gym"},
     };
 
-    svgplot::heatmap_chart(attendance, heatmap_options).save("exercise_log_heatmap.svg");
+    const auto heatmap_chart = svgplot::heatmap_chart(attendance, heatmap_options);
+    heatmap_chart.save(output_dir / "exercise_log_heatmap.svg");
+} catch (const std::exception& error) {
+    std::cerr << "error: " << error.what() << '\n';
+    return 1;
 }

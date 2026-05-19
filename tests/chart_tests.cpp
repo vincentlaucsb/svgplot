@@ -38,8 +38,9 @@ TEST_CASE("Line chart SVG contains title, axes, ticks, path, and markers") {
     CHECK(svg.find(">Weight</text>") != std::string::npos);
     CHECK(svg.find("class=\"x-tick\"") != std::string::npos);
     CHECK(svg.find("class=\"y-tick\"") != std::string::npos);
-    CHECK(svg.find("class=\"line-series\"") != std::string::npos);
-    CHECK(svg.find("class=\"line-marker\"") != std::string::npos);
+    CHECK(svg.find("--svgplot-color: #123456;") != std::string::npos);
+    CHECK(svg.find("class=\"line-series svgplot-color-") != std::string::npos);
+    CHECK(svg.find("class=\"line-marker svgplot-color-") != std::string::npos);
     CHECK(svg.find("<path") != std::string::npos);
     CHECK(svg.find("<circle") != std::string::npos);
 }
@@ -57,8 +58,12 @@ TEST_CASE("Bar chart SVG contains bars, labels, and can be saved") {
 
     const auto svg = chart.str();
     CHECK(svg.find(">Volume</text>") != std::string::npos);
-    CHECK(svg.find("class=\"bar\"") != std::string::npos);
+    CHECK(svg.find("--svgplot-color: #111111;") != std::string::npos);
+    CHECK(svg.find("--svgplot-color: #222222;") != std::string::npos);
+    CHECK(svg.find("class=\"bar svgplot-color-") != std::string::npos);
     CHECK(svg.find("class=\"bar-label\"") != std::string::npos);
+    CHECK(svg.find("class=\"x-tick\"") == std::string::npos);
+    CHECK(svg.find("class=\"y-tick\"") != std::string::npos);
     CHECK(svg.find(">W1</text>") != std::string::npos);
     CHECK(svg.find(">W2</text>") != std::string::npos);
 
@@ -91,7 +96,8 @@ TEST_CASE("Heatmap chart aggregates dated values and emits cell tooltips") {
     const auto svg = chart.str();
     CHECK(svg.find("<svg") != std::string::npos);
     CHECK(svg.find(">Gym Attendance</text>") != std::string::npos);
-    CHECK(svg.find("class=\"heatmap-cell\"") != std::string::npos);
+    CHECK(svg.find("--svgplot-heatmap-background: #0d1117;") != std::string::npos);
+    CHECK(svg.find("class=\"heatmap-cell svgplot-color-") != std::string::npos);
     CHECK(svg.find("class=\"heatmap-weekday\"") != std::string::npos);
     CHECK(svg.find("class=\"heatmap-month\"") != std::string::npos);
     CHECK(svg.find("<title>2026-01-01: 3 - Gym; Lift</title>") != std::string::npos);
@@ -108,7 +114,7 @@ TEST_CASE("Heatmap chart supports an empty explicit date range") {
 
     CHECK(svg.find("<svg") != std::string::npos);
     CHECK(svg.find("<title>2026-01-01: 0</title>") != std::string::npos);
-    CHECK(svg.find("class=\"heatmap-cell\"") != std::string::npos);
+    CHECK(svg.find("class=\"heatmap-cell svgplot-color-") != std::string::npos);
 }
 
 TEST_CASE("Heatmap chart rejects invalid date ranges") {

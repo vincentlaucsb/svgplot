@@ -9,12 +9,19 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-fetch_module(
-    svg
-    GIT_REPOSITORY https://github.com/vincentlaucsb/svg.git
-    GIT_TAG master
-    SOURCE_SUBDIR cmake-do-not-build-upstream-targets
-)
+set(SVGPLOT_SIBLING_SVG_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../svg" CACHE PATH
+    "Path to a sibling svg checkout used instead of FetchContent when available")
+if(EXISTS "${SVGPLOT_SIBLING_SVG_DIR}/src/svg.hpp")
+    message(STATUS "Using sibling svg checkout: ${SVGPLOT_SIBLING_SVG_DIR}")
+    set(svg_SOURCE_DIR "${SVGPLOT_SIBLING_SVG_DIR}")
+else()
+    fetch_module(
+        svg
+        GIT_REPOSITORY https://github.com/vincentlaucsb/svg.git
+        GIT_TAG master
+        SOURCE_SUBDIR cmake-do-not-build-upstream-targets
+    )
+endif()
 
 fetch_module(
     Catch2

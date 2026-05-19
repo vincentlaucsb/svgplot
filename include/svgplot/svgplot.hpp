@@ -212,10 +212,73 @@ inline std::string number(double value) {
     return ss.str();
 }
 
+class CssColorRegistry {
+public:
+    std::string class_for(SVG::SVG& root, std::string_view color) {
+        const std::string key(color);
+        const auto found = classes_.find(key);
+        if (found != classes_.end()) {
+            return found->second;
+        }
+
+        const auto class_name = "svgplot-color-" + std::to_string(next_++);
+        root.style("." + class_name).set_attr("--svgplot-color", key);
+        classes_[key] = class_name;
+        return class_name;
+    }
+
+private:
+    std::map<std::string, std::string> classes_;
+    std::size_t next_ = 0;
+};
+
+inline void add_common_styles(SVG::SVG& root) {
+    root.style(":root")
+        .set_attr("--svgplot-axis", "#374151")
+        .set_attr("--svgplot-grid", "#e5e7eb")
+        .set_attr("--svgplot-text", "#111827");
+    root.style("text")
+        .set_attr("fill", "var(--svgplot-text)")
+        .set_attr("font-family", "Arial, sans-serif");
+    root.style(".axis-line")
+        .set_attr("stroke", "var(--svgplot-axis)")
+        .set_attr("stroke-width", "1.2");
+    root.style(".tick-line")
+        .set_attr("stroke", "var(--svgplot-axis)")
+        .set_attr("stroke-width", "1");
+    root.style(".grid-line")
+        .set_attr("stroke", "var(--svgplot-grid)")
+        .set_attr("stroke-width", "1");
+    root.style(".line-series")
+        .set_attr("fill", "none")
+        .set_attr("stroke", "var(--svgplot-color)")
+        .set_attr("stroke-width", "2.4");
+    root.style(".line-marker").set_attr("fill", "var(--svgplot-color)");
+    root.style(".bar").set_attr("fill", "var(--svgplot-color)");
+}
+
+inline void add_heatmap_styles(SVG::SVG& root, const HeatmapPalette& palette) {
+    root.style(":root")
+        .set_attr("--svgplot-heatmap-background", palette.background)
+        .set_attr("--svgplot-heatmap-border", palette.border)
+        .set_attr("--svgplot-heatmap-muted-text", palette.muted_text)
+        .set_attr("--svgplot-heatmap-text", palette.text);
+    root.style(".heatmap-background").set_attr("fill", "var(--svgplot-heatmap-background)");
+    root.style(".heatmap-cell")
+        .set_attr("fill", "var(--svgplot-color)")
+        .set_attr("stroke", "var(--svgplot-heatmap-border)")
+        .set_attr("stroke-width", "1");
+    root.style(".heatmap-cell-out-of-range")
+        .set_attr("fill", "var(--svgplot-heatmap-background)")
+        .set_attr("stroke", "var(--svgplot-heatmap-background)")
+        .set_attr("stroke-width", "1");
+    root.style(".heatmap-month").set_attr("fill", "var(--svgplot-heatmap-muted-text)");
+    root.style(".heatmap-title").set_attr("fill", "var(--svgplot-heatmap-text)");
+    root.style(".heatmap-weekday").set_attr("fill", "var(--svgplot-heatmap-muted-text)");
+}
+
 inline void style_text(SVG::Text* text, double size, std::string_view anchor = "middle") {
-    text->set_attr("font-family", "Arial, sans-serif")
-        .set_attr("font-size", size)
-        .set_attr("fill", "#111827")
+    text->set_attr("font-size", size)
         .set_attr("text-anchor", std::string(anchor));
 }
 
@@ -242,11 +305,12 @@ inline void add_title_and_labels(SVG::SVG& root, const ChartOptions& options) {
 
 inline void add_axis_line(SVG::SVG& root, double x1, double x2, double y1, double y2) {
     auto* line = root.add_child<SVG::Line>(x1, x2, y1, y2);
-    line->set_attr("stroke", "#374151").set_attr("stroke-width", 1.2);
+    line->set_attr("class", "axis-line");
 }
 
 inline void add_axes(SVG::SVG& root, const ChartOptions& options,
-                     const LinearScale& x_scale, const LinearScale& y_scale) {
+                     const LinearScale& x_scale, const LinearScale& y_scale,
+                     bool include_x_ticks = true) {
     const auto left = options.margins.left;
     const auto right = options.width - options.margins.right;
     const auto top = options.margins.top;
@@ -255,23 +319,25 @@ inline void add_axes(SVG::SVG& root, const ChartOptions& options,
     add_axis_line(root, left, right, bottom, bottom);
     add_axis_line(root, left, left, top, bottom);
 
-    for (const auto tick : x_scale.ticks(options.x_ticks)) {
-        const auto x = x_scale.map(tick);
-        auto* grid = root.add_child<SVG::Line>(x, x, top, bottom);
-        grid->set_attr("stroke", "#e5e7eb").set_attr("stroke-width", 1);
-        auto* tick_line = root.add_child<SVG::Line>(x, x, bottom, bottom + 5.0);
-        tick_line->set_attr("stroke", "#374151").set_attr("stroke-width", 1);
-        auto* label = root.add_child<SVG::Text>(x, bottom + 21.0, number(tick));
-        style_text(label, 11.0);
-        label->set_attr("class", "x-tick");
+    if (include_x_ticks) {
+        for (const auto tick : x_scale.ticks(options.x_ticks)) {
+            const auto x = x_scale.map(tick);
+            auto* grid = root.add_child<SVG::Line>(x, x, top, bottom);
+            grid->set_attr("class", "grid-line");
+            auto* tick_line = root.add_child<SVG::Line>(x, x, bottom, bottom + 5.0);
+            tick_line->set_attr("class", "tick-line");
+            auto* label = root.add_child<SVG::Text>(x, bottom + 21.0, number(tick));
+            style_text(label, 11.0);
+            label->set_attr("class", "x-tick");
+        }
     }
 
     for (const auto tick : y_scale.ticks(options.y_ticks)) {
         const auto y = y_scale.map(tick);
         auto* grid = root.add_child<SVG::Line>(left, right, y, y);
-        grid->set_attr("stroke", "#e5e7eb").set_attr("stroke-width", 1);
+        grid->set_attr("class", "grid-line");
         auto* tick_line = root.add_child<SVG::Line>(left - 5.0, left, y, y);
-        tick_line->set_attr("stroke", "#374151").set_attr("stroke-width", 1);
+        tick_line->set_attr("class", "tick-line");
         auto* label = root.add_child<SVG::Text>(left - 10.0, y + 4.0, number(tick));
         style_text(label, 11.0, "end");
         label->set_attr("class", "y-tick");
@@ -430,6 +496,7 @@ inline Chart line_chart(const std::vector<Series>& series, ChartOptions options)
                    {"height", detail::number(options.height)},
                    {"viewBox", "0 0 " + detail::number(options.width) + " " + detail::number(options.height)}});
 
+    detail::add_common_styles(root);
     detail::add_title_and_labels(root, options);
 
     const auto x_bounds = detail::padded(detail::point_bounds_x(series), 0.02);
@@ -438,16 +505,15 @@ inline Chart line_chart(const std::vector<Series>& series, ChartOptions options)
     const LinearScale y_scale(y_bounds, {options.height - options.margins.bottom, options.margins.top});
     detail::add_axes(root, options, x_scale, y_scale);
 
+    detail::CssColorRegistry colors;
     for (const auto& s : series) {
         if (s.points.empty()) {
             continue;
         }
 
+        const auto color_class = colors.class_for(root, s.color);
         auto* path = root.add_child<SVG::Path>();
-        path->set_attr("fill", "none")
-            .set_attr("stroke", s.color)
-            .set_attr("stroke-width", 2.4)
-            .set_attr("class", "line-series");
+        path->set_attr("class", "line-series " + color_class);
         path->start(x_scale.map(s.points.front().x), y_scale.map(s.points.front().y));
         for (std::size_t i = 1; i < s.points.size(); ++i) {
             path->line_to(x_scale.map(s.points[i].x), y_scale.map(s.points[i].y));
@@ -455,7 +521,7 @@ inline Chart line_chart(const std::vector<Series>& series, ChartOptions options)
 
         for (const auto& p : s.points) {
             auto* marker = root.add_child<SVG::Circle>(x_scale.map(p.x), y_scale.map(p.y), 3.2);
-            marker->set_attr("fill", s.color).set_attr("class", "line-marker");
+            marker->set_attr("class", "line-marker " + color_class);
         }
     }
 
@@ -472,6 +538,7 @@ inline Chart bar_chart(const std::vector<Bar>& bars, ChartOptions options) {
                    {"height", detail::number(options.height)},
                    {"viewBox", "0 0 " + detail::number(options.width) + " " + detail::number(options.height)}});
 
+    detail::add_common_styles(root);
     detail::add_title_and_labels(root, options);
 
     const auto max_it = std::max_element(bars.begin(), bars.end(), [](const Bar& a, const Bar& b) {
@@ -484,18 +551,20 @@ inline Chart bar_chart(const std::vector<Bar>& bars, ChartOptions options) {
                               {options.height - options.margins.bottom, options.margins.top});
     detail::add_axes(root, options, LinearScale({0.0, static_cast<double>(bars.size()) - 1.0},
                                                 {options.margins.left, options.width - options.margins.right}),
-                     y_scale);
+                     y_scale, false);
 
     const auto plot_width = options.width - options.margins.left - options.margins.right;
     const auto slot = plot_width / static_cast<double>(bars.size());
     const auto bar_width = slot * 0.64;
     const auto baseline = y_scale.map(0.0);
 
+    detail::CssColorRegistry colors;
     for (std::size_t i = 0; i < bars.size(); ++i) {
         const auto left = options.margins.left + slot * static_cast<double>(i) + (slot - bar_width) / 2.0;
         const auto top = y_scale.map(std::max(0.0, bars[i].value));
+        const auto color_class = colors.class_for(root, bars[i].color);
         auto* rect = root.add_child<SVG::Rect>(left, top, bar_width, baseline - top);
-        rect->set_attr("fill", bars[i].color).set_attr("class", "bar");
+        rect->set_attr("class", "bar " + color_class);
 
         auto* label = root.add_child<SVG::Text>(left + bar_width / 2.0, baseline + 20.0, bars[i].label);
         detail::style_text(label, 11.0);
@@ -570,16 +639,18 @@ inline Chart heatmap_chart(const std::vector<HeatmapCell>& cells, HeatmapOptions
                    {"width", detail::number(width)},
                    {"height", detail::number(height)},
                    {"viewBox", "0 0 " + detail::number(width) + " " + detail::number(height)}});
+    detail::add_common_styles(root);
+    detail::add_heatmap_styles(root, options.palette);
     root.set_attr("role", "img");
     root.set_attr("aria-label", options.title.empty() ? "Heatmap" : detail::escape_xml(options.title));
 
     auto* background = root.add_child<SVG::Rect>(0.0, 0.0, width, height);
-    background->set_attr("fill", options.palette.background).set_attr("class", "heatmap-background");
+    background->set_attr("class", "heatmap-background");
 
     if (!options.title.empty()) {
         auto* title = root.add_child<SVG::Text>(width / 2.0, 28.0, detail::escape_xml(options.title));
         detail::style_text(title, 20.0);
-        title->set_attr("font-weight", "700").set_attr("fill", options.palette.text);
+        title->set_attr("class", "heatmap-title").set_attr("font-weight", "700");
     }
 
     static constexpr std::array<std::string_view, 7> weekdays{
@@ -589,7 +660,7 @@ inline Chart heatmap_chart(const std::vector<HeatmapCell>& cells, HeatmapOptions
             (options.cell_size + options.cell_gap) + options.cell_size - 2.0;
         auto* label = root.add_child<SVG::Text>(options.left_margin - 9.0, y, std::string(weekdays[row]));
         detail::style_text(label, 11.0, "end");
-        label->set_attr("fill", options.palette.muted_text).set_attr("class", "heatmap-weekday");
+        label->set_attr("class", "heatmap-weekday");
     }
 
     unsigned previous_month = 0;
@@ -605,10 +676,11 @@ inline Chart heatmap_chart(const std::vector<HeatmapCell>& cells, HeatmapOptions
             auto* label = root.add_child<SVG::Text>(x, options.top_margin - 12.0,
                                                     detail::month_name(month));
             detail::style_text(label, 11.0, "start");
-            label->set_attr("fill", options.palette.muted_text).set_attr("class", "heatmap-month");
+            label->set_attr("class", "heatmap-month");
         }
     }
 
+    detail::CssColorRegistry colors;
     for (int col = 0; col < week_count; ++col) {
         for (unsigned row = 0; row < 7; ++row) {
             const Date current = first_visible + std::chrono::days{col * 7 + static_cast<int>(row)};
@@ -640,11 +712,10 @@ inline Chart heatmap_chart(const std::vector<HeatmapCell>& cells, HeatmapOptions
             }
 
             auto* rect = root.add_child<SVG::Rect>(x, y, options.cell_size, options.cell_size);
-            rect->set_attr("fill", fill)
-                .set_attr("stroke", in_range ? options.palette.border : options.palette.background)
-                .set_attr("stroke-width", 1)
-                .set_attr("rx", 2)
-                .set_attr("class", in_range ? "heatmap-cell" : "heatmap-cell-out-of-range");
+            const auto rect_class = in_range
+                ? "heatmap-cell " + colors.class_for(root, fill)
+                : "heatmap-cell-out-of-range";
+            rect->set_attr("rx", 2).set_attr("class", rect_class);
             rect->add_child<detail::TitleElement>(tooltip);
         }
     }

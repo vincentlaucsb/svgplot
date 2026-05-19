@@ -33,6 +33,8 @@
 
 # CMake build output
 out/*
+.vs/
+generated/
 
 # Node and Playwright
 node_modules/
