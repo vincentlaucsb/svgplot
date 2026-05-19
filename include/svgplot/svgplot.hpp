@@ -1,3 +1,17 @@
+/*
+              _       _       _
+  _____   __ ___ _ __ | | ___ | |_
+ / __\ \ / // _ \ '_ \| |/ _ \| __|
+ \__ \\ V /| (_| | |_) | | (_) | |_
+ |___/ \_/  \__, | .__/|_|\___/ \__|
+            |___/|_|
+
+  svgplot for C++ v0.1.0
+
+  Copyright (c) 2026 Vincent La
+  SPDX-License-Identifier: MIT
+*/
+
 #pragma once
 
 #include <svg.hpp>
@@ -233,53 +247,72 @@ private:
 };
 
 inline void add_common_styles(SVG::SVG& root) {
-    root.style(":root")
-        .set_attr("--svgplot-axis", "#374151")
-        .set_attr("--svgplot-grid", "#e5e7eb")
-        .set_attr("--svgplot-text", "#111827");
-    root.style("text")
-        .set_attr("fill", "var(--svgplot-text)")
-        .set_attr("font-family", "Arial, sans-serif");
-    root.style(".axis-line")
-        .set_attr("stroke", "var(--svgplot-axis)")
-        .set_attr("stroke-width", "1.2");
-    root.style(".tick-line")
-        .set_attr("stroke", "var(--svgplot-axis)")
-        .set_attr("stroke-width", "1");
-    root.style(".grid-line")
-        .set_attr("stroke", "var(--svgplot-grid)")
-        .set_attr("stroke-width", "1");
-    root.style(".line-series")
-        .set_attr("fill", "none")
-        .set_attr("stroke", "var(--svgplot-color)")
-        .set_attr("stroke-width", "2.4");
+    root.style(":root").set_attrs({
+        {"--svgplot-axis", "#374151"},
+        {"--svgplot-background", "#ffffff"},
+        {"--svgplot-grid", "#e5e7eb"},
+        {"--svgplot-text", "#111827"},
+    });
+    root.media_style("(prefers-color-scheme: dark)", ":root").set_attrs({
+        {"--svgplot-axis", "#9ca3af"},
+        {"--svgplot-background", "#111827"},
+        {"--svgplot-grid", "#374151"},
+        {"--svgplot-text", "#f9fafb"},
+    });
+    root.style("svg").set_attr("background", "var(--svgplot-background)");
+    root.style("text").set_attrs({
+        {"fill", "var(--svgplot-text)"},
+        {"font-family", "Arial, sans-serif"},
+    });
+    root.style(".axis-line").set_attrs({
+        {"stroke", "var(--svgplot-axis)"},
+        {"stroke-width", "1.2"},
+    });
+    root.style(".tick-line").set_attrs({
+        {"stroke", "var(--svgplot-axis)"},
+        {"stroke-width", "1"},
+    });
+    root.style(".grid-line").set_attrs({
+        {"stroke", "var(--svgplot-grid)"},
+        {"stroke-width", "1"},
+    });
+    root.style(".line-series").set_attrs({
+        {"fill", "none"},
+        {"stroke", "var(--svgplot-color)"},
+        {"stroke-width", "2.4"},
+    });
     root.style(".line-marker").set_attr("fill", "var(--svgplot-color)");
     root.style(".bar").set_attr("fill", "var(--svgplot-color)");
 }
 
 inline void add_heatmap_styles(SVG::SVG& root, const HeatmapPalette& palette) {
-    root.style(":root")
-        .set_attr("--svgplot-heatmap-background", palette.background)
-        .set_attr("--svgplot-heatmap-border", palette.border)
-        .set_attr("--svgplot-heatmap-muted-text", palette.muted_text)
-        .set_attr("--svgplot-heatmap-text", palette.text);
+    root.style(":root").set_attrs({
+        {"--svgplot-heatmap-background", palette.background},
+        {"--svgplot-heatmap-border", palette.border},
+        {"--svgplot-heatmap-muted-text", palette.muted_text},
+        {"--svgplot-heatmap-text", palette.text},
+    });
     root.style(".heatmap-background").set_attr("fill", "var(--svgplot-heatmap-background)");
-    root.style(".heatmap-cell")
-        .set_attr("fill", "var(--svgplot-color)")
-        .set_attr("stroke", "var(--svgplot-heatmap-border)")
-        .set_attr("stroke-width", "1");
-    root.style(".heatmap-cell-out-of-range")
-        .set_attr("fill", "var(--svgplot-heatmap-background)")
-        .set_attr("stroke", "var(--svgplot-heatmap-background)")
-        .set_attr("stroke-width", "1");
+    root.style(".heatmap-cell").set_attrs({
+        {"fill", "var(--svgplot-color)"},
+        {"stroke", "var(--svgplot-heatmap-border)"},
+        {"stroke-width", "1"},
+    });
+    root.style(".heatmap-cell-out-of-range").set_attrs({
+        {"fill", "var(--svgplot-heatmap-background)"},
+        {"stroke", "var(--svgplot-heatmap-background)"},
+        {"stroke-width", "1"},
+    });
     root.style(".heatmap-month").set_attr("fill", "var(--svgplot-heatmap-muted-text)");
     root.style(".heatmap-title").set_attr("fill", "var(--svgplot-heatmap-text)");
     root.style(".heatmap-weekday").set_attr("fill", "var(--svgplot-heatmap-muted-text)");
 }
 
 inline void style_text(SVG::Text* text, double size, std::string_view anchor = "middle") {
-    text->set_attr("font-size", size)
-        .set_attr("text-anchor", std::string(anchor));
+    text->set_attrs({
+        {"font-size", number(size)},
+        {"text-anchor", std::string(anchor)},
+    });
 }
 
 inline void add_title_and_labels(SVG::SVG& root, const ChartOptions& options) {
@@ -513,7 +546,7 @@ inline Chart line_chart(const std::vector<Series>& series, ChartOptions options)
 
         const auto color_class = colors.class_for(root, s.color);
         auto* path = root.add_child<SVG::Path>();
-        path->set_attr("class", "line-series " + color_class);
+        path->class_list().add("line-series").add(color_class);
         path->start(x_scale.map(s.points.front().x), y_scale.map(s.points.front().y));
         for (std::size_t i = 1; i < s.points.size(); ++i) {
             path->line_to(x_scale.map(s.points[i].x), y_scale.map(s.points[i].y));
@@ -521,7 +554,7 @@ inline Chart line_chart(const std::vector<Series>& series, ChartOptions options)
 
         for (const auto& p : s.points) {
             auto* marker = root.add_child<SVG::Circle>(x_scale.map(p.x), y_scale.map(p.y), 3.2);
-            marker->set_attr("class", "line-marker " + color_class);
+            marker->class_list().add("line-marker").add(color_class);
         }
     }
 
@@ -564,7 +597,7 @@ inline Chart bar_chart(const std::vector<Bar>& bars, ChartOptions options) {
         const auto top = y_scale.map(std::max(0.0, bars[i].value));
         const auto color_class = colors.class_for(root, bars[i].color);
         auto* rect = root.add_child<SVG::Rect>(left, top, bar_width, baseline - top);
-        rect->set_attr("class", "bar " + color_class);
+        rect->class_list().add("bar").add(color_class);
 
         auto* label = root.add_child<SVG::Text>(left + bar_width / 2.0, baseline + 20.0, bars[i].label);
         detail::style_text(label, 11.0);
@@ -641,8 +674,10 @@ inline Chart heatmap_chart(const std::vector<HeatmapCell>& cells, HeatmapOptions
                    {"viewBox", "0 0 " + detail::number(width) + " " + detail::number(height)}});
     detail::add_common_styles(root);
     detail::add_heatmap_styles(root, options.palette);
-    root.set_attr("role", "img");
-    root.set_attr("aria-label", options.title.empty() ? "Heatmap" : detail::escape_xml(options.title));
+    root.set_attrs({
+        {"role", "img"},
+        {"aria-label", options.title.empty() ? "Heatmap" : detail::escape_xml(options.title)},
+    });
 
     auto* background = root.add_child<SVG::Rect>(0.0, 0.0, width, height);
     background->set_attr("class", "heatmap-background");
@@ -650,7 +685,10 @@ inline Chart heatmap_chart(const std::vector<HeatmapCell>& cells, HeatmapOptions
     if (!options.title.empty()) {
         auto* title = root.add_child<SVG::Text>(width / 2.0, 28.0, detail::escape_xml(options.title));
         detail::style_text(title, 20.0);
-        title->set_attr("class", "heatmap-title").set_attr("font-weight", "700");
+        title->set_attrs({
+            {"class", "heatmap-title"},
+            {"font-weight", "700"},
+        });
     }
 
     static constexpr std::array<std::string_view, 7> weekdays{
@@ -712,10 +750,12 @@ inline Chart heatmap_chart(const std::vector<HeatmapCell>& cells, HeatmapOptions
             }
 
             auto* rect = root.add_child<SVG::Rect>(x, y, options.cell_size, options.cell_size);
-            const auto rect_class = in_range
-                ? "heatmap-cell " + colors.class_for(root, fill)
-                : "heatmap-cell-out-of-range";
-            rect->set_attr("rx", 2).set_attr("class", rect_class);
+            rect->set_attr("rx", 2);
+            if (in_range) {
+                rect->class_list().add("heatmap-cell").add(colors.class_for(root, fill));
+            } else {
+                rect->class_list().add("heatmap-cell-out-of-range");
+            }
             rect->add_child<detail::TitleElement>(tooltip);
         }
     }

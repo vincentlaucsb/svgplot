@@ -36,6 +36,8 @@ TEST_CASE("Line chart SVG contains title, axes, ticks, path, and markers") {
     CHECK(svg.find(">Progress</text>") != std::string::npos);
     CHECK(svg.find(">Session</text>") != std::string::npos);
     CHECK(svg.find(">Weight</text>") != std::string::npos);
+    CHECK(svg.find("@media (prefers-color-scheme: dark)") != std::string::npos);
+    CHECK(svg.find("--svgplot-background: #111827;") != std::string::npos);
     CHECK(svg.find("class=\"x-tick\"") != std::string::npos);
     CHECK(svg.find("class=\"y-tick\"") != std::string::npos);
     CHECK(svg.find("--svgplot-color: #123456;") != std::string::npos);

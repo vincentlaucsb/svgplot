@@ -57,6 +57,7 @@
 			}
 			:root {
 				--svgplot-axis: #374151;
+				--svgplot-background: #ffffff;
 				--svgplot-grid: #e5e7eb;
 				--svgplot-heatmap-background: #0d1117;
 				--svgplot-heatmap-border: #30363d;
@@ -64,24 +65,35 @@
 				--svgplot-heatmap-text: #c9d1d9;
 				--svgplot-text: #111827;
 			}
+			svg {
+				background: var(--svgplot-background);
+			}
 			text {
 				fill: var(--svgplot-text);
 				font-family: Arial, sans-serif;
 			}
+			@media (prefers-color-scheme: dark) {
+				:root {
+					--svgplot-axis: #9ca3af;
+					--svgplot-background: #111827;
+					--svgplot-grid: #374151;
+					--svgplot-text: #f9fafb;
+				}
+			}
 		]]>
 	</style>
 	<rect class="heatmap-background" height="184.0" width="283.0" x="0.0" y="0.0" />
-	<text class="heatmap-title" font-size="20.0" font-weight="700" text-anchor="middle" x="141.5" y="28.0">Exercise Log - Attendance</text>
-	<text class="heatmap-weekday" font-size="11.0" text-anchor="end" x="43.0" y="64.0">Sun</text>
-	<text class="heatmap-weekday" font-size="11.0" text-anchor="end" x="43.0" y="79.0">Mon</text>
-	<text class="heatmap-weekday" font-size="11.0" text-anchor="end" x="43.0" y="94.0">Tue</text>
-	<text class="heatmap-weekday" font-size="11.0" text-anchor="end" x="43.0" y="109.0">Wed</text>
-	<text class="heatmap-weekday" font-size="11.0" text-anchor="end" x="43.0" y="124.0">Thu</text>
-	<text class="heatmap-weekday" font-size="11.0" text-anchor="end" x="43.0" y="139.0">Fri</text>
-	<text class="heatmap-weekday" font-size="11.0" text-anchor="end" x="43.0" y="154.0">Sat</text>
-	<text class="heatmap-month" font-size="11.0" text-anchor="start" x="52.0" y="42.0">Jan</text>
-	<text class="heatmap-month" font-size="11.0" text-anchor="start" x="127.0" y="42.0">Feb</text>
-	<text class="heatmap-month" font-size="11.0" text-anchor="start" x="187.0" y="42.0">Mar</text>
+	<text class="heatmap-title" font-size="20" font-weight="700" text-anchor="middle" x="141.5" y="28.0">Exercise Log - Attendance</text>
+	<text class="heatmap-weekday" font-size="11" text-anchor="end" x="43.0" y="64.0">Sun</text>
+	<text class="heatmap-weekday" font-size="11" text-anchor="end" x="43.0" y="79.0">Mon</text>
+	<text class="heatmap-weekday" font-size="11" text-anchor="end" x="43.0" y="94.0">Tue</text>
+	<text class="heatmap-weekday" font-size="11" text-anchor="end" x="43.0" y="109.0">Wed</text>
+	<text class="heatmap-weekday" font-size="11" text-anchor="end" x="43.0" y="124.0">Thu</text>
+	<text class="heatmap-weekday" font-size="11" text-anchor="end" x="43.0" y="139.0">Fri</text>
+	<text class="heatmap-weekday" font-size="11" text-anchor="end" x="43.0" y="154.0">Sat</text>
+	<text class="heatmap-month" font-size="11" text-anchor="start" x="52.0" y="42.0">Jan</text>
+	<text class="heatmap-month" font-size="11" text-anchor="start" x="127.0" y="42.0">Feb</text>
+	<text class="heatmap-month" font-size="11" text-anchor="start" x="187.0" y="42.0">Mar</text>
 	<rect class="heatmap-cell-out-of-range" height="12.0" rx="2" width="12.0" x="52.0" y="54.0">
 		<title>2025-12-28: out of range</title>
 	</rect>
