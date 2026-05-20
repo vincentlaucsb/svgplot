@@ -1,0 +1,8 @@
+{
+  "includeRoots": [
+    "include",
+    "../svg/src"
+  ],
+  "output": "single_include/svgplot/svgplot.hpp",
+  "entry": "include/svgplot/svgplot.hpp"
+}

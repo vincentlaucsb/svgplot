@@ -1,0 +1,108 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "*"
+
+permissions:
+  contents: write
+
+jobs:
+  single-header:
+    name: Generate single-header release asset
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out svgplot
+        uses: actions/checkout@v4
+        with:
+          path: svgplot
+
+      - name: Check out svg dependency
+        uses: actions/checkout@v4
+        with:
+          repository: vincentlaucsb/svg
+          path: svg
+
+      - name: Check out single_header
+        uses: actions/checkout@v4
+        with:
+          repository: vincentlaucsb/single_header
+          path: single_header
+
+      - name: Build single_header
+        run: cmake -S single_header -B single_header/build -A x64
+
+      - name: Compile single_header
+        run: cmake --build single_header/build --config Release --parallel
+
+      - name: Generate svgplot single header
+        working-directory: svgplot
+        run: ..\single_header\build\Release\single_header.exe --config single_header.json
+
+      - name: Verify svg.hpp was amalgamated
+        working-directory: svgplot
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $generated = "single_include/svgplot/svgplot.hpp"
+          if (Select-String -Path $generated -Pattern '#include <svg.hpp>' -Quiet) {
+            throw "Generated header still contains #include <svg.hpp>"
+          }
+          if (-not (Select-String -Path $generated -Pattern 'SVG for C\+\+' -Quiet)) {
+            throw "Generated header does not contain the svg dependency"
+          }
+
+      - name: Compile generated header smoke test
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          New-Item -ItemType Directory -Force -Path smoke | Out-Null
+          @'
+          cmake_minimum_required(VERSION 3.25)
+          project(svgplot_single_header_smoke LANGUAGES CXX)
+          add_library(smoke_one OBJECT smoke_one.cpp)
+          add_library(smoke_two OBJECT smoke_two.cpp)
+          target_compile_features(smoke_one PRIVATE cxx_std_23)
+          target_compile_features(smoke_two PRIVATE cxx_std_23)
+          target_include_directories(smoke_one PRIVATE "${CMAKE_CURRENT_LIST_DIR}/../svgplot/single_include")
+          target_include_directories(smoke_two PRIVATE "${CMAKE_CURRENT_LIST_DIR}/../svgplot/single_include")
+          '@ | Set-Content -Path smoke/CMakeLists.txt
+          @'
+          #include <svgplot/svgplot.hpp>
+
+          int smoke_one() {
+              svgplot::ChartOptions options;
+              options.title = "Smoke";
+              const auto chart = svgplot::line_chart({
+                  {"A", {{1.0, 2.0}, {2.0, 3.0}}, "#123456"},
+              }, options);
+              return chart.str().empty() ? 1 : 0;
+          }
+          '@ | Set-Content -Path smoke/smoke_one.cpp
+          @'
+          #include <svgplot/svgplot.hpp>
+
+          int smoke_two() {
+              const auto chart = svgplot::heatmap_chart({
+                  {svgplot::date(2026, 1, 1), 1.0, "A"},
+              });
+              return chart.str().empty() ? 1 : 0;
+          }
+          '@ | Set-Content -Path smoke/smoke_two.cpp
+          cmake -S smoke -B smoke/build -A x64
+          cmake --build smoke/build --config Release --parallel
+
+      - name: Upload generated header artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: svgplot-single-header
+          path: svgplot/single_include/svgplot/svgplot.hpp
+          if-no-files-found: error
+
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: svgplot/single_include/svgplot/svgplot.hpp
+          fail_on_unmatched_files: true
