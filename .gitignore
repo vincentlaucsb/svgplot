@@ -35,6 +35,7 @@
 out/*
 .vs/
 generated/
+single_include/
 
 # Node and Playwright
 node_modules/
