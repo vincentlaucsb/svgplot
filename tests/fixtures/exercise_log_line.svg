@@ -104,21 +104,21 @@
 	<line class="grid-line" x1="732.0" x2="732.0" y1="54.0" y2="308.0" />
 	<line class="tick-line" x1="732.0" x2="732.0" y1="308.0" y2="313.0" />
 	<text class="x-tick" font-size="11" text-anchor="middle" x="732.0" y="329.0">5.1</text>
-	<line class="grid-line" x1="72.0" x2="732.0" y1="308.0" y2="308.0" />
-	<line class="tick-line" x1="67.0" x2="72.0" y1="308.0" y2="308.0" />
-	<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="312.0">122</text>
-	<line class="grid-line" x1="72.0" x2="732.0" y1="244.5" y2="244.5" />
-	<line class="tick-line" x1="67.0" x2="72.0" y1="244.5" y2="244.5" />
-	<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="248.5">169</text>
-	<line class="grid-line" x1="72.0" x2="732.0" y1="181.0" y2="181.0" />
-	<line class="tick-line" x1="67.0" x2="72.0" y1="181.0" y2="181.0" />
-	<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="185.0">215</text>
-	<line class="grid-line" x1="72.0" x2="732.0" y1="117.5" y2="117.5" />
-	<line class="tick-line" x1="67.0" x2="72.0" y1="117.5" y2="117.5" />
-	<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="121.5">261</text>
-	<line class="grid-line" x1="72.0" x2="732.0" y1="54.0" y2="54.0" />
-	<line class="tick-line" x1="67.0" x2="72.0" y1="54.0" y2="54.0" />
-	<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="58.0">308</text>
+	<line class="grid-line" x1="72.0" x2="732.0" y1="308.3" y2="308.3" />
+	<line class="tick-line" x1="67.0" x2="72.0" y1="308.3" y2="308.3" />
+	<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="312.3">122</text>
+	<line class="grid-line" x1="72.0" x2="732.0" y1="244.0" y2="244.0" />
+	<line class="tick-line" x1="67.0" x2="72.0" y1="244.0" y2="244.0" />
+	<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="248.0">169</text>
+	<line class="grid-line" x1="72.0" x2="732.0" y1="179.6" y2="179.6" />
+	<line class="tick-line" x1="67.0" x2="72.0" y1="179.6" y2="179.6" />
+	<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="183.6">216</text>
+	<line class="grid-line" x1="72.0" x2="732.0" y1="115.3" y2="115.3" />
+	<line class="tick-line" x1="67.0" x2="72.0" y1="115.3" y2="115.3" />
+	<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="119.3">263</text>
+	<line class="grid-line" x1="72.0" x2="732.0" y1="53.7" y2="53.7" />
+	<line class="tick-line" x1="67.0" x2="72.0" y1="53.7" y2="53.7" />
+	<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="57.7">308</text>
 	<path class="line-series svgplot-color-0" d="M 84.692308 222.056034 L 243.346154 208.370690 L 402.000000 194.685345 L 560.653846 181.000000 L 719.307692 167.314655" />
 	<circle class="line-marker svgplot-color-0" cx="84.7" cy="222.1" r="3.2" />
 	<circle class="line-marker svgplot-color-0" cx="243.3" cy="208.4" r="3.2" />

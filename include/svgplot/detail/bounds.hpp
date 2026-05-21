@@ -3,6 +3,7 @@
 #include "../types.hpp"
 
 #include <algorithm>
+#include <cmath>
 #include <limits>
 #include <stdexcept>
 #include <vector>
@@ -40,6 +41,39 @@ inline Bounds point_bounds_y(const std::vector<Series>& series) {
         }
     }
     return padded(bounds);
+}
+
+inline bool integral_value(double value) {
+    return std::isfinite(value) && std::abs(value - std::round(value)) < 1e-9;
+}
+
+inline bool integral_y_values(const std::vector<Series>& series) {
+    bool found = false;
+    for (const auto& s : series) {
+        for (const auto& p : s.points) {
+            found = true;
+            if (!integral_value(p.y)) {
+                return false;
+            }
+        }
+    }
+    return found;
+}
+
+inline bool integral_bar_values(const std::vector<Bar>& bars) {
+    for (const auto& bar : bars) {
+        if (!integral_value(bar.value)) {
+            return false;
+        }
+    }
+    return !bars.empty();
+}
+
+inline TickMode resolve_tick_mode(TickMode requested, bool integral_values) {
+    if (requested == TickMode::Auto) {
+        return integral_values ? TickMode::Integer : TickMode::Continuous;
+    }
+    return requested;
 }
 
 } // namespace svgplot::detail

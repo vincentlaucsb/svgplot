@@ -22,6 +22,12 @@ enum class LegendPosition {
     Left,
 };
 
+enum class TickMode {
+    Auto,
+    Continuous,
+    Integer,
+};
+
 struct LegendItem {
     std::string label;
     std::string color;
@@ -92,6 +98,7 @@ struct ChartOptions {
     std::string y_label;
     int x_ticks = 5;
     int y_ticks = 5;
+    TickMode y_tick_mode = TickMode::Auto;
     LegendOptions legend{};
 };
 

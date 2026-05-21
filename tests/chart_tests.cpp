@@ -4,6 +4,7 @@
 
 #include <filesystem>
 #include <fstream>
+#include <stdexcept>
 #include <string>
 
 TEST_CASE("LinearScale maps numeric domain into SVG coordinate range") {
@@ -67,6 +68,48 @@ TEST_CASE("Line chart renders a series legend") {
     CHECK(svg.find("class=\"legend-line svgplot-legend-color-") != std::string::npos);
 }
 
+TEST_CASE("LineChart builder renders a single series") {
+    const auto chart = svgplot::LineChart()
+        .series("Squat", {{1.0, 100.0}, {2.0, 115.0}}, "#123456")
+        .render();
+
+    const auto svg = chart.str();
+    CHECK(svg.find("class=\"line-series svgplot-color-") != std::string::npos);
+    CHECK(svg.find("class=\"line-marker svgplot-color-") != std::string::npos);
+    CHECK(svg.find(">Squat</text>") != std::string::npos);
+}
+
+TEST_CASE("LineChart builder renders multiple series and legend entries") {
+    svgplot::Series deadlift;
+    deadlift.label = "Deadlift";
+    deadlift.points = {{1.0, 225.0}, {2.0, 245.0}};
+    deadlift.color = "#059669";
+
+    const auto chart = svgplot::LineChart()
+        .series("Squat", {{1.0, 185.0}, {2.0, 205.0}}, "#2563eb")
+        .series(deadlift)
+        .render();
+
+    const auto svg = chart.str();
+    CHECK(svg.find(">Squat</text>") != std::string::npos);
+    CHECK(svg.find(">Deadlift</text>") != std::string::npos);
+    CHECK(svg.find("class=\"legend-line svgplot-legend-color-") != std::string::npos);
+}
+
+TEST_CASE("Line chart free function remains a builder compatibility wrapper") {
+    const auto chart = svgplot::line_chart({
+        {"Squat", {{1.0, 100.0}, {2.0, 115.0}}, "#123456"},
+    });
+
+    const auto svg = chart.str();
+    CHECK(svg.find("class=\"line-series svgplot-color-") != std::string::npos);
+    CHECK(svg.find(">Squat</text>") != std::string::npos);
+}
+
+TEST_CASE("LineChart builder preserves empty input validation") {
+    CHECK_THROWS_AS(svgplot::LineChart().render(), std::invalid_argument);
+}
+
 TEST_CASE("Bar chart SVG contains bars, labels, and can be saved") {
     svgplot::ChartOptions options;
     options.title = "Volume";
@@ -102,6 +145,40 @@ TEST_CASE("Bar chart SVG contains bars, labels, and can be saved") {
     std::filesystem::remove(out_path);
 }
 
+TEST_CASE("BarChart builder renders simple bars") {
+    svgplot::Bar bar;
+    bar.label = "W2";
+    bar.value = 50.0;
+    bar.color = "#222222";
+
+    const auto chart = svgplot::BarChart()
+        .bar("W1", 40.0, "#111111")
+        .bar(bar)
+        .render();
+
+    const auto svg = chart.str();
+    CHECK(svg.find("--svgplot-color: #111111;") != std::string::npos);
+    CHECK(svg.find("--svgplot-color: #222222;") != std::string::npos);
+    CHECK(svg.find("class=\"bar svgplot-color-") != std::string::npos);
+    CHECK(svg.find("class=\"bar-label\"") != std::string::npos);
+    CHECK(svg.find(">W1</text>") != std::string::npos);
+    CHECK(svg.find(">W2</text>") != std::string::npos);
+}
+
+TEST_CASE("Bar chart free function remains a builder compatibility wrapper") {
+    const auto chart = svgplot::bar_chart({
+        {"W1", 40.0, "#111111"},
+    });
+
+    const auto svg = chart.str();
+    CHECK(svg.find("class=\"bar svgplot-color-") != std::string::npos);
+    CHECK(svg.find(">W1</text>") != std::string::npos);
+}
+
+TEST_CASE("BarChart builder preserves empty input validation") {
+    CHECK_THROWS_AS(svgplot::BarChart().render(), std::invalid_argument);
+}
+
 TEST_CASE("Bar chart renders unique bar legend items") {
     svgplot::ChartOptions options;
     options.legend.position = svgplot::LegendPosition::Top;
@@ -116,6 +193,74 @@ TEST_CASE("Bar chart renders unique bar legend items") {
     CHECK(svg.find("class=\"legend-marker svgplot-legend-color-") != std::string::npos);
     CHECK(svg.find(">Gym</text>") != std::string::npos);
     CHECK(svg.find(">MTB</text>") != std::string::npos);
+}
+
+TEST_CASE("Bar chart auto y ticks use integers for integral values") {
+    svgplot::ChartOptions options;
+    options.y_ticks = 5;
+
+    const auto chart = svgplot::bar_chart({
+        {"May", 4.0, "#111111"},
+        {"Jun", 7.0, "#222222"},
+        {"Jul", 12.0, "#333333"},
+    }, options);
+
+    const auto svg = chart.str();
+    CHECK(svg.find(">3.3</text>") == std::string::npos);
+    CHECK(svg.find(">6.6</text>") == std::string::npos);
+    CHECK(svg.find(">9.9</text>") == std::string::npos);
+    CHECK(svg.find(">13.2</text>") == std::string::npos);
+    CHECK(svg.find(">0</text>") != std::string::npos);
+    CHECK(svg.find(">4</text>") != std::string::npos);
+    CHECK(svg.find(">8</text>") != std::string::npos);
+    CHECK(svg.find(">12</text>") != std::string::npos);
+}
+
+TEST_CASE("Bar chart continuous y tick mode preserves fractional ticks") {
+    svgplot::ChartOptions options;
+    options.y_ticks = 5;
+    options.y_tick_mode = svgplot::TickMode::Continuous;
+
+    const auto chart = svgplot::bar_chart({
+        {"May", 4.0, "#111111"},
+        {"Jun", 7.0, "#222222"},
+        {"Jul", 12.0, "#333333"},
+    }, options);
+
+    const auto svg = chart.str();
+    CHECK(svg.find(">3.3</text>") != std::string::npos);
+    CHECK(svg.find(">6.6</text>") != std::string::npos);
+    CHECK(svg.find(">9.9</text>") != std::string::npos);
+}
+
+TEST_CASE("Line chart auto y ticks stay continuous for fractional values") {
+    svgplot::ChartOptions options;
+    options.y_ticks = 3;
+
+    const auto chart = svgplot::line_chart({
+        {"Bodyweight", {{1.0, 1.5}, {2.0, 2.25}, {3.0, 3.5}}, "#123456"},
+    }, options);
+
+    const auto svg = chart.str();
+    CHECK(svg.find(">2.5</text>") != std::string::npos);
+}
+
+TEST_CASE("Line chart auto y ticks use integers for integral values") {
+    svgplot::ChartOptions options;
+    options.y_ticks = 4;
+
+    const auto chart = svgplot::line_chart({
+        {"Attendance", {{1.0, 2.0}, {2.0, 5.0}, {3.0, 8.0}}, "#123456"},
+    }, options);
+
+    const auto svg = chart.str();
+    CHECK(svg.find(">1.4</text>") == std::string::npos);
+    CHECK(svg.find(">3.8</text>") == std::string::npos);
+    CHECK(svg.find(">6.2</text>") == std::string::npos);
+    CHECK(svg.find(">1</text>") != std::string::npos);
+    CHECK(svg.find(">4</text>") != std::string::npos);
+    CHECK(svg.find(">7</text>") != std::string::npos);
+    CHECK(svg.find(">9</text>") != std::string::npos);
 }
 
 TEST_CASE("Heatmap chart aggregates dated values and emits cell tooltips") {

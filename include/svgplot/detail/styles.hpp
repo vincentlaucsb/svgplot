@@ -109,6 +109,7 @@ inline void add_axis_line(SVG::SVG& root, double x1, double x2, double y1, doubl
 inline void add_axes(SVG::SVG& root, const ChartOptions& options,
                      const ChartLayout& layout,
                      const LinearScale& x_scale, const LinearScale& y_scale,
+                     TickMode y_tick_mode,
                      bool include_x_ticks = true) {
     const auto left = layout.plot_left;
     const auto right = layout.plot_right;
@@ -131,16 +132,27 @@ inline void add_axes(SVG::SVG& root, const ChartOptions& options,
         }
     }
 
-    for (const auto tick : y_scale.ticks(options.y_ticks)) {
+    const auto y_ticks = y_tick_mode == TickMode::Integer
+        ? y_scale.integer_ticks(options.y_ticks)
+        : y_scale.ticks(options.y_ticks);
+    for (const auto tick : y_ticks) {
         const auto y = y_scale.map(tick);
         auto* grid = root.add_child<SVG::Line>(left, right, y, y);
         grid->set_attr("class", "grid-line");
         auto* tick_line = root.add_child<SVG::Line>(left - 5.0, left, y, y);
         tick_line->set_attr("class", "tick-line");
-        auto* label = root.add_child<SVG::Text>(left - 10.0, y + 4.0, number(tick));
+        auto* label = root.add_child<SVG::Text>(left - 10.0, y + 4.0,
+                                                tick_number(tick, y_tick_mode));
         style_text(label, 11.0, "end");
         label->set_attr("class", "y-tick");
     }
+}
+
+inline void add_axes(SVG::SVG& root, const ChartOptions& options,
+                     const ChartLayout& layout,
+                     const LinearScale& x_scale, const LinearScale& y_scale,
+                     bool include_x_ticks = true) {
+    add_axes(root, options, layout, x_scale, y_scale, TickMode::Continuous, include_x_ticks);
 }
 
 inline void add_axes(SVG::SVG& root, const ChartOptions& options,

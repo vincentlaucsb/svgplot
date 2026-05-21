@@ -43,6 +43,9 @@ target_link_libraries(exercise_log_svg PRIVATE svgplot)
 add_executable(training_heatmap_svg examples/training_heatmap.cpp)
 target_link_libraries(training_heatmap_svg PRIVATE svgplot)
 
+add_executable(multi_series_line_svg examples/multi_series_line.cpp)
+target_link_libraries(multi_series_line_svg PRIVATE svgplot)
+
 include(CTest)
 if(BUILD_TESTING)
     add_executable(svgplot_tests

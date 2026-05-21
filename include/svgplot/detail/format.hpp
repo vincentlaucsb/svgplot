@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../types.hpp"
 #include "svg_backend.hpp"
 
 #include <array>
@@ -61,6 +62,26 @@ inline std::string number(double value) {
     std::ostringstream ss;
     ss << std::fixed << std::setprecision(std::abs(value) >= 10.0 ? 0 : 1) << value;
     return ss.str();
+}
+
+inline std::string tick_number(double value, TickMode mode = TickMode::Continuous) {
+    const auto rounded = std::round(value);
+    if (mode == TickMode::Integer || std::abs(value - rounded) < 1e-9) {
+        return std::to_string(static_cast<long long>(rounded));
+    }
+
+    std::ostringstream ss;
+    ss << std::fixed << std::setprecision(std::abs(value) >= 10.0 ? 0 : 1) << value;
+    auto text = ss.str();
+    if (text.find('.') != std::string::npos) {
+        while (!text.empty() && text.back() == '0') {
+            text.pop_back();
+        }
+        if (!text.empty() && text.back() == '.') {
+            text.pop_back();
+        }
+    }
+    return text;
 }
 
 inline std::string value_label(double value) {
