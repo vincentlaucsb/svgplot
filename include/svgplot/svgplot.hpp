@@ -17,6 +17,7 @@
 #include "bar_chart.hpp"
 #include "chart.hpp"
 #include "date.hpp"
+#include "heatmap.hpp"
 #include "heatmap_chart.hpp"
 #include "line_chart.hpp"
 #include "scale.hpp"

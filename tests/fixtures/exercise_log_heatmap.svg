@@ -25,6 +25,14 @@
 				stroke: var(--svgplot-heatmap-background);
 				stroke-width: 1;
 			}
+			.heatmap-cell-outline {
+				stroke: var(--svgplot-heatmap-border);
+				stroke-width: 1;
+			}
+			.heatmap-cell-segment {
+				fill: var(--svgplot-color);
+				stroke: none;
+			}
 			.heatmap-month {
 				fill: var(--svgplot-heatmap-muted-text);
 			}

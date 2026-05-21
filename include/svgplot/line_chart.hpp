@@ -4,6 +4,8 @@
 #include "detail/bounds.hpp"
 #include "detail/colors.hpp"
 #include "detail/format.hpp"
+#include "detail/layout.hpp"
+#include "detail/legend.hpp"
 #include "detail/styles.hpp"
 #include "detail/svg_backend.hpp"
 #include "scale.hpp"
@@ -25,11 +27,21 @@ inline Chart line_chart(const std::vector<Series>& series, ChartOptions options 
     detail::add_common_styles(root);
     detail::add_title_and_labels(root, options);
 
+    std::vector<LegendItem> legend_items;
+    for (const auto& s : series) {
+        if (!s.label.empty()) {
+            legend_items.push_back({s.label, s.color, "", LegendMarker::Line});
+        }
+    }
+    auto layout = detail::chart_layout(options);
+    const auto legend_layout = detail::measure_legend(legend_items, options.legend);
+    detail::reserve_legend_space(layout, legend_layout, options.legend);
+
     const auto x_bounds = detail::padded(detail::point_bounds_x(series), 0.02);
     const auto y_bounds = detail::point_bounds_y(series);
-    const LinearScale x_scale(x_bounds, {options.margins.left, options.width - options.margins.right});
-    const LinearScale y_scale(y_bounds, {options.height - options.margins.bottom, options.margins.top});
-    detail::add_axes(root, options, x_scale, y_scale);
+    const LinearScale x_scale(x_bounds, {layout.plot_left, layout.plot_right});
+    const LinearScale y_scale(y_bounds, {layout.plot_bottom, layout.plot_top});
+    detail::add_axes(root, options, layout, x_scale, y_scale);
 
     detail::CssColorRegistry colors;
     for (const auto& s : series) {
@@ -50,6 +62,10 @@ inline Chart line_chart(const std::vector<Series>& series, ChartOptions options 
             marker->class_list().add("line-marker").add(color_class);
         }
     }
+
+    const auto legend_place = detail::place_legend(layout, legend_layout, options.legend);
+    detail::add_legend(root, legend_items, options.legend, legend_place.x, legend_place.y,
+                       legend_place.max_width);
 
     return Chart(std::move(root));
 }

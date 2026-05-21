@@ -29,6 +29,54 @@ jobs:
       - name: Run C++ unit tests
         run: ctest --test-dir out/build/x64-Release -C Release --output-on-failure
 
+      - name: Check out svg dependency
+        uses: actions/checkout@v4
+        with:
+          repository: vincentlaucsb/svg
+          path: external/svg
+
+      - name: Check out single_header
+        uses: actions/checkout@v4
+        with:
+          repository: vincentlaucsb/single_header
+          path: external/single_header
+
+      - name: Build single_header
+        run: cmake -S external/single_header -B out/build/single_header -A x64
+
+      - name: Compile single_header
+        run: cmake --build out/build/single_header --config Release --parallel
+
+      - name: Generate single header
+        run: >
+          out/build/single_header/Release/single_header.exe
+          --include-root include
+          --include-root external/svg/src
+          --entry include/svgplot/svgplot.hpp
+          --output single_include/svgplot/svgplot.hpp
+
+      - name: Verify single header contents
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $generated = "single_include/svgplot/svgplot.hpp"
+          if (Select-String -Path $generated -Pattern '#include <svg.hpp>' -Quiet) {
+            throw "Generated header still contains #include <svg.hpp>"
+          }
+          if (-not (Select-String -Path $generated -Pattern 'SVG for C\+\+' -Quiet)) {
+            throw "Generated header does not contain the svg dependency"
+          }
+
+      - name: Configure single-header smoke test
+        run: >
+          cmake -S tests/single_header_smoke
+          -B out/build/single-header-smoke
+          -A x64
+          -DSVGPLOT_SINGLE_INCLUDE_DIR="${{ github.workspace }}/single_include"
+
+      - name: Build single-header smoke test
+        run: cmake --build out/build/single-header-smoke --config Release --parallel
+
       - name: Install Node dependencies
         run: npm ci
 

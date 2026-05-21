@@ -11,11 +11,15 @@
 #include <stdexcept>
 #include <string>
 #include <string_view>
+#include <utility>
 
 namespace svgplot::detail {
 
 class CssColorRegistry {
 public:
+    CssColorRegistry() = default;
+    explicit CssColorRegistry(std::string class_prefix) : class_prefix_(std::move(class_prefix)) {}
+
     std::string class_for(SVG::SVG& root, std::string_view color) {
         const std::string key(color);
         const auto found = classes_.find(key);
@@ -23,7 +27,7 @@ public:
             return found->second;
         }
 
-        const auto class_name = "svgplot-color-" + std::to_string(next_++);
+        const auto class_name = class_prefix_ + std::to_string(next_++);
         root.style("." + class_name).set_attr("--svgplot-color", key);
         classes_[key] = class_name;
         return class_name;
@@ -31,6 +35,7 @@ public:
 
 private:
     std::map<std::string, std::string> classes_;
+    std::string class_prefix_ = "svgplot-color-";
     std::size_t next_ = 0;
 };
 

@@ -7,6 +7,38 @@
 
 namespace svgplot {
 
+enum class LegendMarker {
+    Square,
+    Line,
+    Circle,
+    Bar,
+    SplitCell,
+};
+
+enum class LegendPosition {
+    Top,
+    Right,
+    Bottom,
+    Left,
+};
+
+struct LegendItem {
+    std::string label;
+    std::string color;
+    std::string secondary_color;
+    LegendMarker marker = LegendMarker::Square;
+};
+
+struct LegendOptions {
+    bool visible = true;
+    LegendPosition position = LegendPosition::Bottom;
+    double marker_size = 12.0;
+    double gap = 10.0;
+    double item_gap = 18.0;
+    double font_size = 12.0;
+    std::string title;
+};
+
 struct Point {
     double x{};
     double y{};
@@ -30,6 +62,13 @@ struct HeatmapCell {
     Date date;
     double value = 1.0;
     std::string label;
+    std::vector<std::string> categories;
+};
+
+struct HeatmapCategory {
+    std::string id;
+    std::string label;
+    std::string color;
 };
 
 struct Bounds {
@@ -53,6 +92,7 @@ struct ChartOptions {
     std::string y_label;
     int x_ticks = 5;
     int y_ticks = 5;
+    LegendOptions legend{};
 };
 
 struct HeatmapPalette {
@@ -76,6 +116,8 @@ struct HeatmapOptions {
     double top_margin = 54.0;
     double bottom_margin = 28.0;
     HeatmapPalette palette{};
+    std::vector<HeatmapCategory> categories;
+    LegendOptions legend{};
 };
 
 } // namespace svgplot

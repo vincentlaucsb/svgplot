@@ -6,6 +6,7 @@ const charts = [
   { name: "line-chart", file: "tests/fixtures/exercise_log_line.svg", width: 760, height: 430 },
   { name: "volume-chart", file: "tests/fixtures/exercise_log_volume.svg", width: 760, height: 430 },
   { name: "attendance-heatmap", file: "tests/fixtures/exercise_log_heatmap.svg", width: 283, height: 184 },
+  { name: "multi-value-heatmap", file: "tests/fixtures/training_multi_heatmap.svg", width: 223, height: 212 },
 ];
 
 for (const chart of charts) {

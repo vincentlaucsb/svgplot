@@ -47,6 +47,26 @@ TEST_CASE("Line chart SVG contains title, axes, ticks, path, and markers") {
     CHECK(svg.find("<circle") != std::string::npos);
 }
 
+TEST_CASE("Line chart renders a series legend") {
+    svgplot::ChartOptions options;
+    options.legend.position = svgplot::LegendPosition::Right;
+    options.legend.title = "Lifts";
+
+    const auto chart = svgplot::line_chart({
+        {"Squat", {{1.0, 100.0}, {2.0, 115.0}}, "#123456"},
+        {"Bench", {{1.0, 80.0}, {2.0, 85.0}}, "#654321"},
+        {"", {{1.0, 60.0}, {2.0, 70.0}}, "#abcdef"},
+    }, options);
+
+    const auto svg = chart.str();
+    CHECK(svg.find("class=\"legend-title\"") != std::string::npos);
+    CHECK(svg.find(">Lifts</text>") != std::string::npos);
+    CHECK(svg.find(">Squat</text>") != std::string::npos);
+    CHECK(svg.find(">Bench</text>") != std::string::npos);
+    CHECK(svg.find(">#abcdef</text>") == std::string::npos);
+    CHECK(svg.find("class=\"legend-line svgplot-legend-color-") != std::string::npos);
+}
+
 TEST_CASE("Bar chart SVG contains bars, labels, and can be saved") {
     svgplot::ChartOptions options;
     options.title = "Volume";
@@ -80,6 +100,22 @@ TEST_CASE("Bar chart SVG contains bars, labels, and can be saved") {
     }
 
     std::filesystem::remove(out_path);
+}
+
+TEST_CASE("Bar chart renders unique bar legend items") {
+    svgplot::ChartOptions options;
+    options.legend.position = svgplot::LegendPosition::Top;
+
+    const auto chart = svgplot::bar_chart({
+        {"Gym", 4.0, "#111111"},
+        {"MTB", 2.0, "#222222"},
+        {"Gym", 3.0, "#111111"},
+    }, options);
+
+    const auto svg = chart.str();
+    CHECK(svg.find("class=\"legend-marker svgplot-legend-color-") != std::string::npos);
+    CHECK(svg.find(">Gym</text>") != std::string::npos);
+    CHECK(svg.find(">MTB</text>") != std::string::npos);
 }
 
 TEST_CASE("Heatmap chart aggregates dated values and emits cell tooltips") {
@@ -125,4 +161,66 @@ TEST_CASE("Heatmap chart rejects invalid date ranges") {
     options.end_date = svgplot::parse_date("2026-01-01");
 
     CHECK_THROWS_AS(svgplot::heatmap_chart({}, options), std::invalid_argument);
+}
+
+TEST_CASE("Heatmap builder renders categorical and multi-value days with a legend") {
+    svgplot::HeatmapOptions options;
+    options.title = "Training";
+    options.start_date = svgplot::parse_date("2026-01-01");
+    options.end_date = svgplot::parse_date("2026-01-07");
+
+    const auto chart = svgplot::Heatmap()
+        .category("gym", "Gym", "#2563eb")
+        .category("mtb", "MTB", "#f97316")
+        .add(svgplot::parse_date("2026-01-01"), "gym", 1.0, "Squat")
+        .add(svgplot::parse_date("2026-01-02"), "mtb", 1.0, "Trail")
+        .add(svgplot::parse_date("2026-01-03"), {"gym", "mtb"}, "Brick")
+        .render(options);
+
+    const auto svg = chart.str();
+    CHECK(svg.find(">Training</text>") != std::string::npos);
+    CHECK(svg.find(">Gym</text>") != std::string::npos);
+    CHECK(svg.find(">MTB</text>") != std::string::npos);
+    CHECK(svg.find(">Gym + MTB</text>") != std::string::npos);
+    CHECK(svg.find("class=\"legend-label\"") != std::string::npos);
+    CHECK(svg.find("class=\"legend-marker-outline\"") != std::string::npos);
+    CHECK(svg.find("--svgplot-color: #2563eb;") != std::string::npos);
+    CHECK(svg.find("--svgplot-color: #f97316;") != std::string::npos);
+    CHECK(svg.find("class=\"heatmap-cell-segmented\"") != std::string::npos);
+    CHECK(svg.find("<title>2026-01-01: Gym - Squat</title>") != std::string::npos);
+    CHECK(svg.find("<title>2026-01-02: MTB - Trail</title>") != std::string::npos);
+    CHECK(svg.find("<title>2026-01-03: Gym + MTB - Brick</title>") != std::string::npos);
+}
+
+TEST_CASE("Heatmap builder rejects entries for unknown categories") {
+    const auto chart = svgplot::Heatmap()
+        .category("gym", "Gym", "#2563eb")
+        .add(svgplot::parse_date("2026-01-01"), "mtb");
+
+    CHECK_THROWS_AS(chart.render(), std::invalid_argument);
+}
+
+TEST_CASE("Heatmap chart renders categorical cells and legend") {
+    svgplot::HeatmapOptions options;
+    options.title = "Activities";
+    options.start_date = svgplot::parse_date("2026-01-01");
+    options.end_date = svgplot::parse_date("2026-01-07");
+    options.categories = {
+        {"gym", "Gym", "#2563eb"},
+        {"mtb", "MTB", "#f97316"},
+    };
+
+    const auto chart = svgplot::heatmap_chart({
+        {svgplot::parse_date("2026-01-01"), 1.0, "", {"gym"}},
+        {svgplot::parse_date("2026-01-02"), 1.0, "Brick", {"gym", "mtb"}},
+    }, options);
+
+    const auto svg = chart.str();
+    CHECK(svg.find(">Gym</text>") != std::string::npos);
+    CHECK(svg.find(">MTB</text>") != std::string::npos);
+    CHECK(svg.find(">Gym + MTB</text>") != std::string::npos);
+    CHECK(svg.find("class=\"legend-marker-outline\"") != std::string::npos);
+    CHECK(svg.find("class=\"heatmap-cell-segment svgplot-color-") != std::string::npos);
+    CHECK(svg.find("class=\"heatmap-cell-outline\"") != std::string::npos);
+    CHECK(svg.find("<title>2026-01-02: Gym + MTB - Brick</title>") != std::string::npos);
 }

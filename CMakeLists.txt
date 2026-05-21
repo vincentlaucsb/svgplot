@@ -40,6 +40,9 @@ target_compile_features(svgplot INTERFACE cxx_std_23)
 add_executable(exercise_log_svg examples/exercise_log.cpp)
 target_link_libraries(exercise_log_svg PRIVATE svgplot)
 
+add_executable(training_heatmap_svg examples/training_heatmap.cpp)
+target_link_libraries(training_heatmap_svg PRIVATE svgplot)
+
 include(CTest)
 if(BUILD_TESTING)
     add_executable(svgplot_tests

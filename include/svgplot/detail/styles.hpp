@@ -3,6 +3,7 @@
 #include "../scale.hpp"
 #include "../types.hpp"
 #include "format.hpp"
+#include "layout.hpp"
 #include "svg_backend.hpp"
 
 #include <string>
@@ -106,12 +107,13 @@ inline void add_axis_line(SVG::SVG& root, double x1, double x2, double y1, doubl
 }
 
 inline void add_axes(SVG::SVG& root, const ChartOptions& options,
+                     const ChartLayout& layout,
                      const LinearScale& x_scale, const LinearScale& y_scale,
                      bool include_x_ticks = true) {
-    const auto left = options.margins.left;
-    const auto right = options.width - options.margins.right;
-    const auto top = options.margins.top;
-    const auto bottom = options.height - options.margins.bottom;
+    const auto left = layout.plot_left;
+    const auto right = layout.plot_right;
+    const auto top = layout.plot_top;
+    const auto bottom = layout.plot_bottom;
 
     add_axis_line(root, left, right, bottom, bottom);
     add_axis_line(root, left, left, top, bottom);
@@ -139,6 +141,12 @@ inline void add_axes(SVG::SVG& root, const ChartOptions& options,
         style_text(label, 11.0, "end");
         label->set_attr("class", "y-tick");
     }
+}
+
+inline void add_axes(SVG::SVG& root, const ChartOptions& options,
+                     const LinearScale& x_scale, const LinearScale& y_scale,
+                     bool include_x_ticks = true) {
+    add_axes(root, options, chart_layout(options), x_scale, y_scale, include_x_ticks);
 }
 
 } // namespace svgplot::detail
