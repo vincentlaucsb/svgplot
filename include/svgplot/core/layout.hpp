@@ -28,17 +28,4 @@ inline ChartLayout chart_layout(const ChartOptions& options) {
     };
 }
 
-inline ChartLayout heatmap_layout(const HeatmapOptions& options, double width, double height) {
-    return {
-        options.left_margin,
-        width - options.right_margin,
-        options.top_margin,
-        height - options.bottom_margin,
-        options.left_margin,
-        width - options.right_margin,
-        options.top_margin,
-        height - options.bottom_margin,
-    };
-}
-
 } // namespace svgplot::detail

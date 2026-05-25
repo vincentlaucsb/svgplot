@@ -15,7 +15,9 @@ CI workflows, or `single_header.json`, mention the change clearly in your final
 summary so parallel work can rebase or adjust with less surprise.
 
 This project is header-only. Keep public includes under `include/svgplot/`, put
-shared internals under `include/svgplot/detail/`, and preserve
+shared internals under `include/svgplot/core/`, and keep chart-specific internals
+under their chart folders such as `include/svgplot/heatmap/`,
+`include/svgplot/bar_chart/`, and `include/svgplot/line_chart/`. Preserve
 `#include <svgplot/svgplot.hpp>` as the stable umbrella include.
 
 Generated outputs such as `generated/`, `single_include/`, `out/`,

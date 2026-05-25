@@ -1,32 +1,11 @@
-<svg height="430" viewBox="0 0 760 430" width="760" xmlns="http://www.w3.org/2000/svg">
+<svg aria-label="Training - Working Weight" role="img" viewBox="-8.0 -50.0 839.9 428.0" xmlns="http://www.w3.org/2000/svg">
 	<style type="text/css">
 		<![CDATA[
-			.axis-line {
-				stroke: var(--svgplot-axis);
-				stroke-width: 1.2;
-			}
-			.bar {
-				fill: var(--svgplot-color);
-			}
-			.grid-line {
-				stroke: var(--svgplot-grid);
-				stroke-width: 1;
-			}
 			.legend-label {
 				fill: var(--svgplot-text);
 			}
-			.legend-line {
-				stroke: var(--svgplot-color);
-				stroke-linecap: round;
-				stroke-width: 2.4;
-			}
 			.legend-marker {
 				fill: var(--svgplot-color);
-				stroke: none;
-			}
-			.legend-marker-outline {
-				stroke: var(--svgplot-axis);
-				stroke-width: 1;
 			}
 			.legend-title {
 				fill: var(--svgplot-text);
@@ -36,8 +15,6 @@
 			}
 			.line-series {
 				fill: none;
-				stroke: var(--svgplot-color);
-				stroke-width: 2.4;
 			}
 			.svgplot-color-0 {
 				--svgplot-color: #2563eb;
@@ -56,10 +33,6 @@
 			}
 			.svgplot-legend-color-2 {
 				--svgplot-color: #059669;
-			}
-			.tick-line {
-				stroke: var(--svgplot-axis);
-				stroke-width: 1;
 			}
 			:root {
 				--svgplot-axis: #374151;
@@ -84,63 +57,81 @@
 			}
 		]]>
 	</style>
-	<text font-size="20" font-weight="700" text-anchor="middle" x="380.0" y="30.0">Training - Working Weight</text>
-	<text font-size="13" text-anchor="middle" x="380.0" y="414.0">Workout</text>
-	<text font-size="13" text-anchor="middle" transform="rotate(-90 18 215)" x="18.0" y="215.0">Weight (lb)</text>
-	<line class="axis-line" x1="72.0" x2="644.3" y1="364.0" y2="364.0" />
-	<line class="axis-line" x1="72.0" x2="72.0" y1="54.0" y2="364.0" />
-	<line class="grid-line" x1="72.0" x2="72.0" y1="54.0" y2="364.0" />
-	<line class="tick-line" x1="72.0" x2="72.0" y1="364.0" y2="369.0" />
-	<text class="x-tick" font-size="11" text-anchor="middle" x="72.0" y="385.0">0.9</text>
-	<line class="grid-line" x1="215.1" x2="215.1" y1="54.0" y2="364.0" />
-	<line class="tick-line" x1="215.1" x2="215.1" y1="364.0" y2="369.0" />
-	<text class="x-tick" font-size="11" text-anchor="middle" x="215.1" y="385.0">2.0</text>
-	<line class="grid-line" x1="358.2" x2="358.2" y1="54.0" y2="364.0" />
-	<line class="tick-line" x1="358.2" x2="358.2" y1="364.0" y2="369.0" />
-	<text class="x-tick" font-size="11" text-anchor="middle" x="358.2" y="385.0">3.0</text>
-	<line class="grid-line" x1="501.2" x2="501.2" y1="54.0" y2="364.0" />
-	<line class="tick-line" x1="501.2" x2="501.2" y1="364.0" y2="369.0" />
-	<text class="x-tick" font-size="11" text-anchor="middle" x="501.2" y="385.0">4.0</text>
-	<line class="grid-line" x1="644.3" x2="644.3" y1="54.0" y2="364.0" />
-	<line class="tick-line" x1="644.3" x2="644.3" y1="364.0" y2="369.0" />
-	<text class="x-tick" font-size="11" text-anchor="middle" x="644.3" y="385.0">5.1</text>
-	<line class="grid-line" x1="72.0" x2="644.3" y1="364.3" y2="364.3" />
-	<line class="tick-line" x1="67.0" x2="72.0" y1="364.3" y2="364.3" />
-	<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="368.3">122</text>
-	<line class="grid-line" x1="72.0" x2="644.3" y1="285.8" y2="285.8" />
-	<line class="tick-line" x1="67.0" x2="72.0" y1="285.8" y2="285.8" />
-	<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="289.8">169</text>
-	<line class="grid-line" x1="72.0" x2="644.3" y1="207.3" y2="207.3" />
-	<line class="tick-line" x1="67.0" x2="72.0" y1="207.3" y2="207.3" />
-	<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="211.3">216</text>
-	<line class="grid-line" x1="72.0" x2="644.3" y1="128.8" y2="128.8" />
-	<line class="tick-line" x1="67.0" x2="72.0" y1="128.8" y2="128.8" />
-	<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="132.8">263</text>
-	<line class="grid-line" x1="72.0" x2="644.3" y1="53.7" y2="53.7" />
-	<line class="tick-line" x1="67.0" x2="72.0" y1="53.7" y2="53.7" />
-	<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="57.7">308</text>
-	<path class="line-series svgplot-color-0" d="M 83.006154 259.107759 L 220.583077 242.405172 L 358.160000 225.702586 L 495.736923 209.000000 L 633.313846 192.297414" />
-	<circle class="line-marker svgplot-color-0" cx="83.0" cy="259.1" r="3.2" />
-	<circle class="line-marker svgplot-color-0" cx="220.6" cy="242.4" r="3.2" />
-	<circle class="line-marker svgplot-color-0" cx="358.2" cy="225.7" r="3.2" />
-	<circle class="line-marker svgplot-color-0" cx="495.7" cy="209.0" r="3.2" />
-	<circle class="line-marker svgplot-color-0" cx="633.3" cy="192.3" r="3.2" />
-	<path class="line-series svgplot-color-1" d="M 83.006154 342.620690 L 220.583077 334.269397 L 358.160000 325.918103 L 495.736923 317.566810 L 633.313846 309.215517" />
-	<circle class="line-marker svgplot-color-1" cx="83.0" cy="342.6" r="3.2" />
-	<circle class="line-marker svgplot-color-1" cx="220.6" cy="334.3" r="3.2" />
-	<circle class="line-marker svgplot-color-1" cx="358.2" cy="325.9" r="3.2" />
-	<circle class="line-marker svgplot-color-1" cx="495.7" cy="317.6" r="3.2" />
-	<circle class="line-marker svgplot-color-1" cx="633.3" cy="309.2" r="3.2" />
-	<path class="line-series svgplot-color-2" d="M 83.006154 192.297414 L 220.583077 158.892241 L 358.160000 142.189655 L 495.736923 108.784483 L 633.313846 75.379310" />
-	<circle class="line-marker svgplot-color-2" cx="83.0" cy="192.3" r="3.2" />
-	<circle class="line-marker svgplot-color-2" cx="220.6" cy="158.9" r="3.2" />
-	<circle class="line-marker svgplot-color-2" cx="358.2" cy="142.2" r="3.2" />
-	<circle class="line-marker svgplot-color-2" cx="495.7" cy="108.8" r="3.2" />
-	<circle class="line-marker svgplot-color-2" cx="633.3" cy="75.4" r="3.2" />
-	<line class="legend-line svgplot-legend-color-0" x1="654.3" x2="666.3" y1="63.0" y2="63.0" />
-	<text class="legend-label" font-size="12" text-anchor="start" x="676.3" y="68.0">Squat</text>
-	<line class="legend-line svgplot-legend-color-1" x1="654.3" x2="666.3" y1="81.0" y2="81.0" />
-	<text class="legend-label" font-size="12" text-anchor="start" x="676.3" y="86.0">Bench</text>
-	<line class="legend-line svgplot-legend-color-2" x1="654.3" x2="666.3" y1="99.0" y2="99.0" />
-	<text class="legend-label" font-size="12" text-anchor="start" x="676.3" y="104.0">Deadlift</text>
+	<defs>
+		<symbol id="svgplot-line-marker" viewBox="0 0 6.4 6.4">
+			<circle cx="3.2" cy="3.2" r="3.2" />
+		</symbol>
+	</defs>
+	<g>
+		<svg height="370.0" viewBox="7.6 49.2 734.3 370.0" width="734.3" x="0" y="0">
+			<style type="text/css">
+				<![CDATA[
+					:root {
+					}
+				]]>
+			</style>
+			<text font-size="13" text-anchor="middle" x="380.0" y="414.0">Workout</text>
+			<text font-size="13" text-anchor="middle" transform="rotate(-90.0 18.0 215.0)" x="18.0" y="215.0">Weight (lb)</text>
+			<line class="axis-line" stroke="var(--svgplot-axis)" stroke-width="1.2" x1="72.0" x2="732.0" y1="364.0" y2="364.0" />
+			<line class="axis-line" stroke="var(--svgplot-axis)" stroke-width="1.2" x1="72.0" x2="72.0" y1="54.0" y2="364.0" />
+			<line class="grid-line" stroke="var(--svgplot-grid)" stroke-width="1" x1="72.0" x2="72.0" y1="54.0" y2="364.0" />
+			<line class="tick-line" stroke="var(--svgplot-axis)" stroke-width="1" x1="72.0" x2="72.0" y1="364.0" y2="369.0" />
+			<text class="x-tick" font-size="11" text-anchor="middle" x="72.0" y="385.0">0.9</text>
+			<line class="grid-line" stroke="var(--svgplot-grid)" stroke-width="1" x1="237.0" x2="237.0" y1="54.0" y2="364.0" />
+			<line class="tick-line" stroke="var(--svgplot-axis)" stroke-width="1" x1="237.0" x2="237.0" y1="364.0" y2="369.0" />
+			<text class="x-tick" font-size="11" text-anchor="middle" x="237.0" y="385.0">2.0</text>
+			<line class="grid-line" stroke="var(--svgplot-grid)" stroke-width="1" x1="402.0" x2="402.0" y1="54.0" y2="364.0" />
+			<line class="tick-line" stroke="var(--svgplot-axis)" stroke-width="1" x1="402.0" x2="402.0" y1="364.0" y2="369.0" />
+			<text class="x-tick" font-size="11" text-anchor="middle" x="402.0" y="385.0">3.0</text>
+			<line class="grid-line" stroke="var(--svgplot-grid)" stroke-width="1" x1="567.0" x2="567.0" y1="54.0" y2="364.0" />
+			<line class="tick-line" stroke="var(--svgplot-axis)" stroke-width="1" x1="567.0" x2="567.0" y1="364.0" y2="369.0" />
+			<text class="x-tick" font-size="11" text-anchor="middle" x="567.0" y="385.0">4.0</text>
+			<line class="grid-line" stroke="var(--svgplot-grid)" stroke-width="1" x1="732.0" x2="732.0" y1="54.0" y2="364.0" />
+			<line class="tick-line" stroke="var(--svgplot-axis)" stroke-width="1" x1="732.0" x2="732.0" y1="364.0" y2="369.0" />
+			<text class="x-tick" font-size="11" text-anchor="middle" x="732.0" y="385.0">5.1</text>
+			<line class="grid-line" stroke="var(--svgplot-grid)" stroke-width="1" x1="72.0" x2="732.0" y1="364.0" y2="364.0" />
+			<line class="tick-line" stroke="var(--svgplot-axis)" stroke-width="1" x1="67.0" x2="72.0" y1="364.0" y2="364.0" />
+			<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="368.0">100</text>
+			<line class="grid-line" stroke="var(--svgplot-grid)" stroke-width="1" x1="72.0" x2="732.0" y1="302.0" y2="302.0" />
+			<line class="tick-line" stroke="var(--svgplot-axis)" stroke-width="1" x1="67.0" x2="72.0" y1="302.0" y2="302.0" />
+			<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="306.0">150</text>
+			<line class="grid-line" stroke="var(--svgplot-grid)" stroke-width="1" x1="72.0" x2="732.0" y1="240.0" y2="240.0" />
+			<line class="tick-line" stroke="var(--svgplot-axis)" stroke-width="1" x1="67.0" x2="72.0" y1="240.0" y2="240.0" />
+			<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="244.0">200</text>
+			<line class="grid-line" stroke="var(--svgplot-grid)" stroke-width="1" x1="72.0" x2="732.0" y1="178.0" y2="178.0" />
+			<line class="tick-line" stroke="var(--svgplot-axis)" stroke-width="1" x1="67.0" x2="72.0" y1="178.0" y2="178.0" />
+			<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="182.0">250</text>
+			<line class="grid-line" stroke="var(--svgplot-grid)" stroke-width="1" x1="72.0" x2="732.0" y1="116.0" y2="116.0" />
+			<line class="tick-line" stroke="var(--svgplot-axis)" stroke-width="1" x1="67.0" x2="72.0" y1="116.0" y2="116.0" />
+			<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="120.0">300</text>
+			<line class="grid-line" stroke="var(--svgplot-grid)" stroke-width="1" x1="72.0" x2="732.0" y1="54.0" y2="54.0" />
+			<line class="tick-line" stroke="var(--svgplot-axis)" stroke-width="1" x1="67.0" x2="72.0" y1="54.0" y2="54.0" />
+			<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="58.0">350</text>
+			<path class="line-series svgplot-color-0" d="M 84.692308 258.600000 L 243.346154 246.200000 L 402.000000 233.800000 L 560.653846 221.400000 L 719.307692 209.000000" fill="none" stroke="var(--svgplot-color)" stroke-width="2.4" />
+			<use class="line-marker svgplot-color-0" height="6.4" href="#svgplot-line-marker" width="6.4" x="81.5" y="255.4" />
+			<use class="line-marker svgplot-color-0" height="6.4" href="#svgplot-line-marker" width="6.4" x="240.1" y="243.0" />
+			<use class="line-marker svgplot-color-0" height="6.4" href="#svgplot-line-marker" width="6.4" x="398.8" y="230.6" />
+			<use class="line-marker svgplot-color-0" height="6.4" href="#svgplot-line-marker" width="6.4" x="557.5" y="218.2" />
+			<use class="line-marker svgplot-color-0" height="6.4" href="#svgplot-line-marker" width="6.4" x="716.1" y="205.8" />
+			<path class="line-series svgplot-color-1" d="M 84.692308 320.600000 L 243.346154 314.400000 L 402.000000 308.200000 L 560.653846 302.000000 L 719.307692 295.800000" fill="none" stroke="var(--svgplot-color)" stroke-width="2.4" />
+			<use class="line-marker svgplot-color-1" height="6.4" href="#svgplot-line-marker" width="6.4" x="81.5" y="317.4" />
+			<use class="line-marker svgplot-color-1" height="6.4" href="#svgplot-line-marker" width="6.4" x="240.1" y="311.2" />
+			<use class="line-marker svgplot-color-1" height="6.4" href="#svgplot-line-marker" width="6.4" x="398.8" y="305.0" />
+			<use class="line-marker svgplot-color-1" height="6.4" href="#svgplot-line-marker" width="6.4" x="557.5" y="298.8" />
+			<use class="line-marker svgplot-color-1" height="6.4" href="#svgplot-line-marker" width="6.4" x="716.1" y="292.6" />
+			<path class="line-series svgplot-color-2" d="M 84.692308 209.000000 L 243.346154 184.200000 L 402.000000 171.800000 L 560.653846 147.000000 L 719.307692 122.200000" fill="none" stroke="var(--svgplot-color)" stroke-width="2.4" />
+			<use class="line-marker svgplot-color-2" height="6.4" href="#svgplot-line-marker" width="6.4" x="81.5" y="205.8" />
+			<use class="line-marker svgplot-color-2" height="6.4" href="#svgplot-line-marker" width="6.4" x="240.1" y="181.0" />
+			<use class="line-marker svgplot-color-2" height="6.4" href="#svgplot-line-marker" width="6.4" x="398.8" y="168.6" />
+			<use class="line-marker svgplot-color-2" height="6.4" href="#svgplot-line-marker" width="6.4" x="557.5" y="143.8" />
+			<use class="line-marker svgplot-color-2" height="6.4" href="#svgplot-line-marker" width="6.4" x="716.1" y="119.0" />
+		</svg>
+		<line class="legend-line svgplot-legend-color-0" stroke="var(--svgplot-color)" stroke-linecap="round" stroke-width="2.4" x1="744.3" x2="756.3" y1="9.0" y2="9.0" />
+		<text class="legend-label" font-size="12" text-anchor="start" x="766.3" y="14.0">Squat</text>
+		<line class="legend-line svgplot-legend-color-1" stroke="var(--svgplot-color)" stroke-linecap="round" stroke-width="2.4" x1="744.3" x2="756.3" y1="27.0" y2="27.0" />
+		<text class="legend-label" font-size="12" text-anchor="start" x="766.3" y="32.0">Bench</text>
+		<line class="legend-line svgplot-legend-color-2" stroke="var(--svgplot-color)" stroke-linecap="round" stroke-width="2.4" x1="744.3" x2="756.3" y1="45.0" y2="45.0" />
+		<text class="legend-label" font-size="12" text-anchor="start" x="766.3" y="50.0">Deadlift</text>
+	</g>
+	<text class="chart-title" font-size="20" font-weight="700" text-anchor="middle" transform="translate(411.0 -26.0)" x="0.0" y="0.0">Training - Working Weight</text>
 </svg>

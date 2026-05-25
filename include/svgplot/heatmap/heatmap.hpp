@@ -1,17 +1,18 @@
 #pragma once
 
-#include "chart.hpp"
-#include "date.hpp"
-#include "detail/colors.hpp"
-#include "detail/format.hpp"
-#include "detail/layout.hpp"
-#include "detail/legend.hpp"
-#include "detail/styles.hpp"
-#include "detail/svg_backend.hpp"
+#include "../chart.hpp"
+#include "../core/colors.hpp"
+#include "../core/format.hpp"
+#include "../core/styles.hpp"
+#include "../core/svg_backend.hpp"
+#include "../date.hpp"
+#include "../legend/legend.hpp"
+#include "layout.hpp"
+#include "rendering.hpp"
+#include "styles.hpp"
 #include "types.hpp"
 
 #include <algorithm>
-#include <array>
 #include <chrono>
 #include <cmath>
 #include <cstddef>
@@ -167,31 +168,12 @@ private:
         return label;
     }
 
-    static std::vector<LegendItem> legend_items_for(const std::vector<VisibleCategory>& categories,
-                                                    const std::map<Date, Bucket>& buckets) {
+    static std::vector<LegendItem> legend_items_for(const std::vector<VisibleCategory>& categories) {
         std::vector<LegendItem> items;
         items.reserve(categories.size());
         for (const auto& category : categories) {
             items.push_back({category.label, category.color, "", LegendMarker::Square});
         }
-
-        std::vector<std::string> combined_labels;
-        for (const auto& [_, bucket] : buckets) {
-            const auto active = active_category_ids(bucket, categories);
-            if (active.size() != 2) {
-                continue;
-            }
-            const auto label = category_list_label(active, categories);
-            if (std::find(combined_labels.begin(), combined_labels.end(), label) !=
-                combined_labels.end()) {
-                continue;
-            }
-            combined_labels.push_back(label);
-            items.push_back({label, find_category(categories, active[0]).color,
-                             find_category(categories, active[1]).color,
-                             LegendMarker::SplitCell});
-        }
-
         return items;
     }
 
@@ -204,42 +186,26 @@ private:
                                const std::string& tooltip) {
         auto* rect = root.add_child<SVG::Rect>(x, y, size, size);
         rect->set_attr("rx", 2);
+        detail::set_heatmap_cell_stroke(rect);
         rect->class_list().add("heatmap-cell").add(colors.class_for(root, color));
-        rect->add_child<detail::TitleElement>(tooltip);
+        rect->add_child<SVG::Title>(tooltip);
     }
 
     static void add_segmented_cell(SVG::SVG& root,
-                                   detail::CssColorRegistry& colors,
+                                   detail::HeatmapGradientRegistry& gradients,
                                    double x,
                                    double y,
-                                   double size,
+                                   const HeatmapOptions& options,
                                    const std::vector<std::string>& active_ids,
                                    const std::vector<VisibleCategory>& categories,
                                    const std::string& tooltip) {
-        const auto segment_width = size / static_cast<double>(active_ids.size());
-        auto* group = root.add_child<SVG::Group>();
-        group->set_attr("class", "heatmap-cell-segmented");
-        group->add_child<detail::TitleElement>(tooltip);
-
+        std::vector<std::string> segment_colors;
+        segment_colors.reserve(active_ids.size());
         for (std::size_t i = 0; i < active_ids.size(); ++i) {
             const auto& category = find_category(categories, active_ids[i]);
-            const auto left = x + segment_width * static_cast<double>(i);
-            const auto width = i + 1 == active_ids.size()
-                ? size - segment_width * static_cast<double>(i)
-                : segment_width;
-            auto* rect = group->add_child<SVG::Rect>(left, y, width, size);
-            if (i == 0) {
-                rect->set_attr("rx", 2);
-            }
-            rect->class_list().add("heatmap-cell").add(colors.class_for(root, category.color));
+            segment_colors.push_back(category.color);
         }
-
-        auto* outline = group->add_child<SVG::Rect>(x, y, size, size);
-        outline->set_attrs({
-            {"class", "heatmap-cell-outline"},
-            {"fill", "none"},
-            {"rx", "2"},
-        });
+        detail::add_multi_value_heatmap_cell(root, gradients, x, y, options, segment_colors, tooltip);
     }
 
     static Chart render_categorical_heatmap(std::vector<VisibleCategory> categories,
@@ -290,114 +256,40 @@ private:
             }
         }
 
-        const auto start_weekday = std::chrono::weekday{start}.c_encoding();
-        const auto end_weekday = std::chrono::weekday{end}.c_encoding();
-        const Date first_visible = start - std::chrono::days{start_weekday};
-        const Date last_visible = end + std::chrono::days{6U - end_weekday};
-        const auto day_count = (last_visible - first_visible).count() + 1;
-        const auto week_count = static_cast<int>(day_count / 7);
-        const auto plot_width = static_cast<double>(week_count) * options.cell_size +
-                                static_cast<double>(week_count - 1) * options.cell_gap;
-        const auto plot_height = 7.0 * options.cell_size + 6.0 * options.cell_gap;
+        const auto geometry = detail::calendar_heatmap_geometry(start, end, options);
 
-        const auto legend_items = legend_items_for(categories, buckets);
+        const auto legend_items = legend_items_for(categories);
         const auto legend_layout = detail::measure_legend(legend_items, options.legend);
 
-        double width = options.left_margin + plot_width + options.right_margin;
-        double height = options.top_margin + plot_height + options.bottom_margin;
-        auto layout = detail::heatmap_layout(options, width, height);
-        if (legend_layout.width > 0.0 && legend_layout.height > 0.0) {
-            switch (options.legend.position) {
-                case LegendPosition::Top:
-                    layout.plot_top += legend_layout.height + options.legend.gap;
-                    height += legend_layout.height + options.legend.gap;
-                    break;
-                case LegendPosition::Right:
-                    width += legend_layout.width + options.legend.gap;
-                    break;
-                case LegendPosition::Left:
-                    layout.plot_left += legend_layout.width + options.legend.gap;
-                    width += legend_layout.width + options.legend.gap;
-                    break;
-                case LegendPosition::Bottom:
-                default:
-                    height += legend_layout.height + options.legend.gap;
-                    break;
-            }
-        }
-        layout.plot_right = layout.plot_left + plot_width;
-        layout.plot_bottom = layout.plot_top + plot_height;
+        const auto layout = detail::calendar_heatmap_plot_layout(options, geometry);
 
-        SVG::SVG root({{"xmlns", "http://www.w3.org/2000/svg"},
-                       {"width", detail::number(width)},
-                       {"height", detail::number(height)},
-                       {"viewBox", "0 0 " + detail::number(width) + " " + detail::number(height)}});
+        SVG::SVG root(SVG::SVGAttrib{{"xmlns", "http://www.w3.org/2000/svg"}});
         detail::add_common_styles(root);
         detail::add_heatmap_styles(root, options.palette);
-        root.style(".heatmap-cell-outline").set_attrs({
-            {"stroke", "var(--svgplot-heatmap-border)"},
-            {"stroke-width", "1"},
-        });
         root.set_attrs({
             {"role", "img"},
-            {"aria-label", options.title.empty() ? "Heatmap" : detail::escape_xml(options.title)},
+            {"aria-label", options.title.empty() ? "Heatmap" : options.title},
         });
 
-        auto* background = root.add_child<SVG::Rect>(0.0, 0.0, width, height);
-        background->set_attr("class", "heatmap-background");
+        auto& plot = *root.add_child<SVG::SVG>(SVG::SVGAttrib{{"x", "0"}, {"y", "0"}});
+        detail::add_calendar_heatmap_labels(plot, layout, options, geometry, start);
 
-        if (!options.title.empty()) {
-            auto* title = root.add_child<SVG::Text>(width / 2.0, 28.0, detail::escape_xml(options.title));
-            detail::style_text(title, 20.0);
-            title->set_attrs({
-                {"class", "heatmap-title"},
-                {"font-weight", "700"},
-            });
-        }
-
-        static constexpr std::array<std::string_view, 7> weekdays{
-            "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
-        for (std::size_t row = 0; row < weekdays.size(); ++row) {
-            const auto y = layout.plot_top + static_cast<double>(row) *
-                (options.cell_size + options.cell_gap) + options.cell_size - 2.0;
-            auto* label = root.add_child<SVG::Text>(layout.plot_left - 9.0, y,
-                                                    std::string(weekdays[row]));
-            detail::style_text(label, 11.0, "end");
-            label->set_attr("class", "heatmap-weekday");
-        }
-
-        unsigned previous_month = 0;
-        for (int col = 0; col < week_count; ++col) {
-            const Date week_start = first_visible + std::chrono::days{col * 7};
-            const Date visible_day = std::max(week_start, start);
-            const auto ymd = std::chrono::year_month_day{visible_day};
-            const auto month = static_cast<unsigned>(ymd.month());
-            if (month != previous_month) {
-                previous_month = month;
-                const auto x = layout.plot_left + static_cast<double>(col) *
-                    (options.cell_size + options.cell_gap);
-                auto* label = root.add_child<SVG::Text>(x, layout.plot_top - 12.0,
-                                                        detail::month_name(month));
-                detail::style_text(label, 11.0, "start");
-                label->set_attr("class", "heatmap-month");
-            }
-        }
-
-        detail::CssColorRegistry colors;
-        for (int col = 0; col < week_count; ++col) {
-            for (unsigned row = 0; row < 7; ++row) {
-                const Date current = first_visible + std::chrono::days{col * 7 + static_cast<int>(row)};
+        detail::CssColorRegistry colors(detail::core_css_vars(root));
+        detail::HeatmapGradientRegistry gradients(root);
+        for (int week = 0; week < geometry.week_count; ++week) {
+            for (unsigned weekday = 0; weekday < 7; ++weekday) {
+                const Date current = geometry.first_visible +
+                    std::chrono::days{week * 7 + static_cast<int>(weekday)};
                 const bool in_range = current >= start && current <= end;
-                const auto x = layout.plot_left + static_cast<double>(col) *
-                    (options.cell_size + options.cell_gap);
-                const auto y = layout.plot_top + static_cast<double>(row) *
-                    (options.cell_size + options.cell_gap);
+                const auto origin = detail::calendar_heatmap_cell_origin(layout, options, week, weekday);
 
                 if (!in_range) {
-                    auto* rect = root.add_child<SVG::Rect>(x, y, options.cell_size, options.cell_size);
+                    auto* rect = plot.add_child<SVG::Rect>(
+                        origin.x, origin.y, options.cell_size, options.cell_size);
                     rect->set_attr("rx", 2);
+                    detail::set_heatmap_out_of_range_cell_stroke(rect);
                     rect->class_list().add("heatmap-cell-out-of-range");
-                    rect->add_child<detail::TitleElement>(format_date(current) + ": out of range");
+                    rect->add_child<SVG::Title>(format_date(current) + ": out of range");
                     continue;
                 }
 
@@ -407,20 +299,19 @@ private:
                 const auto active = bucket == nullptr ? std::vector<std::string>{}
                                                       : active_category_ids(*bucket, categories);
                 if (active.empty()) {
-                    add_solid_cell(root, colors, x, y, options.cell_size, options.palette.empty, tooltip);
+                    add_solid_cell(plot, colors, origin.x, origin.y,
+                                   options.cell_size, options.palette.empty, tooltip);
                 } else if (active.size() == 1) {
-                    add_solid_cell(root, colors, x, y, options.cell_size,
+                    add_solid_cell(plot, colors, origin.x, origin.y, options.cell_size,
                                    find_category(categories, active.front()).color, tooltip);
                 } else {
-                    add_segmented_cell(root, colors, x, y, options.cell_size,
+                    add_segmented_cell(plot, gradients, origin.x, origin.y, options,
                                        active, categories, tooltip);
                 }
             }
         }
 
-        const auto legend_place = detail::place_legend(layout, legend_layout, options.legend, 0.0);
-        detail::add_legend(root, legend_items, options.legend, legend_place.x, legend_place.y,
-                           legend_place.max_width);
+        detail::finish_calendar_heatmap_root(root, plot, options, legend_items, legend_layout);
 
         return Chart(std::move(root));
     }

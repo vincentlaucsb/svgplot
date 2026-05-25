@@ -116,13 +116,13 @@ notes.
 
 Expected files:
 
-- `include/svgplot/bar_chart.hpp`
-- `include/svgplot/types.hpp` if new bar data types are needed
+- `include/svgplot/bar_chart/bar_chart.hpp`
+- `include/svgplot/bar_chart/types.hpp` if new bar data types are needed
 - `tests/chart_tests.cpp`
 - `README.md` only if examples are being updated
 
 Avoid touching line chart or heatmap files in this runner. If shared surfaces
-such as `ChartOptions`, `detail/styles.hpp`, `detail/layout.hpp`, or
+such as `ChartOptions`, `core/styles.hpp`, `core/layout.hpp`, or
 `include/svgplot/svgplot.hpp` must change, call that out clearly in the final
 summary so parallel work can rebase cleanly.
 

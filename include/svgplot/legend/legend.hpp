@@ -1,10 +1,11 @@
 #pragma once
 
-#include "../types.hpp"
-#include "colors.hpp"
-#include "layout.hpp"
-#include "styles.hpp"
-#include "svg_backend.hpp"
+#include "../core/css_vars.hpp"
+#include "../core/colors.hpp"
+#include "../core/layout.hpp"
+#include "../core/styles.hpp"
+#include "../core/svg_backend.hpp"
+#include "types.hpp"
 
 #include <algorithm>
 #include <cstddef>
@@ -23,6 +24,19 @@ struct LegendPlacement {
     double y{};
     double max_width{};
 };
+
+inline SVG::Element::BoundingBox legend_bbox(const LegendLayout& layout,
+                                             const LegendPlacement& placement) {
+    if (layout.width <= 0.0 || layout.height <= 0.0) {
+        return {};
+    }
+    return {
+        placement.x,
+        placement.x + layout.width,
+        placement.y,
+        placement.y + layout.height,
+    };
+}
 
 inline double legend_text_width(const std::string& text, double font_size) {
     return static_cast<double>(text.size()) * font_size * 0.58;
@@ -108,55 +122,70 @@ inline LegendPlacement place_legend(const ChartLayout& layout,
     }
 }
 
-inline void add_legend_marker(SVG::SVG& root,
+inline void add_legend_marker(SVG::Element& container,
+                              SVG::SVG& root,
                               CssColorRegistry& colors,
                               const LegendItem& item,
                               const LegendOptions& options,
                               double x,
                               double y) {
     const auto size = options.marker_size;
+    const auto vars = core_css_vars(root);
     const auto color_class = colors.class_for(root, item.color);
 
     switch (item.marker) {
         case LegendMarker::Line: {
-            auto* line = root.add_child<SVG::Line>(x, x + size, y + size / 2.0, y + size / 2.0);
+            auto* line = container.add_child<SVG::Line>(x, x + size, y + size / 2.0, y + size / 2.0);
+            line->set_attrs({
+                {"stroke", vars.var(CoreCssVar::Color)},
+                {"stroke-linecap", "round"},
+                {"stroke-width", "2.4"},
+            });
             line->class_list().add("legend-line").add(color_class);
             break;
         }
         case LegendMarker::Circle: {
-            auto* circle = root.add_child<SVG::Circle>(x + size / 2.0, y + size / 2.0, size / 2.0);
+            auto* circle = container.add_child<SVG::Circle>(x + size / 2.0, y + size / 2.0, size / 2.0);
+            circle->set_attr("stroke", "none");
             circle->class_list().add("legend-marker").add(color_class);
             break;
         }
         case LegendMarker::Bar: {
-            auto* rect = root.add_child<SVG::Rect>(x, y + size * 0.15, size, size * 0.7);
+            auto* rect = container.add_child<SVG::Rect>(x, y + size * 0.15, size, size * 0.7);
+            rect->set_attr("stroke", "none");
             rect->class_list().add("legend-marker").add(color_class);
             break;
         }
         case LegendMarker::SplitCell: {
             const auto secondary = item.secondary_color.empty() ? item.color : item.secondary_color;
             const auto secondary_class = colors.class_for(root, secondary);
-            auto* left = root.add_child<SVG::Rect>(x, y, size / 2.0, size);
+            auto* left = container.add_child<SVG::Rect>(x, y, size / 2.0, size);
+            left->set_attr("stroke", "none");
             left->class_list().add("legend-marker").add(color_class);
-            auto* right = root.add_child<SVG::Rect>(x + size / 2.0, y, size / 2.0, size);
+            auto* right = container.add_child<SVG::Rect>(x + size / 2.0, y, size / 2.0, size);
+            right->set_attr("stroke", "none");
             right->class_list().add("legend-marker").add(secondary_class);
-            auto* outline = root.add_child<SVG::Rect>(x, y, size, size);
+            auto* outline = container.add_child<SVG::Rect>(x, y, size, size);
             outline->set_attrs({
                 {"class", "legend-marker-outline"},
                 {"fill", "none"},
+                {"stroke", vars.var(CoreCssVar::Axis)},
+                {"stroke-width", "1"},
             });
             break;
         }
         case LegendMarker::Square:
         default: {
-            auto* rect = root.add_child<SVG::Rect>(x, y, size, size);
+            auto* rect = container.add_child<SVG::Rect>(x, y, size, size);
+            rect->set_attr("stroke", "none");
             rect->class_list().add("legend-marker").add(color_class);
             break;
         }
     }
 }
 
-inline void add_legend(SVG::SVG& root,
+inline void add_legend(SVG::Element& container,
+                       SVG::SVG& root,
                        const std::vector<LegendItem>& items,
                        const LegendOptions& options,
                        double x,
@@ -166,29 +195,20 @@ inline void add_legend(SVG::SVG& root,
         return;
     }
 
+    const auto vars = core_css_vars(root);
     root.style(".legend-marker").set_attrs({
-        {"fill", "var(--svgplot-color)"},
-        {"stroke", "none"},
+        {"fill", vars.var(CoreCssVar::Color)},
     });
-    root.style(".legend-marker-outline").set_attrs({
-        {"stroke", "var(--svgplot-axis)"},
-        {"stroke-width", "1"},
-    });
-    root.style(".legend-line").set_attrs({
-        {"stroke", "var(--svgplot-color)"},
-        {"stroke-width", "2.4"},
-        {"stroke-linecap", "round"},
-    });
-    root.style(".legend-label").set_attr("fill", "var(--svgplot-text)");
-    root.style(".legend-title").set_attr("fill", "var(--svgplot-text)");
+    root.style(".legend-label").set_attr("fill", vars.var(CoreCssVar::Text));
+    root.style(".legend-title").set_attr("fill", vars.var(CoreCssVar::Text));
 
-    CssColorRegistry colors("svgplot-legend-color-");
+    CssColorRegistry colors(vars, "svgplot-legend-color-");
     const auto row_height = std::max(options.marker_size, options.font_size) + 6.0;
     auto cursor_x = x;
     auto cursor_y = y;
 
     if (!options.title.empty()) {
-        auto* title = root.add_child<SVG::Text>(cursor_x, cursor_y + options.font_size, options.title);
+        auto* title = container.add_child<SVG::Text>(cursor_x, cursor_y + options.font_size, options.title);
         style_text(title, options.font_size, "start");
         title->set_attrs({
             {"class", "legend-title"},
@@ -210,8 +230,8 @@ inline void add_legend(SVG::SVG& root,
             cursor_y += row_height;
         }
 
-        add_legend_marker(root, colors, item, options, cursor_x, cursor_y + 3.0);
-        auto* label = root.add_child<SVG::Text>(
+        add_legend_marker(container, root, colors, item, options, cursor_x, cursor_y + 3.0);
+        auto* label = container.add_child<SVG::Text>(
             cursor_x + options.marker_size + options.gap,
             cursor_y + options.font_size + 2.0,
             item.label);
@@ -224,6 +244,15 @@ inline void add_legend(SVG::SVG& root,
             cursor_x += item_width + options.item_gap;
         }
     }
+}
+
+inline void add_legend(SVG::SVG& root,
+                       const std::vector<LegendItem>& items,
+                       const LegendOptions& options,
+                       double x,
+                       double y,
+                       double max_width) {
+    add_legend(root, root, items, options, x, y, max_width);
 }
 
 } // namespace svgplot::detail

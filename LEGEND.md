@@ -53,7 +53,7 @@ Add `LegendOptions legend{}` to `ChartOptions` and `HeatmapOptions`.
 
 ## Renderer Shape
 
-Put shared rendering in `include/svgplot/detail/legend.hpp`.
+Put shared rendering in `include/svgplot/legend/legend.hpp`.
 
 The chart renderer should build a list of `LegendItem` values, ask the legend
 code how much space it needs, reserve that space in the chart layout, and then
@@ -146,7 +146,7 @@ For compatibility, the existing single-value heatmap path can remain supported.
 ## Implementation Order
 
 1. Add public legend types.
-2. Add `detail/legend.hpp` with solid square markers first.
+2. Add `legend/legend.hpp` with solid square markers first.
 3. Add shared layout calculation for line and bar charts.
 4. Wire line chart legends from `Series`.
 5. Wire bar chart legends from `Bar`.

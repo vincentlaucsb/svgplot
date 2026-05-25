@@ -1,53 +1,11 @@
-<svg height="430" viewBox="0 0 760 430" width="760" xmlns="http://www.w3.org/2000/svg">
+<svg aria-label="Exercise Log - Weekly Volume" role="img" viewBox="-8.0 -50.0 741.0 428.0" xmlns="http://www.w3.org/2000/svg">
 	<style type="text/css">
 		<![CDATA[
-			.axis-line {
-				stroke: var(--svgplot-axis);
-				stroke-width: 1.2;
-			}
 			.bar {
 				fill: var(--svgplot-color);
 			}
-			.grid-line {
-				stroke: var(--svgplot-grid);
-				stroke-width: 1;
-			}
-			.legend-label {
-				fill: var(--svgplot-text);
-			}
-			.legend-line {
-				stroke: var(--svgplot-color);
-				stroke-linecap: round;
-				stroke-width: 2.4;
-			}
-			.legend-marker {
-				fill: var(--svgplot-color);
-				stroke: none;
-			}
-			.legend-marker-outline {
-				stroke: var(--svgplot-axis);
-				stroke-width: 1;
-			}
-			.legend-title {
-				fill: var(--svgplot-text);
-			}
-			.line-marker {
-				fill: var(--svgplot-color);
-			}
-			.line-series {
-				fill: none;
-				stroke: var(--svgplot-color);
-				stroke-width: 2.4;
-			}
 			.svgplot-color-0 {
 				--svgplot-color: #2563eb;
-			}
-			.svgplot-legend-color-0 {
-				--svgplot-color: #2563eb;
-			}
-			.tick-line {
-				stroke: var(--svgplot-axis);
-				stroke-width: 1;
 			}
 			:root {
 				--svgplot-axis: #374151;
@@ -72,44 +30,44 @@
 			}
 		]]>
 	</style>
-	<text font-size="20" font-weight="700" text-anchor="middle" x="380.0" y="30.0">Exercise Log - Weekly Volume</text>
-	<text font-size="13" text-anchor="middle" x="380.0" y="414.0">Week</text>
-	<text font-size="13" text-anchor="middle" transform="rotate(-90 18 215)" x="18.0" y="215.0">Total Reps</text>
-	<line class="axis-line" x1="72.0" x2="732.0" y1="308.0" y2="308.0" />
-	<line class="axis-line" x1="72.0" x2="72.0" y1="54.0" y2="308.0" />
-	<line class="grid-line" x1="72.0" x2="732.0" y1="308.0" y2="308.0" />
-	<line class="tick-line" x1="67.0" x2="72.0" y1="308.0" y2="308.0" />
-	<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="312.0">0</text>
-	<line class="grid-line" x1="72.0" x2="732.0" y1="244.4" y2="244.4" />
-	<line class="tick-line" x1="67.0" x2="72.0" y1="244.4" y2="244.4" />
-	<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="248.4">38</text>
-	<line class="grid-line" x1="72.0" x2="732.0" y1="180.8" y2="180.8" />
-	<line class="tick-line" x1="67.0" x2="72.0" y1="180.8" y2="180.8" />
-	<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="184.8">76</text>
-	<line class="grid-line" x1="72.0" x2="732.0" y1="117.2" y2="117.2" />
-	<line class="tick-line" x1="67.0" x2="72.0" y1="117.2" y2="117.2" />
-	<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="121.2">114</text>
-	<line class="grid-line" x1="72.0" x2="732.0" y1="53.7" y2="53.7" />
-	<line class="tick-line" x1="67.0" x2="72.0" y1="53.7" y2="53.7" />
-	<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="57.7">152</text>
-	<rect class="bar svgplot-color-0" height="160.6" width="84.5" x="95.8" y="147.4" />
-	<text class="bar-label" font-size="11" text-anchor="middle" x="138.0" y="328.0">W1</text>
-	<rect class="bar svgplot-color-0" height="187.4" width="84.5" x="227.8" y="120.6" />
-	<text class="bar-label" font-size="11" text-anchor="middle" x="270.0" y="328.0">W2</text>
-	<rect class="bar svgplot-color-0" height="180.7" width="84.5" x="359.8" y="127.3" />
-	<text class="bar-label" font-size="11" text-anchor="middle" x="402.0" y="328.0">W3</text>
-	<rect class="bar svgplot-color-0" height="207.5" width="84.5" x="491.8" y="100.5" />
-	<text class="bar-label" font-size="11" text-anchor="middle" x="534.0" y="328.0">W4</text>
-	<rect class="bar svgplot-color-0" height="230.9" width="84.5" x="623.8" y="77.1" />
-	<text class="bar-label" font-size="11" text-anchor="middle" x="666.0" y="328.0">W5</text>
-	<rect class="legend-marker svgplot-legend-color-0" height="8.4" width="12.0" x="72.0" y="350.8" />
-	<text class="legend-label" font-size="12" text-anchor="start" x="94.0" y="360.0">W1</text>
-	<rect class="legend-marker svgplot-legend-color-0" height="8.4" width="12.0" x="125.9" y="350.8" />
-	<text class="legend-label" font-size="12" text-anchor="start" x="147.9" y="360.0">W2</text>
-	<rect class="legend-marker svgplot-legend-color-0" height="8.4" width="12.0" x="179.8" y="350.8" />
-	<text class="legend-label" font-size="12" text-anchor="start" x="201.8" y="360.0">W3</text>
-	<rect class="legend-marker svgplot-legend-color-0" height="8.4" width="12.0" x="233.8" y="350.8" />
-	<text class="legend-label" font-size="12" text-anchor="start" x="255.8" y="360.0">W4</text>
-	<rect class="legend-marker svgplot-legend-color-0" height="8.4" width="12.0" x="287.7" y="350.8" />
-	<text class="legend-label" font-size="12" text-anchor="start" x="309.7" y="360.0">W5</text>
+	<g>
+		<svg height="370.0" viewBox="7.6 49.2 725.0 370.0" width="725.0" x="0" y="0">
+			<style type="text/css">
+				<![CDATA[
+					:root {
+					}
+				]]>
+			</style>
+			<text font-size="13" text-anchor="middle" x="380.0" y="414.0">Week</text>
+			<text font-size="13" text-anchor="middle" transform="rotate(-90.0 18.0 215.0)" x="18.0" y="215.0">Total Reps</text>
+			<line class="axis-line" stroke="var(--svgplot-axis)" stroke-width="1.2" x1="72.0" x2="732.0" y1="364.0" y2="364.0" />
+			<line class="axis-line" stroke="var(--svgplot-axis)" stroke-width="1.2" x1="72.0" x2="72.0" y1="54.0" y2="364.0" />
+			<line class="grid-line" stroke="var(--svgplot-grid)" stroke-width="1" x1="72.0" x2="732.0" y1="364.0" y2="364.0" />
+			<line class="tick-line" stroke="var(--svgplot-axis)" stroke-width="1" x1="67.0" x2="72.0" y1="364.0" y2="364.0" />
+			<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="368.0">0</text>
+			<line class="grid-line" stroke="var(--svgplot-grid)" stroke-width="1" x1="72.0" x2="732.0" y1="286.5" y2="286.5" />
+			<line class="tick-line" stroke="var(--svgplot-axis)" stroke-width="1" x1="67.0" x2="72.0" y1="286.5" y2="286.5" />
+			<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="290.5">50</text>
+			<line class="grid-line" stroke="var(--svgplot-grid)" stroke-width="1" x1="72.0" x2="732.0" y1="209.0" y2="209.0" />
+			<line class="tick-line" stroke="var(--svgplot-axis)" stroke-width="1" x1="67.0" x2="72.0" y1="209.0" y2="209.0" />
+			<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="213.0">100</text>
+			<line class="grid-line" stroke="var(--svgplot-grid)" stroke-width="1" x1="72.0" x2="732.0" y1="131.5" y2="131.5" />
+			<line class="tick-line" stroke="var(--svgplot-axis)" stroke-width="1" x1="67.0" x2="72.0" y1="131.5" y2="131.5" />
+			<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="135.5">150</text>
+			<line class="grid-line" stroke="var(--svgplot-grid)" stroke-width="1" x1="72.0" x2="732.0" y1="54.0" y2="54.0" />
+			<line class="tick-line" stroke="var(--svgplot-axis)" stroke-width="1" x1="67.0" x2="72.0" y1="54.0" y2="54.0" />
+			<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="58.0">200</text>
+			<rect class="bar svgplot-color-0" height="148.8" width="84.5" x="95.8" y="215.2" />
+			<text class="bar-label" font-size="11" text-anchor="middle" x="138.0" y="384.0">W1</text>
+			<rect class="bar svgplot-color-0" height="173.6" width="84.5" x="227.8" y="190.4" />
+			<text class="bar-label" font-size="11" text-anchor="middle" x="270.0" y="384.0">W2</text>
+			<rect class="bar svgplot-color-0" height="167.4" width="84.5" x="359.8" y="196.6" />
+			<text class="bar-label" font-size="11" text-anchor="middle" x="402.0" y="384.0">W3</text>
+			<rect class="bar svgplot-color-0" height="192.2" width="84.5" x="491.8" y="171.8" />
+			<text class="bar-label" font-size="11" text-anchor="middle" x="534.0" y="384.0">W4</text>
+			<rect class="bar svgplot-color-0" height="213.9" width="84.5" x="623.8" y="150.1" />
+			<text class="bar-label" font-size="11" text-anchor="middle" x="666.0" y="384.0">W5</text>
+		</svg>
+	</g>
+	<text class="chart-title" font-size="20" font-weight="700" text-anchor="middle" transform="translate(362.5 -26.0)" x="0.0" y="0.0">Exercise Log - Weekly Volume</text>
 </svg>

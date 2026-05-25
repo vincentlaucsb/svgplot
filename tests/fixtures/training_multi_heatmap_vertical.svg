@@ -1,0 +1,341 @@
+<svg aria-label="Training - Gym and MTB" role="img" viewBox="-67.1 -50.0 280.0 285.3" xmlns="http://www.w3.org/2000/svg">
+	<style type="text/css">
+		<![CDATA[
+			.heatmap-background {
+				fill: var(--svgplot-heatmap-background);
+			}
+			.heatmap-cell {
+				fill: var(--svgplot-color);
+			}
+			.heatmap-cell-out-of-range {
+				fill: var(--svgplot-heatmap-background);
+			}
+			.heatmap-month {
+				fill: var(--svgplot-heatmap-muted-text);
+			}
+			.heatmap-title {
+				fill: var(--svgplot-heatmap-text);
+			}
+			.heatmap-weekday {
+				fill: var(--svgplot-heatmap-muted-text);
+			}
+			.legend-label {
+				fill: var(--svgplot-text);
+			}
+			.legend-marker {
+				fill: var(--svgplot-color);
+			}
+			.legend-title {
+				fill: var(--svgplot-text);
+			}
+			.svgplot-legend-color-0 {
+				--svgplot-color: #2563eb;
+			}
+			.svgplot-legend-color-1 {
+				--svgplot-color: #f97316;
+			}
+			:root {
+				--svgplot-axis: #30363d;
+				--svgplot-background: #ffffff;
+				--svgplot-grid: #e5e7eb;
+				--svgplot-heatmap-background: #0d1117;
+				--svgplot-heatmap-border: #30363d;
+				--svgplot-heatmap-muted-text: #8b949e;
+				--svgplot-heatmap-text: #c9d1d9;
+				--svgplot-text: #c9d1d9;
+			}
+			svg {
+				background: var(--svgplot-heatmap-background);
+			}
+			text {
+				fill: var(--svgplot-text);
+				font-family: Arial, sans-serif;
+			}
+			@media (prefers-color-scheme: dark) {
+				:root {
+					--svgplot-axis: #9ca3af;
+					--svgplot-background: #111827;
+					--svgplot-grid: #374151;
+					--svgplot-text: #f9fafb;
+				}
+			}
+		]]>
+	</style>
+	<defs>
+		<linearGradient id="svgplot-heatmap-gradient-0" x1="0%" x2="0%" y1="0%" y2="100%">
+			<stop offset="0.0%" stop-color="#2563eb" />
+			<stop offset="50.0%" stop-color="#2563eb" />
+			<stop offset="50.0%" stop-color="#f97316" />
+			<stop offset="100.0%" stop-color="#f97316" />
+		</linearGradient>
+		<linearGradient id="svgplot-heatmap-gradient-1" x1="0%" x2="0%" y1="0%" y2="100%">
+			<stop offset="0.0%" stop-color="#2563eb" />
+			<stop offset="50.0%" stop-color="#2563eb" />
+			<stop offset="50.0%" stop-color="#f97316" />
+			<stop offset="100.0%" stop-color="#f97316" />
+		</linearGradient>
+		<linearGradient id="svgplot-heatmap-gradient-2" x1="0%" x2="0%" y1="0%" y2="100%">
+			<stop offset="0.0%" stop-color="#2563eb" />
+			<stop offset="50.0%" stop-color="#2563eb" />
+			<stop offset="50.0%" stop-color="#f97316" />
+			<stop offset="100.0%" stop-color="#f97316" />
+		</linearGradient>
+		<linearGradient id="svgplot-heatmap-gradient-3" x1="0%" x2="0%" y1="0%" y2="100%">
+			<stop offset="0.0%" stop-color="#2563eb" />
+			<stop offset="50.0%" stop-color="#2563eb" />
+			<stop offset="50.0%" stop-color="#f97316" />
+			<stop offset="100.0%" stop-color="#f97316" />
+		</linearGradient>
+		<linearGradient id="svgplot-heatmap-gradient-4" x1="0%" x2="0%" y1="0%" y2="100%">
+			<stop offset="0.0%" stop-color="#2563eb" />
+			<stop offset="50.0%" stop-color="#2563eb" />
+			<stop offset="50.0%" stop-color="#f97316" />
+			<stop offset="100.0%" stop-color="#f97316" />
+		</linearGradient>
+		<linearGradient id="svgplot-heatmap-gradient-5" x1="0%" x2="0%" y1="0%" y2="100%">
+			<stop offset="0.0%" stop-color="#2563eb" />
+			<stop offset="50.0%" stop-color="#2563eb" />
+			<stop offset="50.0%" stop-color="#f97316" />
+			<stop offset="100.0%" stop-color="#f97316" />
+		</linearGradient>
+	</defs>
+	<svg height="198.5" viewBox="23.2 15.0 145.8 198.5" width="145.8" x="0" y="0">
+		<style type="text/css">
+			<![CDATA[
+				.svgplot-color-0 {
+					--svgplot-color: #161b22;
+				}
+				.svgplot-color-1 {
+					--svgplot-color: #2563eb;
+				}
+				.svgplot-color-2 {
+					--svgplot-color: #f97316;
+				}
+			]]>
+		</style>
+		<text class="heatmap-weekday" font-size="11" style="transform: rotate(-45deg); transform-box: fill-box; transform-origin: right bottom;" text-anchor="end" x="73.0" y="49.0">Sun</text>
+		<text class="heatmap-weekday" font-size="11" style="transform: rotate(-45deg); transform-box: fill-box; transform-origin: right bottom;" text-anchor="end" x="88.0" y="49.0">Mon</text>
+		<text class="heatmap-weekday" font-size="11" style="transform: rotate(-45deg); transform-box: fill-box; transform-origin: right bottom;" text-anchor="end" x="103.0" y="49.0">Tue</text>
+		<text class="heatmap-weekday" font-size="11" style="transform: rotate(-45deg); transform-box: fill-box; transform-origin: right bottom;" text-anchor="end" x="118.0" y="49.0">Wed</text>
+		<text class="heatmap-weekday" font-size="11" style="transform: rotate(-45deg); transform-box: fill-box; transform-origin: right bottom;" text-anchor="end" x="133.0" y="49.0">Thu</text>
+		<text class="heatmap-weekday" font-size="11" style="transform: rotate(-45deg); transform-box: fill-box; transform-origin: right bottom;" text-anchor="end" x="148.0" y="49.0">Fri</text>
+		<text class="heatmap-weekday" font-size="11" style="transform: rotate(-45deg); transform-box: fill-box; transform-origin: right bottom;" text-anchor="end" x="163.0" y="49.0">Sat</text>
+		<text class="heatmap-month" font-size="11" text-anchor="end" x="43.0" y="76.0">Apr</text>
+		<text class="heatmap-month" font-size="11" text-anchor="end" x="43.0" y="151.0">May</text>
+		<rect class="heatmap-cell-out-of-range" height="12.0" rx="2" stroke="var(--svgplot-heatmap-background)" stroke-width="1" width="12.0" x="52.0" y="66.0">
+			<title>2026-03-29: out of range</title>
+		</rect>
+		<rect class="heatmap-cell-out-of-range" height="12.0" rx="2" stroke="var(--svgplot-heatmap-background)" stroke-width="1" width="12.0" x="67.0" y="66.0">
+			<title>2026-03-30: out of range</title>
+		</rect>
+		<rect class="heatmap-cell-out-of-range" height="12.0" rx="2" stroke="var(--svgplot-heatmap-background)" stroke-width="1" width="12.0" x="82.0" y="66.0">
+			<title>2026-03-31: out of range</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="97.0" y="66.0">
+			<title>2026-04-01: none</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="112.0" y="66.0">
+			<title>2026-04-02: Gym - Squat</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="127.0" y="66.0">
+			<title>2026-04-03: none</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-2" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="142.0" y="66.0">
+			<title>2026-04-04: MTB - Desert loop</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="52.0" y="81.0">
+			<title>2026-04-05: none</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="67.0" y="81.0">
+			<title>2026-04-06: none</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="82.0" y="81.0">
+			<title>2026-04-07: Gym - Bench</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="97.0" y="81.0">
+			<title>2026-04-08: none</title>
+		</rect>
+		<rect class="heatmap-cell-multi-value" fill="url(#svgplot-heatmap-gradient-0)" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="112.0" y="81.0">
+			<title>2026-04-09: Gym + MTB - Lift and ride</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="127.0" y="81.0">
+			<title>2026-04-10: none</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="142.0" y="81.0">
+			<title>2026-04-11: none</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-2" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="52.0" y="96.0">
+			<title>2026-04-12: MTB - Trail ride</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="67.0" y="96.0">
+			<title>2026-04-13: none</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="82.0" y="96.0">
+			<title>2026-04-14: Gym - Deadlift</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="97.0" y="96.0">
+			<title>2026-04-15: none</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="112.0" y="96.0">
+			<title>2026-04-16: none</title>
+		</rect>
+		<rect class="heatmap-cell-multi-value" fill="url(#svgplot-heatmap-gradient-1)" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="127.0" y="96.0">
+			<title>2026-04-17: Gym + MTB - Double day</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="142.0" y="96.0">
+			<title>2026-04-18: none</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-2" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="52.0" y="111.0">
+			<title>2026-04-19: MTB - Climb repeats</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="67.0" y="111.0">
+			<title>2026-04-20: none</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="82.0" y="111.0">
+			<title>2026-04-21: Gym - Press</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="97.0" y="111.0">
+			<title>2026-04-22: none</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="112.0" y="111.0">
+			<title>2026-04-23: none</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="127.0" y="111.0">
+			<title>2026-04-24: Gym - Squat</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="142.0" y="111.0">
+			<title>2026-04-25: none</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-2" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="52.0" y="126.0">
+			<title>2026-04-26: MTB - Long ride</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="67.0" y="126.0">
+			<title>2026-04-27: none</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="82.0" y="126.0">
+			<title>2026-04-28: none</title>
+		</rect>
+		<rect class="heatmap-cell-multi-value" fill="url(#svgplot-heatmap-gradient-2)" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="97.0" y="126.0">
+			<title>2026-04-29: Gym + MTB - Strength and spin</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="112.0" y="126.0">
+			<title>2026-04-30: none</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="127.0" y="126.0">
+			<title>2026-05-01: none</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-2" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="142.0" y="126.0">
+			<title>2026-05-02: MTB - Trail ride</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="52.0" y="141.0">
+			<title>2026-05-03: none</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="67.0" y="141.0">
+			<title>2026-05-04: none</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="82.0" y="141.0">
+			<title>2026-05-05: Gym - Bench</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="97.0" y="141.0">
+			<title>2026-05-06: none</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="112.0" y="141.0">
+			<title>2026-05-07: none</title>
+		</rect>
+		<rect class="heatmap-cell-multi-value" fill="url(#svgplot-heatmap-gradient-3)" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="127.0" y="141.0">
+			<title>2026-05-08: Gym + MTB - Double day</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="142.0" y="141.0">
+			<title>2026-05-09: none</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-2" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="52.0" y="156.0">
+			<title>2026-05-10: MTB - Desert loop</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="67.0" y="156.0">
+			<title>2026-05-11: none</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="82.0" y="156.0">
+			<title>2026-05-12: none</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="97.0" y="156.0">
+			<title>2026-05-13: Gym - Deadlift</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="112.0" y="156.0">
+			<title>2026-05-14: none</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="127.0" y="156.0">
+			<title>2026-05-15: none</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-2" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="142.0" y="156.0">
+			<title>2026-05-16: MTB - Climb repeats</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="52.0" y="171.0">
+			<title>2026-05-17: none</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="67.0" y="171.0">
+			<title>2026-05-18: Gym - Press</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="82.0" y="171.0">
+			<title>2026-05-19: none</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="97.0" y="171.0">
+			<title>2026-05-20: none</title>
+		</rect>
+		<rect class="heatmap-cell-multi-value" fill="url(#svgplot-heatmap-gradient-4)" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="112.0" y="171.0">
+			<title>2026-05-21: Gym + MTB - Lift and ride</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="127.0" y="171.0">
+			<title>2026-05-22: none</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="142.0" y="171.0">
+			<title>2026-05-23: none</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-2" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="52.0" y="186.0">
+			<title>2026-05-24: MTB - Long ride</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="67.0" y="186.0">
+			<title>2026-05-25: none</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="82.0" y="186.0">
+			<title>2026-05-26: Gym - Squat</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="97.0" y="186.0">
+			<title>2026-05-27: none</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="112.0" y="186.0">
+			<title>2026-05-28: none</title>
+		</rect>
+		<rect class="heatmap-cell-multi-value" fill="url(#svgplot-heatmap-gradient-5)" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="127.0" y="186.0">
+			<title>2026-05-29: Gym + MTB - Strength and spin</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="142.0" y="186.0">
+			<title>2026-05-30: none</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="52.0" y="201.0">
+			<title>2026-05-31: none</title>
+		</rect>
+		<rect class="heatmap-cell-out-of-range" height="12.0" rx="2" stroke="var(--svgplot-heatmap-background)" stroke-width="1" width="12.0" x="67.0" y="201.0">
+			<title>2026-06-01: out of range</title>
+		</rect>
+		<rect class="heatmap-cell-out-of-range" height="12.0" rx="2" stroke="var(--svgplot-heatmap-background)" stroke-width="1" width="12.0" x="82.0" y="201.0">
+			<title>2026-06-02: out of range</title>
+		</rect>
+		<rect class="heatmap-cell-out-of-range" height="12.0" rx="2" stroke="var(--svgplot-heatmap-background)" stroke-width="1" width="12.0" x="97.0" y="201.0">
+			<title>2026-06-03: out of range</title>
+		</rect>
+		<rect class="heatmap-cell-out-of-range" height="12.0" rx="2" stroke="var(--svgplot-heatmap-background)" stroke-width="1" width="12.0" x="112.0" y="201.0">
+			<title>2026-06-04: out of range</title>
+		</rect>
+		<rect class="heatmap-cell-out-of-range" height="12.0" rx="2" stroke="var(--svgplot-heatmap-background)" stroke-width="1" width="12.0" x="127.0" y="201.0">
+			<title>2026-06-05: out of range</title>
+		</rect>
+		<rect class="heatmap-cell-out-of-range" height="12.0" rx="2" stroke="var(--svgplot-heatmap-background)" stroke-width="1" width="12.0" x="142.0" y="201.0">
+			<title>2026-06-06: out of range</title>
+		</rect>
+	</svg>
+	<text class="heatmap-title" font-size="20" font-weight="700" text-anchor="middle" transform="translate(72.9 -26.0)" x="0.0" y="0.0">Training - Gym and MTB</text>
+	<rect class="legend-marker svgplot-legend-color-0" height="12.0" stroke="none" width="12.0" x="0.0" y="211.5" />
+	<text class="legend-label" font-size="12" text-anchor="start" x="22.0" y="222.5">Gym</text>
+	<rect class="legend-marker svgplot-legend-color-1" height="12.0" stroke="none" width="12.0" x="60.9" y="211.5" />
+	<text class="legend-label" font-size="12" text-anchor="start" x="82.9" y="222.5">MTB</text>
+</svg>

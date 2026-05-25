@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../types.hpp"
-#include "svg_backend.hpp"
 
 #include <array>
 #include <cmath>
@@ -10,53 +9,11 @@
 #include <sstream>
 #include <string>
 #include <string_view>
-#include <utility>
 
 namespace svgplot::detail {
 
-inline std::string escape_xml(std::string_view text) {
-    std::string out;
-    out.reserve(text.size());
-    for (const char ch : text) {
-        switch (ch) {
-            case '&':
-                out += "&amp;";
-                break;
-            case '<':
-                out += "&lt;";
-                break;
-            case '>':
-                out += "&gt;";
-                break;
-            case '"':
-                out += "&quot;";
-                break;
-            case '\'':
-                out += "&apos;";
-                break;
-            default:
-                out.push_back(ch);
-                break;
-        }
-    }
-    return out;
-}
-
-class TitleElement : public SVG::Element {
-public:
-    explicit TitleElement(std::string content) : content_(std::move(content)) {}
-
-protected:
-    std::string svg_to_string(const size_t indent_level) override {
-        const auto indent = std::string(indent_level, '\t');
-        return indent + "<title>" + escape_xml(content_) + "</title>";
-    }
-
-    std::string tag() override { return "title"; }
-
-private:
-    std::string content_;
-};
+inline constexpr std::array<std::string_view, 7> weekday_names{
+    "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 
 inline std::string number(double value) {
     std::ostringstream ss;
