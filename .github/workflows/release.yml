@@ -55,44 +55,14 @@ jobs:
           }
 
       - name: Compile generated header smoke test
-        shell: pwsh
-        run: |
-          $ErrorActionPreference = "Stop"
-          New-Item -ItemType Directory -Force -Path smoke | Out-Null
-          @'
-          cmake_minimum_required(VERSION 3.25)
-          project(svgplot_single_header_smoke LANGUAGES CXX)
-          add_library(smoke_one OBJECT smoke_one.cpp)
-          add_library(smoke_two OBJECT smoke_two.cpp)
-          target_compile_features(smoke_one PRIVATE cxx_std_23)
-          target_compile_features(smoke_two PRIVATE cxx_std_23)
-          target_include_directories(smoke_one PRIVATE "${CMAKE_CURRENT_LIST_DIR}/../svgplot/single_include")
-          target_include_directories(smoke_two PRIVATE "${CMAKE_CURRENT_LIST_DIR}/../svgplot/single_include")
-          '@ | Set-Content -Path smoke/CMakeLists.txt
-          @'
-          #include <svgplot/svgplot.hpp>
+        run: >
+          cmake -S svgplot/tests/single_header_smoke
+          -B smoke/build
+          -A x64
+          -DSVGPLOT_SINGLE_INCLUDE_DIR="${{ github.workspace }}/svgplot/single_include"
 
-          int smoke_one() {
-              svgplot::ChartOptions options;
-              options.title = "Smoke";
-              const auto chart = svgplot::line_chart({
-                  {"A", {{1.0, 2.0}, {2.0, 3.0}}, "#123456"},
-              }, options);
-              return chart.str().empty() ? 1 : 0;
-          }
-          '@ | Set-Content -Path smoke/smoke_one.cpp
-          @'
-          #include <svgplot/svgplot.hpp>
-
-          int smoke_two() {
-              const auto chart = svgplot::heatmap_chart({
-                  {svgplot::date(2026, 1, 1), 1.0, "A"},
-              });
-              return chart.str().empty() ? 1 : 0;
-          }
-          '@ | Set-Content -Path smoke/smoke_two.cpp
-          cmake -S smoke -B smoke/build -A x64
-          cmake --build smoke/build --config Release --parallel
+      - name: Build generated header smoke test
+        run: cmake --build smoke/build --config Release --parallel
 
       - name: Upload generated header artifact
         uses: actions/upload-artifact@v4

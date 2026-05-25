@@ -6,14 +6,21 @@ Simple SVG plots for C++
  * Clean SVG output: graphs use CSS variables that may be easily modified
 
 ### Bar Charts
-Currently simple bar charts with one value per category are supported.
-![A bar chart](https://github.com/vincentlaucsb/svgplot/blob/main/tests/fixtures/exercise_log_volume.svg)
+Simple, stacked, and grouped bar charts are supported.
+
+![A bar chart](tests/fixtures/exercise_log_volume.svg)
+
+![A stacked bar chart](tests/fixtures/stacked_bar.svg)
 
 ### Line Graphs
-![A line graph](https://raw.githubusercontent.com/vincentlaucsb/svgplot/refs/heads/main/tests/fixtures/exercise_log_line.svg)
+Single and multi-series line charts can share axes and legends.
+
+![A multi-series line graph](tests/fixtures/multi_series_line_right.svg)
 
 ### Heat Maps
-![A simple GitHub-style heatmap](https://raw.githubusercontent.com/vincentlaucsb/svgplot/refs/heads/main/tests/fixtures/exercise_log_heatmap.svg)
+![A simple GitHub-style heatmap](tests/fixtures/exercise_log_heatmap.svg)
+
+![A multi-value heatmap](tests/fixtures/training_multi_heatmap.svg)
 
 ## Visual regression tests
 

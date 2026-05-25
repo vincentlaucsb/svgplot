@@ -41,3 +41,6 @@ single_include/
 node_modules/
 playwright-report/
 test-results/
+
+# Local logs
+*.log

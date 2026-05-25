@@ -1,6 +1,6 @@
 #pragma once
 
-#include "detail/svg_backend.hpp"
+#include "core/svg_backend.hpp"
 
 #include <filesystem>
 #include <fstream>

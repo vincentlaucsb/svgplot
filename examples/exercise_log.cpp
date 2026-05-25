@@ -8,27 +8,9 @@ int main() try {
     using svgplot::ChartOptions;
     using svgplot::HeatmapCell;
     using svgplot::HeatmapOptions;
-    using svgplot::Point;
-    using svgplot::Series;
 
     const auto output_dir = std::filesystem::path{"generated"};
     std::filesystem::create_directories(output_dir);
-
-    ChartOptions line_options;
-    line_options.title = "Exercise Log - Working Weight";
-    line_options.x_label = "Workout";
-    line_options.y_label = "Weight (lb)";
-    line_options.width = 760;
-    line_options.height = 430;
-
-    const std::vector<Series> weight_series{
-        {"Squat", {{1, 185}, {2, 195}, {3, 205}, {4, 215}, {5, 225}}, "#2563eb"},
-        {"Bench", {{1, 135}, {2, 140}, {3, 145}, {4, 150}, {5, 155}}, "#dc2626"},
-        {"Deadlift", {{1, 225}, {2, 245}, {3, 255}, {4, 275}, {5, 295}}, "#059669"},
-    };
-
-    const auto line_chart = svgplot::line_chart(weight_series, line_options);
-    line_chart.save(output_dir / "exercise_log_line.svg");
 
     ChartOptions volume_options;
     volume_options.title = "Exercise Log - Weekly Volume";

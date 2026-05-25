@@ -1,29 +1,14 @@
-<svg aria-label="Exercise Log - Attendance" height="184" role="img" viewBox="0 0 283 184" width="283" xmlns="http://www.w3.org/2000/svg">
+<svg aria-label="Exercise Log - Attendance" role="img" viewBox="-39.8 -50.0 316.0 183.2" xmlns="http://www.w3.org/2000/svg">
 	<style type="text/css">
 		<![CDATA[
-			.axis-line {
-				stroke: var(--svgplot-axis);
-				stroke-width: 1.2;
-			}
-			.bar {
-				fill: var(--svgplot-color);
-			}
-			.grid-line {
-				stroke: var(--svgplot-grid);
-				stroke-width: 1;
-			}
 			.heatmap-background {
 				fill: var(--svgplot-heatmap-background);
 			}
 			.heatmap-cell {
 				fill: var(--svgplot-color);
-				stroke: var(--svgplot-heatmap-border);
-				stroke-width: 1;
 			}
 			.heatmap-cell-out-of-range {
 				fill: var(--svgplot-heatmap-background);
-				stroke: var(--svgplot-heatmap-background);
-				stroke-width: 1;
 			}
 			.heatmap-month {
 				fill: var(--svgplot-heatmap-muted-text);
@@ -34,14 +19,6 @@
 			.heatmap-weekday {
 				fill: var(--svgplot-heatmap-muted-text);
 			}
-			.line-marker {
-				fill: var(--svgplot-color);
-			}
-			.line-series {
-				fill: none;
-				stroke: var(--svgplot-color);
-				stroke-width: 2.4;
-			}
 			.svgplot-color-0 {
 				--svgplot-color: #161b22;
 			}
@@ -51,22 +28,18 @@
 			.svgplot-color-2 {
 				--svgplot-color: #216e39;
 			}
-			.tick-line {
-				stroke: var(--svgplot-axis);
-				stroke-width: 1;
-			}
 			:root {
-				--svgplot-axis: #374151;
+				--svgplot-axis: #30363d;
 				--svgplot-background: #ffffff;
 				--svgplot-grid: #e5e7eb;
 				--svgplot-heatmap-background: #0d1117;
 				--svgplot-heatmap-border: #30363d;
 				--svgplot-heatmap-muted-text: #8b949e;
 				--svgplot-heatmap-text: #c9d1d9;
-				--svgplot-text: #111827;
+				--svgplot-text: #c9d1d9;
 			}
 			svg {
-				background: var(--svgplot-background);
+				background: var(--svgplot-heatmap-background);
 			}
 			text {
 				fill: var(--svgplot-text);
@@ -82,310 +55,311 @@
 			}
 		]]>
 	</style>
-	<rect class="heatmap-background" height="184.0" width="283.0" x="0.0" y="0.0" />
-	<text class="heatmap-title" font-size="20" font-weight="700" text-anchor="middle" x="141.5" y="28.0">Exercise Log - Attendance</text>
-	<text class="heatmap-weekday" font-size="11" text-anchor="end" x="43.0" y="64.0">Sun</text>
-	<text class="heatmap-weekday" font-size="11" text-anchor="end" x="43.0" y="79.0">Mon</text>
-	<text class="heatmap-weekday" font-size="11" text-anchor="end" x="43.0" y="94.0">Tue</text>
-	<text class="heatmap-weekday" font-size="11" text-anchor="end" x="43.0" y="109.0">Wed</text>
-	<text class="heatmap-weekday" font-size="11" text-anchor="end" x="43.0" y="124.0">Thu</text>
-	<text class="heatmap-weekday" font-size="11" text-anchor="end" x="43.0" y="139.0">Fri</text>
-	<text class="heatmap-weekday" font-size="11" text-anchor="end" x="43.0" y="154.0">Sat</text>
-	<text class="heatmap-month" font-size="11" text-anchor="start" x="52.0" y="42.0">Jan</text>
-	<text class="heatmap-month" font-size="11" text-anchor="start" x="127.0" y="42.0">Feb</text>
-	<text class="heatmap-month" font-size="11" text-anchor="start" x="187.0" y="42.0">Mar</text>
-	<rect class="heatmap-cell-out-of-range" height="12.0" rx="2" width="12.0" x="52.0" y="54.0">
-		<title>2025-12-28: out of range</title>
-	</rect>
-	<rect class="heatmap-cell-out-of-range" height="12.0" rx="2" width="12.0" x="52.0" y="69.0">
-		<title>2025-12-29: out of range</title>
-	</rect>
-	<rect class="heatmap-cell-out-of-range" height="12.0" rx="2" width="12.0" x="52.0" y="84.0">
-		<title>2025-12-30: out of range</title>
-	</rect>
-	<rect class="heatmap-cell-out-of-range" height="12.0" rx="2" width="12.0" x="52.0" y="99.0">
-		<title>2025-12-31: out of range</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="52.0" y="114.0">
-		<title>2026-01-01: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" width="12.0" x="52.0" y="129.0">
-		<title>2026-01-02: 1 - Gym</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="52.0" y="144.0">
-		<title>2026-01-03: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="67.0" y="54.0">
-		<title>2026-01-04: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" width="12.0" x="67.0" y="69.0">
-		<title>2026-01-05: 1 - Gym</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="67.0" y="84.0">
-		<title>2026-01-06: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="67.0" y="99.0">
-		<title>2026-01-07: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-2" height="12.0" rx="2" width="12.0" x="67.0" y="114.0">
-		<title>2026-01-08: 2 - Gym; cardio</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="67.0" y="129.0">
-		<title>2026-01-09: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="67.0" y="144.0">
-		<title>2026-01-10: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="82.0" y="54.0">
-		<title>2026-01-11: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" width="12.0" x="82.0" y="69.0">
-		<title>2026-01-12: 1 - Gym</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="82.0" y="84.0">
-		<title>2026-01-13: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="82.0" y="99.0">
-		<title>2026-01-14: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="82.0" y="114.0">
-		<title>2026-01-15: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" width="12.0" x="82.0" y="129.0">
-		<title>2026-01-16: 1 - Gym</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="82.0" y="144.0">
-		<title>2026-01-17: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="97.0" y="54.0">
-		<title>2026-01-18: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" width="12.0" x="97.0" y="69.0">
-		<title>2026-01-19: 1 - Gym</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="97.0" y="84.0">
-		<title>2026-01-20: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="97.0" y="99.0">
-		<title>2026-01-21: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="97.0" y="114.0">
-		<title>2026-01-22: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" width="12.0" x="97.0" y="129.0">
-		<title>2026-01-23: 1 - Gym</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="97.0" y="144.0">
-		<title>2026-01-24: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="112.0" y="54.0">
-		<title>2026-01-25: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" width="12.0" x="112.0" y="69.0">
-		<title>2026-01-26: 1 - Gym</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="112.0" y="84.0">
-		<title>2026-01-27: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="112.0" y="99.0">
-		<title>2026-01-28: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="112.0" y="114.0">
-		<title>2026-01-29: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" width="12.0" x="112.0" y="129.0">
-		<title>2026-01-30: 1 - Gym</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="112.0" y="144.0">
-		<title>2026-01-31: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="127.0" y="54.0">
-		<title>2026-02-01: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="127.0" y="69.0">
-		<title>2026-02-02: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" width="12.0" x="127.0" y="84.0">
-		<title>2026-02-03: 1 - Gym</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="127.0" y="99.0">
-		<title>2026-02-04: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="127.0" y="114.0">
-		<title>2026-02-05: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" width="12.0" x="127.0" y="129.0">
-		<title>2026-02-06: 1 - Gym</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="127.0" y="144.0">
-		<title>2026-02-07: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="142.0" y="54.0">
-		<title>2026-02-08: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="142.0" y="69.0">
-		<title>2026-02-09: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" width="12.0" x="142.0" y="84.0">
-		<title>2026-02-10: 1 - Gym</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="142.0" y="99.0">
-		<title>2026-02-11: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="142.0" y="114.0">
-		<title>2026-02-12: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" width="12.0" x="142.0" y="129.0">
-		<title>2026-02-13: 1 - Gym</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="142.0" y="144.0">
-		<title>2026-02-14: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="157.0" y="54.0">
-		<title>2026-02-15: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="157.0" y="69.0">
-		<title>2026-02-16: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" width="12.0" x="157.0" y="84.0">
-		<title>2026-02-17: 1 - Gym</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="157.0" y="99.0">
-		<title>2026-02-18: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="157.0" y="114.0">
-		<title>2026-02-19: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" width="12.0" x="157.0" y="129.0">
-		<title>2026-02-20: 1 - Gym</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="157.0" y="144.0">
-		<title>2026-02-21: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="172.0" y="54.0">
-		<title>2026-02-22: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="172.0" y="69.0">
-		<title>2026-02-23: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" width="12.0" x="172.0" y="84.0">
-		<title>2026-02-24: 1 - Gym</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="172.0" y="99.0">
-		<title>2026-02-25: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="172.0" y="114.0">
-		<title>2026-02-26: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" width="12.0" x="172.0" y="129.0">
-		<title>2026-02-27: 1 - Gym</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="172.0" y="144.0">
-		<title>2026-02-28: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="187.0" y="54.0">
-		<title>2026-03-01: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="187.0" y="69.0">
-		<title>2026-03-02: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" width="12.0" x="187.0" y="84.0">
-		<title>2026-03-03: 1 - Gym</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="187.0" y="99.0">
-		<title>2026-03-04: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="187.0" y="114.0">
-		<title>2026-03-05: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" width="12.0" x="187.0" y="129.0">
-		<title>2026-03-06: 1 - Gym</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="187.0" y="144.0">
-		<title>2026-03-07: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="202.0" y="54.0">
-		<title>2026-03-08: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="202.0" y="69.0">
-		<title>2026-03-09: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" width="12.0" x="202.0" y="84.0">
-		<title>2026-03-10: 1 - Gym</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="202.0" y="99.0">
-		<title>2026-03-11: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="202.0" y="114.0">
-		<title>2026-03-12: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" width="12.0" x="202.0" y="129.0">
-		<title>2026-03-13: 1 - Gym</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="202.0" y="144.0">
-		<title>2026-03-14: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="217.0" y="54.0">
-		<title>2026-03-15: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="217.0" y="69.0">
-		<title>2026-03-16: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" width="12.0" x="217.0" y="84.0">
-		<title>2026-03-17: 1 - Gym</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="217.0" y="99.0">
-		<title>2026-03-18: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="217.0" y="114.0">
-		<title>2026-03-19: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" width="12.0" x="217.0" y="129.0">
-		<title>2026-03-20: 1 - Gym</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="217.0" y="144.0">
-		<title>2026-03-21: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="232.0" y="54.0">
-		<title>2026-03-22: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="232.0" y="69.0">
-		<title>2026-03-23: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" width="12.0" x="232.0" y="84.0">
-		<title>2026-03-24: 1 - Gym</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="232.0" y="99.0">
-		<title>2026-03-25: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="232.0" y="114.0">
-		<title>2026-03-26: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" width="12.0" x="232.0" y="129.0">
-		<title>2026-03-27: 1 - Gym</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="232.0" y="144.0">
-		<title>2026-03-28: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="247.0" y="54.0">
-		<title>2026-03-29: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="247.0" y="69.0">
-		<title>2026-03-30: 0</title>
-	</rect>
-	<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" width="12.0" x="247.0" y="84.0">
-		<title>2026-03-31: 0</title>
-	</rect>
-	<rect class="heatmap-cell-out-of-range" height="12.0" rx="2" width="12.0" x="247.0" y="99.0">
-		<title>2026-04-01: out of range</title>
-	</rect>
-	<rect class="heatmap-cell-out-of-range" height="12.0" rx="2" width="12.0" x="247.0" y="114.0">
-		<title>2026-04-02: out of range</title>
-	</rect>
-	<rect class="heatmap-cell-out-of-range" height="12.0" rx="2" width="12.0" x="247.0" y="129.0">
-		<title>2026-04-03: out of range</title>
-	</rect>
-	<rect class="heatmap-cell-out-of-range" height="12.0" rx="2" width="12.0" x="247.0" y="144.0">
-		<title>2026-04-04: out of range</title>
-	</rect>
+	<svg height="125.2" viewBox="23.2 33.2 236.3 125.2" width="236.3" x="0" y="0">
+		<text class="heatmap-weekday" font-size="11" text-anchor="end" x="43.0" y="64.0">Sun</text>
+		<text class="heatmap-weekday" font-size="11" text-anchor="end" x="43.0" y="79.0">Mon</text>
+		<text class="heatmap-weekday" font-size="11" text-anchor="end" x="43.0" y="94.0">Tue</text>
+		<text class="heatmap-weekday" font-size="11" text-anchor="end" x="43.0" y="109.0">Wed</text>
+		<text class="heatmap-weekday" font-size="11" text-anchor="end" x="43.0" y="124.0">Thu</text>
+		<text class="heatmap-weekday" font-size="11" text-anchor="end" x="43.0" y="139.0">Fri</text>
+		<text class="heatmap-weekday" font-size="11" text-anchor="end" x="43.0" y="154.0">Sat</text>
+		<text class="heatmap-month" font-size="11" text-anchor="start" x="52.0" y="42.0">Jan</text>
+		<text class="heatmap-month" font-size="11" text-anchor="start" x="127.0" y="42.0">Feb</text>
+		<text class="heatmap-month" font-size="11" text-anchor="start" x="187.0" y="42.0">Mar</text>
+		<rect class="heatmap-cell-out-of-range" height="12.0" rx="2" stroke="var(--svgplot-heatmap-background)" stroke-width="1" width="12.0" x="52.0" y="54.0">
+			<title>2025-12-28: out of range</title>
+		</rect>
+		<rect class="heatmap-cell-out-of-range" height="12.0" rx="2" stroke="var(--svgplot-heatmap-background)" stroke-width="1" width="12.0" x="52.0" y="69.0">
+			<title>2025-12-29: out of range</title>
+		</rect>
+		<rect class="heatmap-cell-out-of-range" height="12.0" rx="2" stroke="var(--svgplot-heatmap-background)" stroke-width="1" width="12.0" x="52.0" y="84.0">
+			<title>2025-12-30: out of range</title>
+		</rect>
+		<rect class="heatmap-cell-out-of-range" height="12.0" rx="2" stroke="var(--svgplot-heatmap-background)" stroke-width="1" width="12.0" x="52.0" y="99.0">
+			<title>2025-12-31: out of range</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="52.0" y="114.0">
+			<title>2026-01-01: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="52.0" y="129.0">
+			<title>2026-01-02: 1 - Gym</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="52.0" y="144.0">
+			<title>2026-01-03: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="67.0" y="54.0">
+			<title>2026-01-04: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="67.0" y="69.0">
+			<title>2026-01-05: 1 - Gym</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="67.0" y="84.0">
+			<title>2026-01-06: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="67.0" y="99.0">
+			<title>2026-01-07: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-2" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="67.0" y="114.0">
+			<title>2026-01-08: 2 - Gym; cardio</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="67.0" y="129.0">
+			<title>2026-01-09: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="67.0" y="144.0">
+			<title>2026-01-10: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="82.0" y="54.0">
+			<title>2026-01-11: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="82.0" y="69.0">
+			<title>2026-01-12: 1 - Gym</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="82.0" y="84.0">
+			<title>2026-01-13: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="82.0" y="99.0">
+			<title>2026-01-14: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="82.0" y="114.0">
+			<title>2026-01-15: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="82.0" y="129.0">
+			<title>2026-01-16: 1 - Gym</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="82.0" y="144.0">
+			<title>2026-01-17: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="97.0" y="54.0">
+			<title>2026-01-18: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="97.0" y="69.0">
+			<title>2026-01-19: 1 - Gym</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="97.0" y="84.0">
+			<title>2026-01-20: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="97.0" y="99.0">
+			<title>2026-01-21: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="97.0" y="114.0">
+			<title>2026-01-22: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="97.0" y="129.0">
+			<title>2026-01-23: 1 - Gym</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="97.0" y="144.0">
+			<title>2026-01-24: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="112.0" y="54.0">
+			<title>2026-01-25: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="112.0" y="69.0">
+			<title>2026-01-26: 1 - Gym</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="112.0" y="84.0">
+			<title>2026-01-27: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="112.0" y="99.0">
+			<title>2026-01-28: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="112.0" y="114.0">
+			<title>2026-01-29: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="112.0" y="129.0">
+			<title>2026-01-30: 1 - Gym</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="112.0" y="144.0">
+			<title>2026-01-31: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="127.0" y="54.0">
+			<title>2026-02-01: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="127.0" y="69.0">
+			<title>2026-02-02: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="127.0" y="84.0">
+			<title>2026-02-03: 1 - Gym</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="127.0" y="99.0">
+			<title>2026-02-04: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="127.0" y="114.0">
+			<title>2026-02-05: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="127.0" y="129.0">
+			<title>2026-02-06: 1 - Gym</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="127.0" y="144.0">
+			<title>2026-02-07: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="142.0" y="54.0">
+			<title>2026-02-08: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="142.0" y="69.0">
+			<title>2026-02-09: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="142.0" y="84.0">
+			<title>2026-02-10: 1 - Gym</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="142.0" y="99.0">
+			<title>2026-02-11: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="142.0" y="114.0">
+			<title>2026-02-12: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="142.0" y="129.0">
+			<title>2026-02-13: 1 - Gym</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="142.0" y="144.0">
+			<title>2026-02-14: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="157.0" y="54.0">
+			<title>2026-02-15: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="157.0" y="69.0">
+			<title>2026-02-16: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="157.0" y="84.0">
+			<title>2026-02-17: 1 - Gym</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="157.0" y="99.0">
+			<title>2026-02-18: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="157.0" y="114.0">
+			<title>2026-02-19: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="157.0" y="129.0">
+			<title>2026-02-20: 1 - Gym</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="157.0" y="144.0">
+			<title>2026-02-21: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="172.0" y="54.0">
+			<title>2026-02-22: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="172.0" y="69.0">
+			<title>2026-02-23: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="172.0" y="84.0">
+			<title>2026-02-24: 1 - Gym</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="172.0" y="99.0">
+			<title>2026-02-25: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="172.0" y="114.0">
+			<title>2026-02-26: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="172.0" y="129.0">
+			<title>2026-02-27: 1 - Gym</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="172.0" y="144.0">
+			<title>2026-02-28: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="187.0" y="54.0">
+			<title>2026-03-01: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="187.0" y="69.0">
+			<title>2026-03-02: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="187.0" y="84.0">
+			<title>2026-03-03: 1 - Gym</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="187.0" y="99.0">
+			<title>2026-03-04: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="187.0" y="114.0">
+			<title>2026-03-05: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="187.0" y="129.0">
+			<title>2026-03-06: 1 - Gym</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="187.0" y="144.0">
+			<title>2026-03-07: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="202.0" y="54.0">
+			<title>2026-03-08: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="202.0" y="69.0">
+			<title>2026-03-09: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="202.0" y="84.0">
+			<title>2026-03-10: 1 - Gym</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="202.0" y="99.0">
+			<title>2026-03-11: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="202.0" y="114.0">
+			<title>2026-03-12: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="202.0" y="129.0">
+			<title>2026-03-13: 1 - Gym</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="202.0" y="144.0">
+			<title>2026-03-14: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="217.0" y="54.0">
+			<title>2026-03-15: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="217.0" y="69.0">
+			<title>2026-03-16: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="217.0" y="84.0">
+			<title>2026-03-17: 1 - Gym</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="217.0" y="99.0">
+			<title>2026-03-18: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="217.0" y="114.0">
+			<title>2026-03-19: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="217.0" y="129.0">
+			<title>2026-03-20: 1 - Gym</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="217.0" y="144.0">
+			<title>2026-03-21: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="232.0" y="54.0">
+			<title>2026-03-22: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="232.0" y="69.0">
+			<title>2026-03-23: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="232.0" y="84.0">
+			<title>2026-03-24: 1 - Gym</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="232.0" y="99.0">
+			<title>2026-03-25: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="232.0" y="114.0">
+			<title>2026-03-26: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-1" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="232.0" y="129.0">
+			<title>2026-03-27: 1 - Gym</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="232.0" y="144.0">
+			<title>2026-03-28: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="247.0" y="54.0">
+			<title>2026-03-29: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="247.0" y="69.0">
+			<title>2026-03-30: 0</title>
+		</rect>
+		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="247.0" y="84.0">
+			<title>2026-03-31: 0</title>
+		</rect>
+		<rect class="heatmap-cell-out-of-range" height="12.0" rx="2" stroke="var(--svgplot-heatmap-background)" stroke-width="1" width="12.0" x="247.0" y="99.0">
+			<title>2026-04-01: out of range</title>
+		</rect>
+		<rect class="heatmap-cell-out-of-range" height="12.0" rx="2" stroke="var(--svgplot-heatmap-background)" stroke-width="1" width="12.0" x="247.0" y="114.0">
+			<title>2026-04-02: out of range</title>
+		</rect>
+		<rect class="heatmap-cell-out-of-range" height="12.0" rx="2" stroke="var(--svgplot-heatmap-background)" stroke-width="1" width="12.0" x="247.0" y="129.0">
+			<title>2026-04-03: out of range</title>
+		</rect>
+		<rect class="heatmap-cell-out-of-range" height="12.0" rx="2" stroke="var(--svgplot-heatmap-background)" stroke-width="1" width="12.0" x="247.0" y="144.0">
+			<title>2026-04-04: out of range</title>
+		</rect>
+	</svg>
+	<text class="heatmap-title" font-size="20" font-weight="700" text-anchor="middle" transform="translate(118.2 -26.0)" x="0.0" y="0.0">Exercise Log - Attendance</text>
 </svg>
