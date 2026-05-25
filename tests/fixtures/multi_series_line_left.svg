@@ -1,4 +1,4 @@
-<svg aria-label="Exercise Log - Working Weight" role="img" viewBox="-9.2 -50.0 751.5 456.8" xmlns="http://www.w3.org/2000/svg">
+<svg aria-label="Training - Working Weight" role="img" viewBox="-96.9 -50.0 839.2 428.0" xmlns="http://www.w3.org/2000/svg">
 	<style type="text/css">
 		<![CDATA[
 			.legend-label {
@@ -23,15 +23,6 @@
 				--svgplot-color: #dc2626;
 			}
 			.svgplot-color-2 {
-				--svgplot-color: #059669;
-			}
-			.svgplot-legend-color-0 {
-				--svgplot-color: #2563eb;
-			}
-			.svgplot-legend-color-1 {
-				--svgplot-color: #dc2626;
-			}
-			.svgplot-legend-color-2 {
 				--svgplot-color: #059669;
 			}
 			:root {
@@ -126,12 +117,12 @@
 			<use class="line-marker svgplot-color-2" height="6.4" href="#svgplot-line-marker" width="6.4" x="557.5" y="143.8" />
 			<use class="line-marker svgplot-color-2" height="6.4" href="#svgplot-line-marker" width="6.4" x="716.1" y="119.0" />
 		</svg>
-		<line class="legend-line svgplot-legend-color-0" stroke="var(--svgplot-color)" stroke-linecap="round" stroke-width="2.4" x1="0.0" x2="12.0" y1="389.0" y2="389.0" />
-		<text class="legend-label" font-size="12" text-anchor="start" x="22.0" y="394.0">Squat</text>
-		<line class="legend-line svgplot-legend-color-1" stroke="var(--svgplot-color)" stroke-linecap="round" stroke-width="2.4" x1="74.8" x2="86.8" y1="389.0" y2="389.0" />
-		<text class="legend-label" font-size="12" text-anchor="start" x="96.8" y="394.0">Bench</text>
-		<line class="legend-line svgplot-legend-color-2" stroke="var(--svgplot-color)" stroke-linecap="round" stroke-width="2.4" x1="149.6" x2="161.6" y1="389.0" y2="389.0" />
-		<text class="legend-label" font-size="12" text-anchor="start" x="171.6" y="394.0">Deadlift</text>
+		<line class="legend-line svgplot-color-0" stroke="var(--svgplot-color)" stroke-linecap="round" stroke-width="2.4" x1="-87.7" x2="-75.7" y1="9.0" y2="9.0" />
+		<text class="legend-label" font-size="12" text-anchor="start" x="-65.7" y="14.0">Squat</text>
+		<line class="legend-line svgplot-color-1" stroke="var(--svgplot-color)" stroke-linecap="round" stroke-width="2.4" x1="-87.7" x2="-75.7" y1="27.0" y2="27.0" />
+		<text class="legend-label" font-size="12" text-anchor="start" x="-65.7" y="32.0">Bench</text>
+		<line class="legend-line svgplot-color-2" stroke="var(--svgplot-color)" stroke-linecap="round" stroke-width="2.4" x1="-87.7" x2="-75.7" y1="45.0" y2="45.0" />
+		<text class="legend-label" font-size="12" text-anchor="start" x="-65.7" y="50.0">Deadlift</text>
 	</g>
-	<text class="chart-title" font-size="20" font-weight="700" text-anchor="middle" transform="translate(367.1 -26.0)" x="0.0" y="0.0">Exercise Log - Working Weight</text>
+	<text class="chart-title" font-size="20" font-weight="700" text-anchor="middle" transform="translate(323.3 -26.0)" x="0.0" y="0.0">Training - Working Weight</text>
 </svg>

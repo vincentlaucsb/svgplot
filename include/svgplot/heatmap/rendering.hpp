@@ -182,24 +182,26 @@ inline void add_calendar_heatmap_title(SVG::SVG& root,
 }
 
 inline void add_calendar_heatmap_legend(SVG::SVG& root,
+                                        CssColorRegistry& colors,
                                         const std::vector<LegendItem>& legend_items,
                                         const LegendLayout& legend_layout,
                                         const LegendOptions& options,
                                         const SVG::SVG& plot) {
     const auto layout = calendar_heatmap_viewport_layout(plot);
     const auto legend_place = place_legend(layout, legend_layout, options, 0.0);
-    add_legend(root, legend_items, options, legend_place.x, legend_place.y,
+    add_legend(root, root, colors, legend_items, options, legend_place.x, legend_place.y,
                legend_place.max_width);
 }
 
 inline void finish_calendar_heatmap_root(SVG::SVG& root,
                                          SVG::SVG& plot,
+                                         CssColorRegistry& colors,
                                          const HeatmapOptions& options,
                                          const std::vector<LegendItem>& legend_items,
                                          const LegendLayout& legend_layout) {
     autoscale_calendar_heatmap_plot(plot);
     add_calendar_heatmap_title(root, options, plot);
-    add_calendar_heatmap_legend(root, legend_items, legend_layout, options.legend, plot);
+    add_calendar_heatmap_legend(root, colors, legend_items, legend_layout, options.legend, plot);
     root.responsive_autoscale(SVG::AutoscaleOptions({8, 8, 8, 8}, false));
 }
 

@@ -22,15 +22,6 @@
 			.svgplot-color-2 {
 				--svgplot-color: #059669;
 			}
-			.svgplot-legend-color-0 {
-				--svgplot-color: #2563eb;
-			}
-			.svgplot-legend-color-1 {
-				--svgplot-color: #dc2626;
-			}
-			.svgplot-legend-color-2 {
-				--svgplot-color: #059669;
-			}
 			:root {
 				--svgplot-axis: #374151;
 				--svgplot-background: #ffffff;
@@ -101,11 +92,11 @@
 			<rect class="bar bar-segment svgplot-color-2" height="49.6" width="105.6" x="596.7" y="91.2" />
 			<text class="bar-label" font-size="11" text-anchor="middle" x="649.5" y="384.0">W4</text>
 		</svg>
-		<rect class="legend-marker svgplot-legend-color-0" height="8.4" stroke="none" width="12.0" x="735.0" y="4.8" />
+		<rect class="legend-marker svgplot-color-0" height="8.4" stroke="none" width="12.0" x="735.0" y="4.8" />
 		<text class="legend-label" font-size="12" text-anchor="start" x="757.0" y="14.0">Squat</text>
-		<rect class="legend-marker svgplot-legend-color-1" height="8.4" stroke="none" width="12.0" x="735.0" y="22.8" />
+		<rect class="legend-marker svgplot-color-1" height="8.4" stroke="none" width="12.0" x="735.0" y="22.8" />
 		<text class="legend-label" font-size="12" text-anchor="start" x="757.0" y="32.0">Bench</text>
-		<rect class="legend-marker svgplot-legend-color-2" height="8.4" stroke="none" width="12.0" x="735.0" y="40.8" />
+		<rect class="legend-marker svgplot-color-2" height="8.4" stroke="none" width="12.0" x="735.0" y="40.8" />
 		<text class="legend-label" font-size="12" text-anchor="start" x="757.0" y="50.0">Deadlift</text>
 	</g>
 	<text class="chart-title" font-size="20" font-weight="700" text-anchor="middle" transform="translate(406.3 -26.0)" x="0.0" y="0.0">Training - Weekly Sets</text>

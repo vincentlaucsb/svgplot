@@ -4,20 +4,36 @@ import { pathToFileURL } from "node:url";
 
 const charts = [
   {
-    name: "line-chart",
-    file: "tests/fixtures/exercise_log_line.svg",
+    name: "multi-series-line-legend-top",
+    file: "tests/fixtures/multi_series_line_top.svg",
+    width: 752,
+    height: 456,
+    responsive: true,
+    viewBox: "-9.2 -78.0 751.5 456.0",
+  },
+  {
+    name: "multi-series-line-legend-right",
+    file: "tests/fixtures/multi_series_line_right.svg",
+    width: 840,
+    height: 428,
+    responsive: true,
+    viewBox: "-8.0 -50.0 839.9 428.0",
+  },
+  {
+    name: "multi-series-line-legend-bottom",
+    file: "tests/fixtures/multi_series_line_bottom.svg",
     width: 752,
     height: 457,
     responsive: true,
     viewBox: "-9.2 -50.0 751.5 456.8",
   },
   {
-    name: "multi-series-line",
-    file: "tests/fixtures/multi_series_line.svg",
+    name: "multi-series-line-legend-left",
+    file: "tests/fixtures/multi_series_line_left.svg",
     width: 840,
     height: 428,
     responsive: true,
-    viewBox: "-8.0 -50.0 839.9 428.0",
+    viewBox: "-96.9 -50.0 839.2 428.0",
   },
   {
     name: "volume-chart",

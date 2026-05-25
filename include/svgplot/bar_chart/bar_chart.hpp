@@ -31,24 +31,24 @@ public:
     BarChart& bar(std::string label,
                   double value,
                   std::string color = detail::palette::bar_default()) {
-        if (!stacks_.empty()) {
-            throw std::invalid_argument("bar chart cannot mix simple and stacked bars");
+        if (!stacks_.empty() || !groups_.empty()) {
+            throw std::invalid_argument("bar chart cannot mix simple, stacked, and grouped bars");
         }
         bars_.push_back({std::move(label), value, std::move(color)});
         return *this;
     }
 
     BarChart& bar(Bar bar) {
-        if (!stacks_.empty()) {
-            throw std::invalid_argument("bar chart cannot mix simple and stacked bars");
+        if (!stacks_.empty() || !groups_.empty()) {
+            throw std::invalid_argument("bar chart cannot mix simple, stacked, and grouped bars");
         }
         bars_.push_back(std::move(bar));
         return *this;
     }
 
     BarChart& stacked_bar(std::string label, std::vector<BarSegment> segments) {
-        if (!bars_.empty()) {
-            throw std::invalid_argument("bar chart cannot mix simple and stacked bars");
+        if (!bars_.empty() || !groups_.empty()) {
+            throw std::invalid_argument("bar chart cannot mix simple, stacked, and grouped bars");
         }
         stacks_.push_back({std::move(label), std::move(segments)});
         return *this;
@@ -58,7 +58,22 @@ public:
         return stacked_bar(std::move(label), std::vector<BarSegment>(segments));
     }
 
+    BarChart& grouped_bar(std::string label, std::vector<BarSegment> segments) {
+        if (!bars_.empty() || !stacks_.empty()) {
+            throw std::invalid_argument("bar chart cannot mix simple, stacked, and grouped bars");
+        }
+        groups_.push_back({std::move(label), std::move(segments)});
+        return *this;
+    }
+
+    BarChart& grouped_bar(std::string label, std::initializer_list<BarSegment> segments) {
+        return grouped_bar(std::move(label), std::vector<BarSegment>(segments));
+    }
+
     [[nodiscard]] Chart render(ChartOptions options = {}) const {
+        if (!groups_.empty()) {
+            return render_grouped(std::move(options));
+        }
         if (!stacks_.empty()) {
             return render_stacked(std::move(options));
         }
@@ -119,8 +134,8 @@ public:
         detail::autoscale_svg_region(plot);
         const auto legend_place = detail::place_legend(
             detail::svg_region_layout(plot), legend_layout, options.legend, 0.0);
-        detail::add_legend(frame, root, legend_items, options.legend, legend_place.x, legend_place.y,
-                           legend_place.max_width);
+        detail::add_legend(frame, root, colors, legend_items, options.legend,
+                           legend_place.x, legend_place.y, legend_place.max_width);
         frame.layout_bbox(plot.layout_bbox() + detail::legend_bbox(legend_layout, legend_place));
         detail::add_chart_title(root, options, frame);
         root.responsive_autoscale(SVG::AutoscaleOptions({8, 8, 8, 8}, false));
@@ -129,10 +144,72 @@ public:
     }
 
 private:
-    struct StackedBar {
+    struct SegmentedBar {
         std::string label;
         std::vector<BarSegment> segments;
     };
+
+    static std::vector<LegendItem> segment_legend_items(const std::vector<SegmentedBar>& bars) {
+        std::vector<LegendItem> legend_items;
+        std::set<std::string> seen_series;
+        for (const auto& bar : bars) {
+            for (const auto& segment : bar.segments) {
+                if (segment.label.empty()) {
+                    continue;
+                }
+                if (seen_series.insert(segment.label).second) {
+                    legend_items.push_back({segment.label, segment.color, "", LegendMarker::Bar});
+                }
+            }
+        }
+        if (legend_items.size() <= 1) {
+            legend_items.clear();
+        }
+        return legend_items;
+    }
+
+    static std::vector<std::string> segment_series_order(const std::vector<SegmentedBar>& bars) {
+        std::vector<std::string> labels;
+        std::set<std::string> seen;
+        for (const auto& bar : bars) {
+            for (const auto& segment : bar.segments) {
+                if (segment.label.empty()) {
+                    continue;
+                }
+                if (seen.insert(segment.label).second) {
+                    labels.push_back(segment.label);
+                }
+            }
+        }
+        return labels;
+    }
+
+    static bool all_segments_labeled(const std::vector<SegmentedBar>& bars) {
+        for (const auto& bar : bars) {
+            for (const auto& segment : bar.segments) {
+                if (segment.label.empty()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    static const BarSegment* grouped_segment_at(const SegmentedBar& bar,
+                                                std::size_t index,
+                                                const std::vector<std::string>& series_order,
+                                                bool align_by_label) {
+        if (!align_by_label) {
+            return index < bar.segments.size() ? &bar.segments[index] : nullptr;
+        }
+
+        for (const auto& segment : bar.segments) {
+            if (segment.label == series_order[index]) {
+                return &segment;
+            }
+        }
+        return nullptr;
+    }
 
     [[nodiscard]] Chart render_stacked(ChartOptions options) const {
         SVG::SVG root(SVG::SVGAttrib{{"xmlns", "http://www.w3.org/2000/svg"}});
@@ -145,21 +222,7 @@ private:
         auto& plot = *frame.add_child<SVG::SVG>(SVG::SVGAttrib{{"x", "0"}, {"y", "0"}});
         detail::add_axis_labels(plot, options);
 
-        std::vector<LegendItem> legend_items;
-        std::set<std::string> seen_series;
-        for (const auto& stack : stacks_) {
-            for (const auto& segment : stack.segments) {
-                if (segment.label.empty()) {
-                    continue;
-                }
-                if (seen_series.insert(segment.label).second) {
-                    legend_items.push_back({segment.label, segment.color, "", LegendMarker::Bar});
-                }
-            }
-        }
-        if (legend_items.size() <= 1) {
-            legend_items.clear();
-        }
+        const auto legend_items = segment_legend_items(stacks_);
         const auto layout = detail::chart_layout(options);
         const auto legend_layout = detail::measure_legend(legend_items, options.legend);
 
@@ -222,8 +285,107 @@ private:
         detail::autoscale_svg_region(plot);
         const auto legend_place = detail::place_legend(
             detail::svg_region_layout(plot), legend_layout, options.legend, 0.0);
-        detail::add_legend(frame, root, legend_items, options.legend, legend_place.x, legend_place.y,
-                           legend_place.max_width);
+        detail::add_legend(frame, root, colors, legend_items, options.legend,
+                           legend_place.x, legend_place.y, legend_place.max_width);
+        frame.layout_bbox(plot.layout_bbox() + detail::legend_bbox(legend_layout, legend_place));
+        detail::add_chart_title(root, options, frame);
+        root.responsive_autoscale(SVG::AutoscaleOptions({8, 8, 8, 8}, false));
+
+        return Chart(std::move(root));
+    }
+
+    [[nodiscard]] Chart render_grouped(ChartOptions options) const {
+        SVG::SVG root(SVG::SVGAttrib{{"xmlns", "http://www.w3.org/2000/svg"}});
+
+        detail::add_common_styles(root);
+        detail::add_bar_chart_styles(root);
+        detail::add_responsive_chart_root_attrs(root, options, "Bar chart");
+
+        auto& frame = *root.add_child<SVG::Group>();
+        auto& plot = *frame.add_child<SVG::SVG>(SVG::SVGAttrib{{"x", "0"}, {"y", "0"}});
+        detail::add_axis_labels(plot, options);
+
+        const auto legend_items = segment_legend_items(groups_);
+        const auto series_order = segment_series_order(groups_);
+        const auto align_by_label = !series_order.empty() && all_segments_labeled(groups_);
+        std::size_t bars_per_group = align_by_label ? series_order.size() : 0;
+        if (!align_by_label) {
+            for (const auto& group : groups_) {
+                bars_per_group = std::max(bars_per_group, group.segments.size());
+            }
+        }
+        bars_per_group = std::max<std::size_t>(1, bars_per_group);
+
+        const auto layout = detail::chart_layout(options);
+        const auto legend_layout = detail::measure_legend(legend_items, options.legend);
+
+        double y_max = 0.0;
+        bool integral_values = true;
+        for (const auto& group : groups_) {
+            for (const auto& segment : group.segments) {
+                if (!detail::integral_value(segment.value)) {
+                    integral_values = false;
+                }
+                y_max = std::max(y_max, std::max(0.0, segment.value));
+            }
+        }
+        y_max *= 1.1;
+
+        const auto y_tick_mode = detail::resolve_tick_mode(options.y_tick_mode, integral_values);
+        const Bounds y_domain{0.0, y_max == 0.0 ? 1.0 : y_max};
+        const auto axis_y_domain = y_tick_mode == TickMode::Integer
+            ? LinearScale::nice_integer_domain(y_domain, options.y_ticks)
+            : y_domain;
+        const LinearScale y_scale(axis_y_domain, {layout.plot_bottom, layout.plot_top});
+        detail::add_axes(plot, options, layout,
+                         LinearScale({0.0, static_cast<double>(groups_.size()) - 1.0},
+                                     {layout.plot_left, layout.plot_right}),
+                         y_scale, y_tick_mode, false);
+
+        const auto plot_width = layout.plot_right - layout.plot_left;
+        const auto slot = plot_width / static_cast<double>(groups_.size());
+        const auto group_width = slot * 0.72;
+        const auto bar_gap = bars_per_group > 1
+            ? group_width * 0.08 / static_cast<double>(bars_per_group - 1)
+            : 0.0;
+        const auto bar_width = (group_width - bar_gap * static_cast<double>(bars_per_group - 1)) /
+                               static_cast<double>(bars_per_group);
+        const auto baseline = y_scale.map(0.0);
+
+        detail::CssColorRegistry colors(detail::core_css_vars(root));
+        for (std::size_t i = 0; i < groups_.size(); ++i) {
+            const auto group_left = layout.plot_left + slot * static_cast<double>(i) +
+                                    (slot - group_width) / 2.0;
+            for (std::size_t j = 0; j < bars_per_group; ++j) {
+                const auto* segment = grouped_segment_at(groups_[i], j, series_order, align_by_label);
+                if (segment == nullptr) {
+                    continue;
+                }
+
+                const auto value = std::max(0.0, segment->value);
+                if (value == 0.0) {
+                    continue;
+                }
+
+                const auto left = group_left + static_cast<double>(j) * (bar_width + bar_gap);
+                const auto top = y_scale.map(value);
+                const auto color_class = colors.class_for(root, segment->color);
+                auto* rect = plot.add_child<SVG::Rect>(left, top, bar_width, baseline - top);
+                rect->class_list().add("bar").add("bar-grouped").add(color_class);
+            }
+
+            auto* label = plot.add_child<SVG::Text>(layout.plot_left + slot * (static_cast<double>(i) + 0.5),
+                                                    baseline + 20.0,
+                                                    groups_[i].label);
+            detail::style_text(label, 11.0);
+            label->set_attr("class", "bar-label");
+        }
+
+        detail::autoscale_svg_region(plot);
+        const auto legend_place = detail::place_legend(
+            detail::svg_region_layout(plot), legend_layout, options.legend, 0.0);
+        detail::add_legend(frame, root, colors, legend_items, options.legend,
+                           legend_place.x, legend_place.y, legend_place.max_width);
         frame.layout_bbox(plot.layout_bbox() + detail::legend_bbox(legend_layout, legend_place));
         detail::add_chart_title(root, options, frame);
         root.responsive_autoscale(SVG::AutoscaleOptions({8, 8, 8, 8}, false));
@@ -232,7 +394,8 @@ private:
     }
 
     std::vector<Bar> bars_;
-    std::vector<StackedBar> stacks_;
+    std::vector<SegmentedBar> stacks_;
+    std::vector<SegmentedBar> groups_;
 };
 
 inline Chart bar_chart(const std::vector<Bar>& bars, ChartOptions options = {}) {

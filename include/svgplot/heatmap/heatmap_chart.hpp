@@ -207,7 +207,7 @@ inline Chart heatmap_chart(const std::vector<HeatmapCell>& cells, HeatmapOptions
         }
     }
 
-    detail::finish_calendar_heatmap_root(root, plot, options, legend_items, legend_layout);
+    detail::finish_calendar_heatmap_root(root, plot, colors, options, legend_items, legend_layout);
 
     return Chart(std::move(root));
 }

@@ -110,8 +110,8 @@ public:
         detail::autoscale_svg_region(plot);
         const auto legend_place = detail::place_legend(
             detail::svg_region_layout(plot), legend_layout, options.legend, 0.0);
-        detail::add_legend(frame, root, legend_items, options.legend, legend_place.x, legend_place.y,
-                           legend_place.max_width);
+        detail::add_legend(frame, root, colors, legend_items, options.legend,
+                           legend_place.x, legend_place.y, legend_place.max_width);
         frame.layout_bbox(plot.layout_bbox() + detail::legend_bbox(legend_layout, legend_place));
         detail::add_chart_title(root, options, frame);
         root.responsive_autoscale(SVG::AutoscaleOptions({8, 8, 8, 8}, false));

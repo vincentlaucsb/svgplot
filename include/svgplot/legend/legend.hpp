@@ -186,6 +186,7 @@ inline void add_legend_marker(SVG::Element& container,
 
 inline void add_legend(SVG::Element& container,
                        SVG::SVG& root,
+                       CssColorRegistry& colors,
                        const std::vector<LegendItem>& items,
                        const LegendOptions& options,
                        double x,
@@ -202,7 +203,6 @@ inline void add_legend(SVG::Element& container,
     root.style(".legend-label").set_attr("fill", vars.var(CoreCssVar::Text));
     root.style(".legend-title").set_attr("fill", vars.var(CoreCssVar::Text));
 
-    CssColorRegistry colors(vars, "svgplot-legend-color-");
     const auto row_height = std::max(options.marker_size, options.font_size) + 6.0;
     auto cursor_x = x;
     auto cursor_y = y;
@@ -252,7 +252,8 @@ inline void add_legend(SVG::SVG& root,
                        double x,
                        double y,
                        double max_width) {
-    add_legend(root, root, items, options, x, y, max_width);
+    CssColorRegistry colors(core_css_vars(root));
+    add_legend(root, root, colors, items, options, x, y, max_width);
 }
 
 } // namespace svgplot::detail

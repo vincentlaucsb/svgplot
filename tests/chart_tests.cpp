@@ -85,7 +85,8 @@ TEST_CASE("Line chart renders a series legend") {
     CHECK(svg.find(">Squat</text>") != std::string::npos);
     CHECK(svg.find(">Bench</text>") != std::string::npos);
     CHECK(svg.find(">#abcdef</text>") == std::string::npos);
-    CHECK(svg.find("class=\"legend-line svgplot-legend-color-") != std::string::npos);
+    CHECK(svg.find("class=\"legend-line svgplot-color-") != std::string::npos);
+    CHECK(svg.find("svgplot-legend-color") == std::string::npos);
 }
 
 TEST_CASE("LineChart builder renders a single series") {
@@ -98,7 +99,7 @@ TEST_CASE("LineChart builder renders a single series") {
     CHECK(svg.find("class=\"line-marker svgplot-color-") != std::string::npos);
     CHECK(svg.find("<use class=\"line-marker svgplot-color-") != std::string::npos);
     CHECK(svg.find(">Squat</text>") == std::string::npos);
-    CHECK(svg.find("class=\"legend-line svgplot-legend-color-") == std::string::npos);
+    CHECK(svg.find("class=\"legend-line svgplot-color-") == std::string::npos);
 }
 
 TEST_CASE("LineChart builder renders multiple series and legend entries") {
@@ -115,7 +116,7 @@ TEST_CASE("LineChart builder renders multiple series and legend entries") {
     const auto svg = chart.str();
     CHECK(svg.find(">Squat</text>") != std::string::npos);
     CHECK(svg.find(">Deadlift</text>") != std::string::npos);
-    CHECK(svg.find("class=\"legend-line svgplot-legend-color-") != std::string::npos);
+    CHECK(svg.find("class=\"legend-line svgplot-color-") != std::string::npos);
 }
 
 TEST_CASE("Line chart free function remains a builder compatibility wrapper") {
@@ -200,7 +201,7 @@ TEST_CASE("BarChart builder renders simple bars") {
     CHECK(svg.find("class=\"bar-label\"") != std::string::npos);
     CHECK(svg.find(">W1</text>") != std::string::npos);
     CHECK(svg.find(">W2</text>") != std::string::npos);
-    CHECK(svg.find("class=\"legend-marker svgplot-legend-color-") == std::string::npos);
+    CHECK(svg.find("class=\"legend-marker svgplot-color-") == std::string::npos);
 }
 
 TEST_CASE("Bar chart free function remains a builder compatibility wrapper") {
@@ -234,7 +235,32 @@ TEST_CASE("BarChart builder renders stacked bars") {
 
     const auto svg = chart.str();
     CHECK(svg.find("class=\"bar bar-segment svgplot-color-") != std::string::npos);
-    CHECK(svg.find("class=\"legend-marker svgplot-legend-color-") != std::string::npos);
+    CHECK(svg.find("class=\"legend-marker svgplot-color-") != std::string::npos);
+    CHECK(svg.find(">W1</text>") != std::string::npos);
+    CHECK(svg.find(">W2</text>") != std::string::npos);
+    CHECK(svg.find(">Squat</text>") != std::string::npos);
+    CHECK(svg.find(">Bench</text>") != std::string::npos);
+}
+
+TEST_CASE("BarChart builder renders grouped bars") {
+    svgplot::ChartOptions options;
+    options.legend.position = svgplot::LegendPosition::Right;
+
+    const auto chart = svgplot::BarChart()
+        .grouped_bar("W1", {
+            {"Squat", 8.0, "#2563eb"},
+            {"Bench", 6.0, "#dc2626"},
+        })
+        .grouped_bar("W2", {
+            {"Squat", 9.0, "#2563eb"},
+            {"Bench", 7.0, "#dc2626"},
+        })
+        .render(options);
+
+    const auto svg = chart.str();
+    CHECK(svg.find("class=\"bar bar-grouped svgplot-color-") != std::string::npos);
+    CHECK(svg.find("class=\"bar bar-segment svgplot-color-") == std::string::npos);
+    CHECK(svg.find("class=\"legend-marker svgplot-color-") != std::string::npos);
     CHECK(svg.find(">W1</text>") != std::string::npos);
     CHECK(svg.find(">W2</text>") != std::string::npos);
     CHECK(svg.find(">Squat</text>") != std::string::npos);
@@ -252,7 +278,7 @@ TEST_CASE("Bar chart suppresses legends for simple single-value bars") {
     }, options);
 
     const auto svg = chart.str();
-    CHECK(svg.find("class=\"legend-marker svgplot-legend-color-") == std::string::npos);
+    CHECK(svg.find("class=\"legend-marker svgplot-color-") == std::string::npos);
     CHECK(svg.find("class=\"legend-label\"") == std::string::npos);
     CHECK(svg.find(">Gym</text>") != std::string::npos);
 }
@@ -269,7 +295,23 @@ TEST_CASE("BarChart builder suppresses stacked bar legend for one segment series
 
     const auto svg = chart.str();
     CHECK(svg.find("class=\"bar bar-segment svgplot-color-") != std::string::npos);
-    CHECK(svg.find("class=\"legend-marker svgplot-legend-color-") == std::string::npos);
+    CHECK(svg.find("class=\"legend-marker svgplot-color-") == std::string::npos);
+    CHECK(svg.find("class=\"legend-label\"") == std::string::npos);
+}
+
+TEST_CASE("BarChart builder suppresses grouped bar legend for one segment series") {
+    const auto chart = svgplot::BarChart()
+        .grouped_bar("W1", {
+            {"Sets", 8.0, "#2563eb"},
+        })
+        .grouped_bar("W2", {
+            {"Sets", 9.0, "#2563eb"},
+        })
+        .render();
+
+    const auto svg = chart.str();
+    CHECK(svg.find("class=\"bar bar-grouped svgplot-color-") != std::string::npos);
+    CHECK(svg.find("class=\"legend-marker svgplot-color-") == std::string::npos);
     CHECK(svg.find("class=\"legend-label\"") == std::string::npos);
 }
 

@@ -28,12 +28,6 @@
 			.legend-title {
 				fill: var(--svgplot-text);
 			}
-			.svgplot-legend-color-0 {
-				--svgplot-color: #2563eb;
-			}
-			.svgplot-legend-color-1 {
-				--svgplot-color: #f97316;
-			}
 			:root {
 				--svgplot-axis: #30363d;
 				--svgplot-background: #ffffff;
@@ -334,8 +328,8 @@
 		</rect>
 	</svg>
 	<text class="heatmap-title" font-size="20" font-weight="700" text-anchor="middle" transform="translate(72.9 -26.0)" x="0.0" y="0.0">Training - Gym and MTB</text>
-	<rect class="legend-marker svgplot-legend-color-0" height="12.0" stroke="none" width="12.0" x="0.0" y="211.5" />
+	<rect class="legend-marker svgplot-color-1" height="12.0" stroke="none" width="12.0" x="0.0" y="211.5" />
 	<text class="legend-label" font-size="12" text-anchor="start" x="22.0" y="222.5">Gym</text>
-	<rect class="legend-marker svgplot-legend-color-1" height="12.0" stroke="none" width="12.0" x="60.9" y="211.5" />
+	<rect class="legend-marker svgplot-color-2" height="12.0" stroke="none" width="12.0" x="60.9" y="211.5" />
 	<text class="legend-label" font-size="12" text-anchor="start" x="82.9" y="222.5">MTB</text>
 </svg>
