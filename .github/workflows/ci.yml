@@ -6,19 +6,13 @@ on:
   pull_request:
 
 jobs:
-  test:
-    name: Unit and visual tests
+  cpp-tests:
+    name: C++ tests
     runs-on: windows-latest
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
 
       - name: Configure CMake
         run: cmake -S . -B out/build/x64-Release -A x64
@@ -77,6 +71,20 @@ jobs:
       - name: Build single-header smoke test
         run: cmake --build out/build/single-header-smoke --config Release --parallel
 
+  visual-tests:
+    name: Visual snapshot tests
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
       - name: Install Node dependencies
         run: npm ci
 
@@ -90,8 +98,47 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-artifacts
+          name: visual-snapshot-artifacts
           path: |
             playwright-report/
             test-results/
           if-no-files-found: ignore
+
+  coverage:
+    name: Code coverage
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install coverage tooling
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes lcov
+
+      - name: Configure CMake with coverage
+        run: >
+          cmake -S . -B out/build/coverage
+          -DCMAKE_BUILD_TYPE=Debug
+          -DSVGPLOT_ENABLE_COVERAGE=ON
+
+      - name: Build C++ tests
+        run: cmake --build out/build/coverage --target svgplot_tests --parallel
+
+      - name: Run C++ unit tests
+        run: ctest --test-dir out/build/coverage --output-on-failure
+
+      - name: Capture coverage report
+        run: |
+          lcov --capture --directory out/build/coverage --output-file coverage.raw.info
+          lcov --extract coverage.raw.info "${{ github.workspace }}/include/svgplot/*" --output-file coverage.info
+          rm coverage.raw.info
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          files: coverage.info
+          disable_search: true
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true

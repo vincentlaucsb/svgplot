@@ -26,7 +26,7 @@ class LineChart {
 public:
     LineChart& series(std::string label,
                       std::vector<Point> points,
-                      std::string color = detail::palette::line_default()) {
+                      std::string color = {}) {
         series_.push_back({std::move(label), std::move(points), std::move(color)});
         return *this;
     }
@@ -48,9 +48,15 @@ public:
         detail::add_axis_labels(plot, options);
 
         std::vector<LegendItem> legend_items;
-        for (const auto& s : series_) {
+        for (std::size_t i = 0; i < series_.size(); ++i) {
+            const auto& s = series_[i];
             if (!s.label.empty()) {
-                legend_items.push_back({s.label, s.color, "", LegendMarker::Line});
+                legend_items.push_back({
+                    s.label,
+                    detail::palette::series_color(s.color, i),
+                    "",
+                    LegendMarker::Line,
+                });
             }
         }
         if (legend_items.size() <= 1) {
@@ -79,12 +85,13 @@ public:
         marker_symbol->add_child<SVG::Circle>(marker_radius, marker_radius, marker_radius);
 
         detail::CssColorRegistry colors(detail::core_css_vars(root));
-        for (const auto& s : series_) {
+        for (std::size_t i = 0; i < series_.size(); ++i) {
+            const auto& s = series_[i];
             if (s.points.empty()) {
                 continue;
             }
 
-            const auto color_class = colors.class_for(root, s.color);
+            const auto color_class = colors.class_for(root, detail::palette::series_color(s.color, i));
             auto* path = plot.add_child<SVG::Path>();
             path->set_attrs({
                 {"fill", "none"},

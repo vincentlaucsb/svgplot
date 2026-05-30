@@ -37,21 +37,33 @@ private:
 };
 
 class HeatmapGradientRegistry {
+private:
+    struct GradientDefinition {
+        std::vector<std::string> colors;
+        std::string id;
+    };
+
 public:
     explicit HeatmapGradientRegistry(SVG::SVG& root) : root_(root) {}
 
-    std::string solid_segments(const std::vector<std::string>& colors,
-                               CalendarHeatmapOrientation orientation) {
+    std::string solid_segments(const std::vector<std::string>& colors) {
+        const auto found = std::find_if(gradients_.begin(), gradients_.end(),
+                                        [&](const GradientDefinition& gradient) {
+                                            return gradient.colors == colors;
+                                        });
+        if (found != gradients_.end()) {
+            return fill_url(found->id);
+        }
+
         const auto id = "svgplot-heatmap-gradient-" + std::to_string(next_id_++);
-        const auto vertical = orientation == CalendarHeatmapOrientation::MonthsVertical;
         auto* gradient = root_.defs()->add_child<SvgTagElement>(
             "linearGradient",
             SVG::SVGAttrib{
                 {"id", id},
                 {"x1", "0%"},
-                {"x2", vertical ? "0%" : "100%"},
+                {"x2", "100%"},
                 {"y1", "0%"},
-                {"y2", vertical ? "100%" : "0%"},
+                {"y2", "0%"},
             });
 
         for (std::size_t i = 0; i < colors.size(); ++i) {
@@ -65,12 +77,18 @@ public:
                 "stop", SVG::SVGAttrib{{"offset", end}, {"stop-color", colors[i]}});
         }
 
-        return "url(#" + id + ")";
+        gradients_.push_back({colors, id});
+        return fill_url(id);
     }
 
 private:
+    static std::string fill_url(const std::string& id) {
+        return "url(#" + id + ")";
+    }
+
     SVG::SVG& root_;
     std::size_t next_id_ = 0;
+    std::vector<GradientDefinition> gradients_;
 };
 
 inline void set_heatmap_cell_stroke(SVG::Rect* rect) {
@@ -97,7 +115,7 @@ inline SVG::Rect* add_multi_value_heatmap_cell(SVG::SVG& plot,
     auto* rect = plot.add_child<SVG::Rect>(x, y, options.cell_size, options.cell_size);
     rect->set_attrs({
         {"class", "heatmap-cell-multi-value"},
-        {"fill", gradients.solid_segments(colors, options.orientation)},
+        {"fill", gradients.solid_segments(colors)},
         {"rx", "2"},
     });
     set_heatmap_cell_stroke(rect);
