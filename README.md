@@ -1,4 +1,7 @@
 # svgplot
+[![CI](https://github.com/vincentlaucsb/svgplot/actions/workflows/ci.yml/badge.svg)](https://github.com/vincentlaucsb/svgplot/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/vincentlaucsb/svgplot/graph/badge.svg?token=FYS99KNV59)](https://codecov.io/gh/vincentlaucsb/svgplot)
+
 Simple SVG plots for C++
 
 ## Features
