@@ -1,6 +1,10 @@
 #pragma once
 
+#include "../palette.hpp"
 #include "svg_backend.hpp"
+
+#include <cstddef>
+#include <string>
 
 namespace svgplot::detail::palette {
 
@@ -37,11 +41,15 @@ inline SVG::Color text_dark() {
 }
 
 inline SVG::Color line_default() {
-    return SVG::Color::hex("#2563eb");
+    return SVG::Color::hex(default_series_color(0));
 }
 
 inline SVG::Color bar_default() {
-    return SVG::Color::hex("#059669");
+    return SVG::Color::hex(default_series_color(1));
+}
+
+inline std::string series_color(const std::string& color, std::size_t index) {
+    return color.empty() ? default_series_color(index) : color;
 }
 
 inline SVG::Color heatmap_background() {

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../core/palette.hpp"
-
 #include <string>
 
 namespace svgplot {
@@ -9,13 +7,13 @@ namespace svgplot {
 struct Bar {
     std::string label;
     double value{};
-    std::string color = detail::palette::bar_default();
+    std::string color;
 };
 
 struct BarSegment {
     std::string label;
     double value{};
-    std::string color = detail::palette::bar_default();
+    std::string color;
 };
 
 } // namespace svgplot

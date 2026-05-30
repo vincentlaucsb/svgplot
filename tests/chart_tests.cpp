@@ -8,6 +8,18 @@
 #include <string>
 #include <vector>
 
+TEST_CASE("Default series color palette is stable and wraps") {
+    CHECK(svgplot::default_series_color(0) == "#2563eb");
+    CHECK(svgplot::default_series_color(1) == "#059669");
+    CHECK(svgplot::default_series_color(2) == "#dc2626");
+    CHECK(svgplot::default_series_color(3) == "#7c3aed");
+    CHECK(svgplot::default_series_color(4) == "#ea580c");
+    CHECK(svgplot::default_series_color(5) == "#0891b2");
+    CHECK(svgplot::default_series_color(6) == "#be123c");
+    CHECK(svgplot::default_series_color(7) == "#4b5563");
+    CHECK(svgplot::default_series_color(8) == "#2563eb");
+}
+
 TEST_CASE("LinearScale maps numeric domain into SVG coordinate range") {
     const svgplot::LinearScale x_scale({0.0, 10.0}, {50.0, 250.0});
     CHECK(x_scale.map(0.0) == 50.0);
@@ -119,6 +131,19 @@ TEST_CASE("LineChart builder renders multiple series and legend entries") {
     CHECK(svg.find("class=\"legend-line svgplot-color-") != std::string::npos);
 }
 
+TEST_CASE("LineChart builder assigns default colors to omitted series colors") {
+    const auto chart = svgplot::LineChart()
+        .series("Squat", {{1.0, 185.0}, {2.0, 205.0}})
+        .series("Bench", {{1.0, 135.0}, {2.0, 145.0}})
+        .series("Deadlift", {{1.0, 225.0}, {2.0, 245.0}})
+        .render();
+
+    const auto svg = chart.str();
+    CHECK(svg.find("--svgplot-color: #2563eb;") != std::string::npos);
+    CHECK(svg.find("--svgplot-color: #059669;") != std::string::npos);
+    CHECK(svg.find("--svgplot-color: #dc2626;") != std::string::npos);
+}
+
 TEST_CASE("Line chart free function remains a builder compatibility wrapper") {
     const auto chart = svgplot::line_chart({
         {"Squat", {{1.0, 100.0}, {2.0, 115.0}}, "#123456"},
@@ -204,6 +229,17 @@ TEST_CASE("BarChart builder renders simple bars") {
     CHECK(svg.find("class=\"legend-marker svgplot-color-") == std::string::npos);
 }
 
+TEST_CASE("BarChart builder assigns default colors to omitted bar colors") {
+    const auto chart = svgplot::BarChart()
+        .bar("Gym", 4.0)
+        .bar("MTB", 2.0)
+        .render();
+
+    const auto svg = chart.str();
+    CHECK(svg.find("--svgplot-color: #2563eb;") != std::string::npos);
+    CHECK(svg.find("--svgplot-color: #059669;") != std::string::npos);
+}
+
 TEST_CASE("Bar chart free function remains a builder compatibility wrapper") {
     const auto chart = svgplot::bar_chart({
         {"W1", 40.0, "#111111"},
@@ -240,6 +276,28 @@ TEST_CASE("BarChart builder renders stacked bars") {
     CHECK(svg.find(">W2</text>") != std::string::npos);
     CHECK(svg.find(">Squat</text>") != std::string::npos);
     CHECK(svg.find(">Bench</text>") != std::string::npos);
+}
+
+TEST_CASE("BarChart builder assigns default colors to omitted segment colors by series") {
+    svgplot::ChartOptions options;
+    options.legend.position = svgplot::LegendPosition::Right;
+
+    const auto chart = svgplot::BarChart()
+        .stacked_bar("W1", {
+            {"Squat", 8.0},
+            {"Bench", 6.0},
+        })
+        .stacked_bar("W2", {
+            {"Squat", 9.0},
+            {"Bench", 7.0},
+        })
+        .render(options);
+
+    const auto svg = chart.str();
+    CHECK(svg.find(">Squat</text>") != std::string::npos);
+    CHECK(svg.find(">Bench</text>") != std::string::npos);
+    CHECK(svg.find("--svgplot-color: #2563eb;") != std::string::npos);
+    CHECK(svg.find("--svgplot-color: #059669;") != std::string::npos);
 }
 
 TEST_CASE("BarChart builder renders grouped bars") {
@@ -512,6 +570,26 @@ TEST_CASE("Heatmap builder renders categorical and multi-value days with a legen
     CHECK(svg.find("<title>2026-01-03: Gym + MTB - Brick</title>") != std::string::npos);
 }
 
+TEST_CASE("Heatmap builder assigns default colors to omitted category colors") {
+    svgplot::HeatmapOptions options;
+    options.start_date = svgplot::parse_date("2026-01-01");
+    options.end_date = svgplot::parse_date("2026-01-03");
+
+    const auto svg = svgplot::Heatmap()
+        .category("gym", "Gym")
+        .category("mtb", "MTB")
+        .add(svgplot::parse_date("2026-01-01"), "gym")
+        .add(svgplot::parse_date("2026-01-02"), "mtb")
+        .add(svgplot::parse_date("2026-01-03"), {"gym", "mtb"})
+        .render(options)
+        .str();
+
+    CHECK(svg.find("--svgplot-color: #2563eb;") != std::string::npos);
+    CHECK(svg.find("--svgplot-color: #059669;") != std::string::npos);
+    CHECK(svg.find("<stop offset=\"50.0%\" stop-color=\"#2563eb\"") != std::string::npos);
+    CHECK(svg.find("<stop offset=\"50.0%\" stop-color=\"#059669\"") != std::string::npos);
+}
+
 TEST_CASE("Heatmap builder orients multi-value cell segments") {
     svgplot::HeatmapOptions options;
     options.start_date = svgplot::parse_date("2026-01-01");
@@ -573,4 +651,25 @@ TEST_CASE("Heatmap chart renders categorical cells and legend") {
     CHECK(svg.find("class=\"heatmap-cell-multi-value\"") != std::string::npos);
     CHECK(svg.find("<linearGradient id=\"svgplot-heatmap-gradient-0\"") != std::string::npos);
     CHECK(svg.find("<title>2026-01-02: Gym + MTB - Brick</title>") != std::string::npos);
+}
+
+TEST_CASE("Heatmap chart assigns default colors to configured categories without colors") {
+    svgplot::HeatmapOptions options;
+    options.start_date = svgplot::parse_date("2026-01-01");
+    options.end_date = svgplot::parse_date("2026-01-02");
+    options.categories = {
+        {"gym", "Gym"},
+        {"mtb", "MTB"},
+    };
+
+    const auto chart = svgplot::heatmap_chart({
+        {svgplot::parse_date("2026-01-01"), 1.0, "", {"gym"}},
+        {svgplot::parse_date("2026-01-02"), 1.0, "", {"mtb"}},
+    }, options);
+
+    const auto svg = chart.str();
+    CHECK(svg.find("--svgplot-color: #2563eb;") != std::string::npos);
+    CHECK(svg.find("--svgplot-color: #059669;") != std::string::npos);
+    CHECK(svg.find(">Gym</text>") != std::string::npos);
+    CHECK(svg.find(">MTB</text>") != std::string::npos);
 }

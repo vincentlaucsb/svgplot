@@ -35,7 +35,7 @@ struct HeatmapEntry {
 
 class Heatmap {
 public:
-    Heatmap& category(std::string id, std::string label, std::string color) {
+    Heatmap& category(std::string id, std::string label, std::string color = {}) {
         if (id.empty()) {
             throw std::invalid_argument("heatmap category id cannot be empty");
         }
@@ -98,6 +98,9 @@ private:
             if (found == result.end()) {
                 result.push_back({category.id, category.label, category.color});
             }
+        }
+        for (std::size_t i = 0; i < result.size(); ++i) {
+            result[i].color = detail::palette::series_color(result[i].color, i);
         }
         return result;
     }

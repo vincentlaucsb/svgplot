@@ -4,6 +4,7 @@
 #include "../core/colors.hpp"
 #include "../core/format.hpp"
 #include "../core/layout.hpp"
+#include "../core/palette.hpp"
 #include "../core/styles.hpp"
 #include "../core/svg_backend.hpp"
 #include "../date.hpp"
@@ -83,7 +84,12 @@ inline Chart heatmap_chart(const std::vector<HeatmapCell>& cells, HeatmapOptions
     }
 
     std::map<std::string, HeatmapCategory> categories_by_id;
-    for (const auto& category : options.categories) {
+    std::vector<HeatmapCategory> visible_categories;
+    visible_categories.reserve(options.categories.size());
+    for (std::size_t i = 0; i < options.categories.size(); ++i) {
+        auto category = options.categories[i];
+        category.color = detail::palette::series_color(category.color, i);
+        visible_categories.push_back(category);
         categories_by_id[category.id] = category;
     }
 
@@ -107,7 +113,7 @@ inline Chart heatmap_chart(const std::vector<HeatmapCell>& cells, HeatmapOptions
     };
 
     std::vector<LegendItem> legend_items;
-    for (const auto& category : options.categories) {
+    for (const auto& category : visible_categories) {
         if (!category.label.empty()) {
             legend_items.push_back({category.label, category.color, "", LegendMarker::Square});
         }
@@ -130,7 +136,7 @@ inline Chart heatmap_chart(const std::vector<HeatmapCell>& cells, HeatmapOptions
 
     detail::CssColorRegistry colors(detail::core_css_vars(root));
     detail::HeatmapGradientRegistry gradients(root);
-    const auto categorical = !options.categories.empty();
+    const auto categorical = !visible_categories.empty();
     for (int week = 0; week < geometry.week_count; ++week) {
         for (unsigned weekday = 0; weekday < 7; ++weekday) {
             const Date current = geometry.first_visible +
