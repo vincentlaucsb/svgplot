@@ -30,7 +30,7 @@ class BarChart {
 public:
     BarChart& bar(std::string label,
                   double value,
-                  std::string color = detail::palette::bar_default()) {
+                  std::string color = {}) {
         if (!stacks_.empty() || !groups_.empty()) {
             throw std::invalid_argument("bar chart cannot mix simple, stacked, and grouped bars");
         }
@@ -122,7 +122,8 @@ public:
         for (std::size_t i = 0; i < bars_.size(); ++i) {
             const auto left = layout.plot_left + slot * static_cast<double>(i) + (slot - bar_width) / 2.0;
             const auto top = y_scale.map(std::max(0.0, bars_[i].value));
-            const auto color_class = colors.class_for(root, bars_[i].color);
+            const auto color_class = colors.class_for(
+                root, detail::palette::series_color(bars_[i].color, i));
             auto* rect = plot.add_child<SVG::Rect>(left, top, bar_width, baseline - top);
             rect->class_list().add("bar").add(color_class);
 
@@ -150,17 +151,12 @@ private:
     };
 
     static std::vector<LegendItem> segment_legend_items(const std::vector<SegmentedBar>& bars) {
+        const auto series_order = segment_series_order(bars);
+        const auto series_colors = segment_series_colors(bars, series_order);
         std::vector<LegendItem> legend_items;
-        std::set<std::string> seen_series;
-        for (const auto& bar : bars) {
-            for (const auto& segment : bar.segments) {
-                if (segment.label.empty()) {
-                    continue;
-                }
-                if (seen_series.insert(segment.label).second) {
-                    legend_items.push_back({segment.label, segment.color, "", LegendMarker::Bar});
-                }
-            }
+        legend_items.reserve(series_order.size());
+        for (std::size_t i = 0; i < series_order.size(); ++i) {
+            legend_items.push_back({series_order[i], series_colors[i], "", LegendMarker::Bar});
         }
         if (legend_items.size() <= 1) {
             legend_items.clear();
@@ -182,6 +178,42 @@ private:
             }
         }
         return labels;
+    }
+
+    static std::vector<std::string> segment_series_colors(const std::vector<SegmentedBar>& bars,
+                                                          const std::vector<std::string>& series_order) {
+        std::vector<std::string> colors;
+        colors.reserve(series_order.size());
+        for (std::size_t i = 0; i < series_order.size(); ++i) {
+            std::string color;
+            for (const auto& bar : bars) {
+                const auto found = std::find_if(bar.segments.begin(), bar.segments.end(),
+                                                [&](const BarSegment& segment) {
+                                                    return segment.label == series_order[i] &&
+                                                           !segment.color.empty();
+                                                });
+                if (found != bar.segments.end()) {
+                    color = found->color;
+                    break;
+                }
+            }
+            colors.push_back(detail::palette::series_color(color, i));
+        }
+        return colors;
+    }
+
+    static std::string segment_color(const BarSegment& segment,
+                                     std::size_t segment_index,
+                                     const std::vector<std::string>& series_order,
+                                     const std::vector<std::string>& series_colors) {
+        if (!segment.color.empty()) {
+            return segment.color;
+        }
+        const auto found = std::find(series_order.begin(), series_order.end(), segment.label);
+        if (found != series_order.end()) {
+            return series_colors[static_cast<std::size_t>(found - series_order.begin())];
+        }
+        return default_series_color(segment_index);
     }
 
     static bool all_segments_labeled(const std::vector<SegmentedBar>& bars) {
@@ -223,6 +255,8 @@ private:
         detail::add_axis_labels(plot, options);
 
         const auto legend_items = segment_legend_items(stacks_);
+        const auto series_order = segment_series_order(stacks_);
+        const auto series_colors = segment_series_colors(stacks_, series_order);
         const auto layout = detail::chart_layout(options);
         const auto legend_layout = detail::measure_legend(legend_items, options.legend);
 
@@ -260,7 +294,8 @@ private:
         for (std::size_t i = 0; i < stacks_.size(); ++i) {
             const auto left = layout.plot_left + slot * static_cast<double>(i) + (slot - bar_width) / 2.0;
             double cumulative = 0.0;
-            for (const auto& segment : stacks_[i].segments) {
+            for (std::size_t j = 0; j < stacks_[i].segments.size(); ++j) {
+                const auto& segment = stacks_[i].segments[j];
                 const auto value = std::max(0.0, segment.value);
                 if (value == 0.0) {
                     continue;
@@ -269,7 +304,8 @@ private:
                 const auto top_value = cumulative + value;
                 const auto top = y_scale.map(top_value);
                 const auto bottom = y_scale.map(cumulative);
-                const auto color_class = colors.class_for(root, segment.color);
+                const auto color_class = colors.class_for(
+                    root, segment_color(segment, j, series_order, series_colors));
                 auto* rect = plot.add_child<SVG::Rect>(left, top, bar_width, bottom - top);
                 rect->class_list().add("bar").add("bar-segment").add(color_class);
                 cumulative = top_value;
@@ -305,8 +341,9 @@ private:
         auto& plot = *frame.add_child<SVG::SVG>(SVG::SVGAttrib{{"x", "0"}, {"y", "0"}});
         detail::add_axis_labels(plot, options);
 
-        const auto legend_items = segment_legend_items(groups_);
         const auto series_order = segment_series_order(groups_);
+        const auto series_colors = segment_series_colors(groups_, series_order);
+        const auto legend_items = segment_legend_items(groups_);
         const auto align_by_label = !series_order.empty() && all_segments_labeled(groups_);
         std::size_t bars_per_group = align_by_label ? series_order.size() : 0;
         if (!align_by_label) {
@@ -369,7 +406,8 @@ private:
 
                 const auto left = group_left + static_cast<double>(j) * (bar_width + bar_gap);
                 const auto top = y_scale.map(value);
-                const auto color_class = colors.class_for(root, segment->color);
+                const auto color_class = colors.class_for(
+                    root, segment_color(*segment, j, series_order, series_colors));
                 auto* rect = plot.add_child<SVG::Rect>(left, top, bar_width, baseline - top);
                 rect->class_list().add("bar").add("bar-grouped").add(color_class);
             }
