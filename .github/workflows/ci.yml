@@ -113,19 +113,18 @@ jobs:
         run: >
           cmake -S . -B out/build/coverage
           -DCMAKE_BUILD_TYPE=Debug
-          -DCMAKE_CXX_FLAGS="--coverage -O0 -g"
-          -DCMAKE_EXE_LINKER_FLAGS="--coverage"
+          -DSVGPLOT_ENABLE_COVERAGE=ON
 
       - name: Build C++ tests
-        run: cmake --build out/build/coverage --parallel
+        run: cmake --build out/build/coverage --target svgplot_tests --parallel
 
       - name: Run C++ unit tests
         run: ctest --test-dir out/build/coverage --output-on-failure
 
       - name: Capture coverage report
         run: |
-          lcov --capture --directory out/build/coverage --output-file coverage.info
-          lcov --extract coverage.info "${{ github.workspace }}/include/svgplot/*" --output-file coverage.info
+          lcov --capture --directory out/build/coverage --output-file coverage.raw.info
+          lcov --extract coverage.raw.info "${{ github.workspace }}/include/svgplot/*" --output-file coverage.info
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5

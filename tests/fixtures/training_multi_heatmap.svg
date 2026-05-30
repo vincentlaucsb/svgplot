@@ -62,36 +62,6 @@
 			<stop offset="50.0%" stop-color="#f97316" />
 			<stop offset="100.0%" stop-color="#f97316" />
 		</linearGradient>
-		<linearGradient id="svgplot-heatmap-gradient-1" x1="0%" x2="100%" y1="0%" y2="0%">
-			<stop offset="0.0%" stop-color="#2563eb" />
-			<stop offset="50.0%" stop-color="#2563eb" />
-			<stop offset="50.0%" stop-color="#f97316" />
-			<stop offset="100.0%" stop-color="#f97316" />
-		</linearGradient>
-		<linearGradient id="svgplot-heatmap-gradient-2" x1="0%" x2="100%" y1="0%" y2="0%">
-			<stop offset="0.0%" stop-color="#2563eb" />
-			<stop offset="50.0%" stop-color="#2563eb" />
-			<stop offset="50.0%" stop-color="#f97316" />
-			<stop offset="100.0%" stop-color="#f97316" />
-		</linearGradient>
-		<linearGradient id="svgplot-heatmap-gradient-3" x1="0%" x2="100%" y1="0%" y2="0%">
-			<stop offset="0.0%" stop-color="#2563eb" />
-			<stop offset="50.0%" stop-color="#2563eb" />
-			<stop offset="50.0%" stop-color="#f97316" />
-			<stop offset="100.0%" stop-color="#f97316" />
-		</linearGradient>
-		<linearGradient id="svgplot-heatmap-gradient-4" x1="0%" x2="100%" y1="0%" y2="0%">
-			<stop offset="0.0%" stop-color="#2563eb" />
-			<stop offset="50.0%" stop-color="#2563eb" />
-			<stop offset="50.0%" stop-color="#f97316" />
-			<stop offset="100.0%" stop-color="#f97316" />
-		</linearGradient>
-		<linearGradient id="svgplot-heatmap-gradient-5" x1="0%" x2="100%" y1="0%" y2="0%">
-			<stop offset="0.0%" stop-color="#2563eb" />
-			<stop offset="50.0%" stop-color="#2563eb" />
-			<stop offset="50.0%" stop-color="#f97316" />
-			<stop offset="100.0%" stop-color="#f97316" />
-		</linearGradient>
 	</defs>
 	<svg height="127.6" viewBox="18.8 30.8 180.7 127.6" width="180.7" x="0" y="0">
 		<style type="text/css">
@@ -173,7 +143,7 @@
 		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="82.0" y="114.0">
 			<title>2026-04-16: none</title>
 		</rect>
-		<rect class="heatmap-cell-multi-value" fill="url(#svgplot-heatmap-gradient-1)" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="82.0" y="129.0">
+		<rect class="heatmap-cell-multi-value" fill="url(#svgplot-heatmap-gradient-0)" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="82.0" y="129.0">
 			<title>2026-04-17: Gym + MTB - Double day</title>
 		</rect>
 		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="82.0" y="144.0">
@@ -209,7 +179,7 @@
 		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="112.0" y="84.0">
 			<title>2026-04-28: none</title>
 		</rect>
-		<rect class="heatmap-cell-multi-value" fill="url(#svgplot-heatmap-gradient-2)" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="112.0" y="99.0">
+		<rect class="heatmap-cell-multi-value" fill="url(#svgplot-heatmap-gradient-0)" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="112.0" y="99.0">
 			<title>2026-04-29: Gym + MTB - Strength and spin</title>
 		</rect>
 		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="112.0" y="114.0">
@@ -236,7 +206,7 @@
 		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="127.0" y="114.0">
 			<title>2026-05-07: none</title>
 		</rect>
-		<rect class="heatmap-cell-multi-value" fill="url(#svgplot-heatmap-gradient-3)" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="127.0" y="129.0">
+		<rect class="heatmap-cell-multi-value" fill="url(#svgplot-heatmap-gradient-0)" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="127.0" y="129.0">
 			<title>2026-05-08: Gym + MTB - Double day</title>
 		</rect>
 		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="127.0" y="144.0">
@@ -275,7 +245,7 @@
 		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="157.0" y="99.0">
 			<title>2026-05-20: none</title>
 		</rect>
-		<rect class="heatmap-cell-multi-value" fill="url(#svgplot-heatmap-gradient-4)" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="157.0" y="114.0">
+		<rect class="heatmap-cell-multi-value" fill="url(#svgplot-heatmap-gradient-0)" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="157.0" y="114.0">
 			<title>2026-05-21: Gym + MTB - Lift and ride</title>
 		</rect>
 		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="157.0" y="129.0">
@@ -299,7 +269,7 @@
 		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="172.0" y="114.0">
 			<title>2026-05-28: none</title>
 		</rect>
-		<rect class="heatmap-cell-multi-value" fill="url(#svgplot-heatmap-gradient-5)" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="172.0" y="129.0">
+		<rect class="heatmap-cell-multi-value" fill="url(#svgplot-heatmap-gradient-0)" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="172.0" y="129.0">
 			<title>2026-05-29: Gym + MTB - Strength and spin</title>
 		</rect>
 		<rect class="heatmap-cell svgplot-color-0" height="12.0" rx="2" stroke="var(--svgplot-heatmap-border)" stroke-width="1" width="12.0" x="172.0" y="144.0">

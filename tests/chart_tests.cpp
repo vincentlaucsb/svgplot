@@ -2,11 +2,26 @@
 
 #include <svgplot/svgplot.hpp>
 
+#include <cstddef>
 #include <filesystem>
 #include <fstream>
 #include <stdexcept>
 #include <string>
 #include <vector>
+
+namespace {
+
+std::size_t count_occurrences(const std::string& text, const std::string& needle) {
+    std::size_t count = 0;
+    std::size_t position = 0;
+    while ((position = text.find(needle, position)) != std::string::npos) {
+        ++count;
+        position += needle.size();
+    }
+    return count;
+}
+
+} // namespace
 
 TEST_CASE("Default series color palette is stable and wraps") {
     CHECK(svgplot::default_series_color(0) == "#2563eb");
@@ -590,7 +605,25 @@ TEST_CASE("Heatmap builder assigns default colors to omitted category colors") {
     CHECK(svg.find("<stop offset=\"50.0%\" stop-color=\"#059669\"") != std::string::npos);
 }
 
-TEST_CASE("Heatmap builder orients multi-value cell segments") {
+TEST_CASE("Heatmap builder reuses identical multi-value gradients") {
+    svgplot::HeatmapOptions options;
+    options.start_date = svgplot::parse_date("2026-01-01");
+    options.end_date = svgplot::parse_date("2026-01-03");
+
+    const auto svg = svgplot::Heatmap()
+        .category("gym", "Gym", "#2563eb")
+        .category("mtb", "MTB", "#f97316")
+        .add(svgplot::parse_date("2026-01-01"), {"gym", "mtb"}, "Brick")
+        .add(svgplot::parse_date("2026-01-02"), {"gym", "mtb"}, "Brick")
+        .render(options)
+        .str();
+
+    CHECK(count_occurrences(svg, "<linearGradient id=\"svgplot-heatmap-gradient-") == 1);
+    CHECK(count_occurrences(svg, "fill=\"url(#svgplot-heatmap-gradient-0)\"") == 2);
+    CHECK(svg.find("svgplot-heatmap-gradient-1") == std::string::npos);
+}
+
+TEST_CASE("Heatmap builder keeps multi-value cell segments horizontal when axes are vertical") {
     svgplot::HeatmapOptions options;
     options.start_date = svgplot::parse_date("2026-01-01");
     options.end_date = svgplot::parse_date("2026-01-07");
@@ -609,7 +642,7 @@ TEST_CASE("Heatmap builder orients multi-value cell segments") {
     CHECK(root_tag.find("height=\"") == std::string::npos);
     CHECK(svg.find("transform-origin: right bottom") != std::string::npos);
     CHECK(svg.find("class=\"heatmap-cell-multi-value\"") != std::string::npos);
-    CHECK(svg.find("<linearGradient id=\"svgplot-heatmap-gradient-0\" x1=\"0%\" x2=\"0%\" y1=\"0%\" y2=\"100%\"") !=
+    CHECK(svg.find("<linearGradient id=\"svgplot-heatmap-gradient-0\" x1=\"0%\" x2=\"100%\" y1=\"0%\" y2=\"0%\"") !=
           std::string::npos);
     CHECK(svg.find("<stop offset=\"50.0%\" stop-color=\"#2563eb\"") != std::string::npos);
     CHECK(svg.find("<stop offset=\"50.0%\" stop-color=\"#f97316\"") != std::string::npos);

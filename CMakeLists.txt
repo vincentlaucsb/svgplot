@@ -9,6 +9,8 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+option(SVGPLOT_ENABLE_COVERAGE "Enable coverage instrumentation for svgplot tests" OFF)
+
 set(SVGPLOT_SIBLING_SVG_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../svg" CACHE PATH
     "Path to a sibling svg checkout used instead of FetchContent when available")
 if(EXISTS "${SVGPLOT_SIBLING_SVG_DIR}/src/svg.hpp")
@@ -55,6 +57,14 @@ if(BUILD_TESTING)
         tests/chart_tests.cpp
     )
     target_link_libraries(svgplot_tests PRIVATE svgplot Catch2::Catch2WithMain)
+    if(SVGPLOT_ENABLE_COVERAGE)
+        if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+            target_compile_options(svgplot_tests PRIVATE --coverage -O0 -g)
+            target_link_options(svgplot_tests PRIVATE --coverage)
+        else()
+            message(WARNING "SVGPLOT_ENABLE_COVERAGE is only configured for GNU-like compilers")
+        endif()
+    endif()
 
     include(Catch)
     catch_discover_tests(svgplot_tests)
