@@ -52,6 +52,14 @@ const charts = [
     viewBox: "-8.0 -57.6 831.8 438.0",
   },
   {
+    name: "crowded-monthly-bar",
+    file: "tests/fixtures/monthly_bar.svg",
+    width: 704,
+    height: 453,
+    responsive: true,
+    viewBox: "-8.0 -57.6 703.9 453.3",
+  },
+  {
     name: "attendance-heatmap",
     file: "tests/fixtures/exercise_log_heatmap.svg",
     width: 328,

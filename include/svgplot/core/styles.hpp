@@ -7,6 +7,7 @@
 #include "layout.hpp"
 #include "svg_backend.hpp"
 
+#include <algorithm>
 #include <string>
 #include <string_view>
 
@@ -30,10 +31,11 @@ inline void style_text(SVG::Text* text, double size, std::string_view anchor = "
     });
 }
 
-inline void add_axis_labels(SVG::SVG& root, const ChartOptions& options) {
+inline void add_axis_labels(SVG::SVG& root, const ChartOptions& options,
+                            double min_x_label_y = 0.0) {
     if (!options.x_label.empty()) {
         auto* label = root.add_child<SVG::Text>(
-            options.width / 2.0, options.height - 16.0, options.x_label);
+            options.width / 2.0, std::max(options.height - 16.0, min_x_label_y), options.x_label);
         style_text(label, 13.0);
     }
 

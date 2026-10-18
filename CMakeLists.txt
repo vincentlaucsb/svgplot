@@ -51,6 +51,9 @@ target_link_libraries(multi_series_line_svg PRIVATE svgplot)
 add_executable(stacked_bar_svg examples/stacked_bar.cpp)
 target_link_libraries(stacked_bar_svg PRIVATE svgplot)
 
+add_executable(monthly_bar_svg examples/monthly_bar.cpp)
+target_link_libraries(monthly_bar_svg PRIVATE svgplot)
+
 include(CTest)
 if(BUILD_TESTING)
     add_executable(svgplot_tests
