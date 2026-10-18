@@ -438,9 +438,51 @@ TEST_CASE("Bar chart continuous y tick mode preserves fractional ticks") {
     }, options);
 
     const auto svg = chart.str();
-    CHECK(svg.find(">3.3</text>") != std::string::npos);
-    CHECK(svg.find(">6.6</text>") != std::string::npos);
-    CHECK(svg.find(">9.9</text>") != std::string::npos);
+    CHECK(svg.find(">2.5</text>") != std::string::npos);
+    CHECK(svg.find(">7.5</text>") != std::string::npos);
+    CHECK(svg.find(">12.5</text>") != std::string::npos);
+    CHECK(svg.find(">3.3</text>") == std::string::npos);
+}
+
+TEST_CASE("Bar chart continuous y axis uses nice bounds and steps") {
+    // Regression for vincentlaucsb/csvzall#21: a max of 91.7 drew ticks at
+    // 0, 25, 50, 76, 101 (max * 1.1 split evenly).
+    svgplot::ChartOptions options;
+    options.y_ticks = 5;
+    const auto svg = svgplot::BarChart()
+        .bar("2026-01", 42.5)
+        .bar("2026-02", 91.7)
+        .render(options)
+        .str();
+
+    for (const auto* tick : {">0</text>", ">25</text>", ">50</text>", ">75</text>", ">100</text>"}) {
+        CHECK(svg.find(tick) != std::string::npos);
+    }
+    CHECK(svg.find(">76</text>") == std::string::npos);
+    CHECK(svg.find(">101</text>") == std::string::npos);
+}
+
+TEST_CASE("Nice continuous domains snap to 1, 2, 2.5, or 5 steps") {
+    const auto check_domain = [](svgplot::Bounds input, int count, double min, double max) {
+        const auto domain = svgplot::LinearScale::nice_domain(input, count);
+        CHECK(domain.min == min);
+        CHECK(domain.max == max);
+    };
+    check_domain({0.0, 91.7}, 5, 0.0, 100.0);
+    check_domain({0.0, 0.83}, 5, 0.0, 1.0);
+    check_domain({0.0, 1234.0}, 5, 0.0, 1250.0);
+    check_domain({0.0, 12.0}, 5, 0.0, 12.5);
+
+    CHECK(svgplot::detail::stepped_tick_number(12.5, 2.5) == "12.5");
+    CHECK(svgplot::detail::stepped_tick_number(10.0, 2.5) == "10.0");
+    CHECK(svgplot::detail::stepped_tick_number(0.75, 0.25) == "0.75");
+    CHECK(svgplot::detail::stepped_tick_number(100.0, 25.0) == "100");
+
+    const svgplot::LinearScale scale({0.0, 1.0}, {0.0, 100.0});
+    const auto ticks = scale.nice_ticks(5);
+    REQUIRE(ticks.size() == 5);
+    CHECK(ticks[1] == 0.25);
+    CHECK(ticks[4] == 1.0);
 }
 
 TEST_CASE("Bar chart keeps horizontal category labels when they fit") {

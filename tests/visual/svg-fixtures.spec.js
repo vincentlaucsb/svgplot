@@ -60,6 +60,14 @@ const charts = [
     viewBox: "-8.0 -57.6 703.9 453.3",
   },
   {
+    name: "nice-y-axis-bar",
+    file: "tests/fixtures/nice_axis_bar.svg",
+    width: 704,
+    height: 428,
+    responsive: true,
+    viewBox: "-8.0 -57.6 703.9 428.0",
+  },
+  {
     name: "attendance-heatmap",
     file: "tests/fixtures/exercise_log_heatmap.svg",
     width: 328,

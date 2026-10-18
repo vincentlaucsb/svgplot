@@ -1,0 +1,73 @@
+<svg aria-label="Monthly Distance" role="img" viewBox="-8.0 -57.6 703.9 428.0" xmlns="http://www.w3.org/2000/svg">
+	<style type="text/css">
+		<![CDATA[
+			.bar {
+				fill: var(--svgplot-color);
+			}
+			.svgplot-color-0 {
+				--svgplot-color: #2563eb;
+			}
+			:root {
+				--svgplot-axis: #374151;
+				--svgplot-background: #ffffff;
+				--svgplot-grid: #e5e7eb;
+				--svgplot-text: #111827;
+			}
+			svg {
+				background: var(--svgplot-background);
+			}
+			text {
+				fill: var(--svgplot-text);
+				font-family: Arial, sans-serif;
+			}
+			@media (prefers-color-scheme: dark) {
+				:root {
+					--svgplot-axis: #9ca3af;
+					--svgplot-background: #111827;
+					--svgplot-grid: #374151;
+					--svgplot-text: #f9fafb;
+				}
+			}
+		]]>
+	</style>
+	<g>
+		<svg height="362.4" viewBox="4.7 46.8 687.9 362.4" width="687.9" x="0" y="0">
+			<style type="text/css">
+				<![CDATA[
+					:root {
+					}
+				]]>
+			</style>
+			<text font-size="13" text-anchor="middle" x="360.0" y="404.0">Month</text>
+			<text font-size="13" text-anchor="middle" transform="rotate(-90.0 18.0 210.0)" x="18.0" y="210.0">Miles</text>
+			<line class="axis-line" stroke="var(--svgplot-axis)" stroke-width="1.2" x1="72.0" x2="692.0" y1="354.0" y2="354.0" />
+			<line class="axis-line" stroke="var(--svgplot-axis)" stroke-width="1.2" x1="72.0" x2="72.0" y1="54.0" y2="354.0" />
+			<line class="grid-line" stroke="var(--svgplot-grid)" stroke-width="1" x1="72.0" x2="692.0" y1="354.0" y2="354.0" />
+			<line class="tick-line" stroke="var(--svgplot-axis)" stroke-width="1" x1="67.0" x2="72.0" y1="354.0" y2="354.0" />
+			<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="358.0">0</text>
+			<line class="grid-line" stroke="var(--svgplot-grid)" stroke-width="1" x1="72.0" x2="692.0" y1="279.0" y2="279.0" />
+			<line class="tick-line" stroke="var(--svgplot-axis)" stroke-width="1" x1="67.0" x2="72.0" y1="279.0" y2="279.0" />
+			<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="283.0">25</text>
+			<line class="grid-line" stroke="var(--svgplot-grid)" stroke-width="1" x1="72.0" x2="692.0" y1="204.0" y2="204.0" />
+			<line class="tick-line" stroke="var(--svgplot-axis)" stroke-width="1" x1="67.0" x2="72.0" y1="204.0" y2="204.0" />
+			<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="208.0">50</text>
+			<line class="grid-line" stroke="var(--svgplot-grid)" stroke-width="1" x1="72.0" x2="692.0" y1="129.0" y2="129.0" />
+			<line class="tick-line" stroke="var(--svgplot-axis)" stroke-width="1" x1="67.0" x2="72.0" y1="129.0" y2="129.0" />
+			<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="133.0">75</text>
+			<line class="grid-line" stroke="var(--svgplot-grid)" stroke-width="1" x1="72.0" x2="692.0" y1="54.0" y2="54.0" />
+			<line class="tick-line" stroke="var(--svgplot-axis)" stroke-width="1" x1="67.0" x2="72.0" y1="54.0" y2="54.0" />
+			<text class="y-tick" font-size="11" text-anchor="end" x="62.0" y="58.0">100</text>
+			<rect class="bar svgplot-color-0" height="127.5" width="79.4" x="94.3" y="226.5" />
+			<rect class="bar svgplot-color-0" height="171.9" width="79.4" x="218.3" y="182.1" />
+			<rect class="bar svgplot-color-0" height="206.7" width="79.4" x="342.3" y="147.3" />
+			<rect class="bar svgplot-color-0" height="275.1" width="79.4" x="466.3" y="78.9" />
+			<rect class="bar svgplot-color-0" height="222.6" width="79.4" x="590.3" y="131.4" />
+			<text class="bar-label" font-size="11" text-anchor="middle" x="134.0" y="374.0">2026-01</text>
+			<text class="bar-label" font-size="11" text-anchor="middle" x="258.0" y="374.0">2026-02</text>
+			<text class="bar-label" font-size="11" text-anchor="middle" x="382.0" y="374.0">2026-03</text>
+			<text class="bar-label" font-size="11" text-anchor="middle" x="506.0" y="374.0">2026-04</text>
+			<text class="bar-label" font-size="11" text-anchor="middle" x="630.0" y="374.0">2026-05</text>
+		</svg>
+	</g>
+	<text class="chart-title" font-size="20" font-weight="700" text-anchor="middle" transform="translate(344.0 -27.6)" x="0.0" y="0.0">Monthly Distance</text>
+</svg>

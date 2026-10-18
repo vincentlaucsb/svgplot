@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.25)
 
-project(svgplot VERSION 0.4.1 LANGUAGES CXX)
+project(svgplot VERSION 0.4.2 LANGUAGES CXX)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 include(FetchModules)
@@ -53,6 +53,9 @@ target_link_libraries(stacked_bar_svg PRIVATE svgplot)
 
 add_executable(monthly_bar_svg examples/monthly_bar.cpp)
 target_link_libraries(monthly_bar_svg PRIVATE svgplot)
+
+add_executable(nice_axis_bar_svg examples/nice_axis_bar.cpp)
+target_link_libraries(nice_axis_bar_svg PRIVATE svgplot)
 
 include(CTest)
 if(BUILD_TESTING)

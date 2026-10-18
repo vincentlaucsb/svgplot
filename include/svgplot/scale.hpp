@@ -70,10 +70,64 @@ public:
         };
     }
 
+    // Ticks on a 1/2/2.5/5 x 10^k step that best matches `count`, spanning the
+    // domain. Use with a domain from nice_domain() so the ends land on ticks.
+    [[nodiscard]] std::vector<double> nice_ticks(int count) const {
+        const auto step = nice_step(domain_, count);
+        const auto first = std::ceil(domain_.min / step - 1e-9);
+        const auto last = std::floor(domain_.max / step + 1e-9);
+        std::vector<double> result;
+        for (auto i = first; i <= last; i += 1.0) {
+            result.push_back(i * step);
+        }
+        return result;
+    }
+
+    // Expands `domain` outward to multiples of a 1/2/2.5/5 x 10^k step chosen to
+    // give about `count` ticks with the least headroom.
+    [[nodiscard]] static Bounds nice_domain(Bounds domain, int count) {
+        const auto step = nice_step(domain, count);
+        return {
+            std::floor(domain.min / step + 1e-9) * step,
+            std::ceil(domain.max / step - 1e-9) * step,
+        };
+    }
+
     [[nodiscard]] Bounds domain() const { return domain_; }
     [[nodiscard]] Bounds range() const { return range_; }
 
 private:
+    [[nodiscard]] static double nice_step(Bounds domain, int count) {
+        const auto span = domain.max - domain.min;
+        if (!(span > 0.0) || !std::isfinite(span)) {
+            return 1.0;
+        }
+        const auto target_ticks = std::max(2, count);
+        const auto raw_step = span / static_cast<double>(target_ticks - 1);
+        const auto magnitude = std::pow(10.0, std::floor(std::log10(raw_step)));
+        constexpr double cores[] = {1.0, 2.0, 2.5, 5.0};
+
+        double best_step = magnitude;
+        double best_score = std::numeric_limits<double>::infinity();
+        for (int power_offset = -1; power_offset <= 1; ++power_offset) {
+            const auto power = magnitude * std::pow(10.0, static_cast<double>(power_offset));
+            for (const auto core : cores) {
+                const auto step = core * power;
+                const auto nice_min = std::floor(domain.min / step + 1e-9) * step;
+                const auto nice_max = std::ceil(domain.max / step - 1e-9) * step;
+                const auto tick_count = static_cast<int>(std::round((nice_max - nice_min) / step)) + 1;
+                const auto headroom = (nice_max - domain.max) + (domain.min - nice_min);
+                const auto score = static_cast<double>(std::abs(tick_count - target_ticks)) * 10.0 +
+                    headroom / span;
+                if (score < best_score - 1e-9) {
+                    best_step = step;
+                    best_score = score;
+                }
+            }
+        }
+        return best_step;
+    }
+
     [[nodiscard]] static double nice_integer_step(Bounds domain, int count) {
         const auto min_tick = std::floor(domain.min);
         const auto max_tick = std::ceil(domain.max);

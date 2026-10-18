@@ -71,7 +71,8 @@ inline void add_axes(SVG::SVG& root, const ChartOptions& options,
                      const ChartLayout& layout,
                      const LinearScale& x_scale, const LinearScale& y_scale,
                      TickMode y_tick_mode,
-                     bool include_x_ticks = true) {
+                     bool include_x_ticks = true,
+                     bool nice_y_ticks = false) {
     const auto left = layout.plot_left;
     const auto right = layout.plot_right;
     const auto top = layout.plot_top;
@@ -104,7 +105,8 @@ inline void add_axes(SVG::SVG& root, const ChartOptions& options,
 
     const auto y_ticks = y_tick_mode == TickMode::Integer
         ? y_scale.integer_ticks(options.y_ticks)
-        : y_scale.ticks(options.y_ticks);
+        : nice_y_ticks ? y_scale.nice_ticks(options.y_ticks)
+                       : y_scale.ticks(options.y_ticks);
     for (const auto tick : y_ticks) {
         const auto y = y_scale.map(tick);
         const auto vars = core_css_vars(root);
@@ -120,8 +122,10 @@ inline void add_axes(SVG::SVG& root, const ChartOptions& options,
             {"stroke", vars.var(CoreCssVar::Axis)},
             {"stroke-width", "1"},
         });
-        auto* label = root.add_child<SVG::Text>(left - 10.0, y + 4.0,
-                                                tick_number(tick, y_tick_mode));
+        const auto text = nice_y_ticks && y_tick_mode != TickMode::Integer && y_ticks.size() > 1
+            ? stepped_tick_number(tick, y_ticks[1] - y_ticks[0])
+            : tick_number(tick, y_tick_mode);
+        auto* label = root.add_child<SVG::Text>(left - 10.0, y + 4.0, text);
         style_text(label, 11.0, "end");
         label->set_attr("class", "y-tick");
     }

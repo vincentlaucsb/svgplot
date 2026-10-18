@@ -41,6 +41,27 @@ inline std::string tick_number(double value, TickMode mode = TickMode::Continuou
     return text;
 }
 
+// Formats a tick on a regular `step` with just enough decimals to tell
+// neighboring ticks apart (25, 2.5, 0.25), trimming trailing zeros.
+inline std::string stepped_tick_number(double value, double step) {
+    int decimals = 0;
+    const auto magnitude = std::abs(step);
+    while (decimals < 6) {
+        const auto scaled = magnitude * std::pow(10.0, decimals);
+        if (std::abs(scaled - std::round(scaled)) < 1e-6 * std::max(1.0, scaled)) {
+            break;
+        }
+        ++decimals;
+    }
+    if (std::abs(value) < 0.5 * std::pow(10.0, -decimals)) {
+        value = 0.0;  // Avoid "-0".
+    }
+
+    std::ostringstream ss;
+    ss << std::fixed << std::setprecision(decimals) << value;
+    return ss.str();
+}
+
 inline std::string value_label(double value) {
     std::ostringstream ss;
     ss << std::fixed << std::setprecision(std::abs(value) >= 10.0 ? 0 : 1) << value;
