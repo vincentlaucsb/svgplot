@@ -6,6 +6,17 @@ on:
   pull_request:
 
 jobs:
+  version-check:
+    name: Version consistency
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Check version markers agree
+        run: node scripts/version.mjs check
+
   cpp-tests:
     name: C++ tests
     runs-on: windows-latest

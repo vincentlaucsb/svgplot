@@ -6,7 +6,7 @@
  |___/ \_/  \__, | .__/|_|\___/ \__|
             |___/|_|
 
-  svgplot for C++ v0.4.0
+  svgplot for C++ v0.4.1
 
   Copyright (c) 2026 Vincent La
   SPDX-License-Identifier: MIT

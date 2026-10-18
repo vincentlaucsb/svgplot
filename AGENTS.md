@@ -23,3 +23,18 @@ under their chart folders such as `include/svgplot/heatmap/`,
 Generated outputs such as `generated/`, `single_include/`, `out/`,
 `test-results/`, and local Visual Studio files are ignored and should not be
 committed.
+
+## Versioning
+
+Git tags are the release markers. Every svgplot version marker
+(`CMakeLists.txt` `project(... VERSION)`, the `include/svgplot/svgplot.hpp`
+banner, `package.json`, and `package-lock.json`) is managed by
+`scripts/version.mjs`:
+
+- Bump with `node scripts/version.mjs bump X.Y.Z`. Do not edit the markers by
+  hand.
+- `node scripts/version.mjs check` runs in CI and fails when markers disagree;
+  the release workflow also runs `check --tag <tag>` so a tag cannot ship a
+  different source version.
+- When adding a new version-bearing file, add it to the `markers` list in the
+  script in the same change.

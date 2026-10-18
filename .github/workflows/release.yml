@@ -19,6 +19,10 @@ jobs:
         with:
           path: svgplot
 
+      - name: Check version markers match the release tag
+        working-directory: svgplot
+        run: node scripts/version.mjs check --tag "${{ github.ref_name }}"
+
       - name: Check out svg dependency
         uses: actions/checkout@v4
         with:

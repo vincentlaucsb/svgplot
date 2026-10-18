@@ -12,6 +12,7 @@
 #include "../scale.hpp"
 #include "../types.hpp"
 #include "bounds.hpp"
+#include "labels.hpp"
 #include "styles.hpp"
 #include "types.hpp"
 
@@ -89,10 +90,11 @@ public:
 
         auto& frame = *root.add_child<SVG::Group>();
         auto& plot = *frame.add_child<SVG::SVG>(SVG::SVGAttrib{{"x", "0"}, {"y", "0"}});
-        detail::add_axis_labels(plot, options);
-
         const std::vector<LegendItem> legend_items;
         const auto layout = detail::chart_layout(options);
+        const auto labels = category_labels(bars_);
+        const auto label_plan = detail::plan_category_labels(labels, layout);
+        detail::add_axis_labels(plot, options, label_plan.min_axis_title_y);
         const auto legend_layout = detail::measure_legend(legend_items, options.legend);
 
         const auto max_it = std::max_element(bars_.begin(), bars_.end(), [](const Bar& a, const Bar& b) {
@@ -126,11 +128,8 @@ public:
                 root, detail::palette::series_color(bars_[i].color, i));
             auto* rect = plot.add_child<SVG::Rect>(left, top, bar_width, baseline - top);
             rect->class_list().add("bar").add(color_class);
-
-            auto* label = plot.add_child<SVG::Text>(left + bar_width / 2.0, baseline + 20.0, bars_[i].label);
-            detail::style_text(label, 11.0);
-            label->set_attr("class", "bar-label");
         }
+        detail::add_category_labels(plot, labels, layout, label_plan);
 
         detail::autoscale_svg_region(plot);
         const auto legend_place = detail::place_legend(
@@ -149,6 +148,16 @@ private:
         std::string label;
         std::vector<BarSegment> segments;
     };
+
+    template <typename Item>
+    static std::vector<std::string> category_labels(const std::vector<Item>& items) {
+        std::vector<std::string> labels;
+        labels.reserve(items.size());
+        for (const auto& item : items) {
+            labels.push_back(item.label);
+        }
+        return labels;
+    }
 
     static std::vector<LegendItem> segment_legend_items(const std::vector<SegmentedBar>& bars) {
         const auto series_order = segment_series_order(bars);
@@ -252,12 +261,13 @@ private:
 
         auto& frame = *root.add_child<SVG::Group>();
         auto& plot = *frame.add_child<SVG::SVG>(SVG::SVGAttrib{{"x", "0"}, {"y", "0"}});
-        detail::add_axis_labels(plot, options);
-
         const auto legend_items = segment_legend_items(stacks_);
         const auto series_order = segment_series_order(stacks_);
         const auto series_colors = segment_series_colors(stacks_, series_order);
         const auto layout = detail::chart_layout(options);
+        const auto labels = category_labels(stacks_);
+        const auto label_plan = detail::plan_category_labels(labels, layout);
+        detail::add_axis_labels(plot, options, label_plan.min_axis_title_y);
         const auto legend_layout = detail::measure_legend(legend_items, options.legend);
 
         double y_max = 0.0;
@@ -288,7 +298,6 @@ private:
         const auto plot_width = layout.plot_right - layout.plot_left;
         const auto slot = plot_width / static_cast<double>(stacks_.size());
         const auto bar_width = slot * 0.64;
-        const auto baseline = y_scale.map(0.0);
 
         detail::CssColorRegistry colors(detail::core_css_vars(root));
         for (std::size_t i = 0; i < stacks_.size(); ++i) {
@@ -310,13 +319,8 @@ private:
                 rect->class_list().add("bar").add("bar-segment").add(color_class);
                 cumulative = top_value;
             }
-
-            auto* label = plot.add_child<SVG::Text>(left + bar_width / 2.0,
-                                                    baseline + 20.0,
-                                                    stacks_[i].label);
-            detail::style_text(label, 11.0);
-            label->set_attr("class", "bar-label");
         }
+        detail::add_category_labels(plot, labels, layout, label_plan);
 
         detail::autoscale_svg_region(plot);
         const auto legend_place = detail::place_legend(
@@ -339,8 +343,6 @@ private:
 
         auto& frame = *root.add_child<SVG::Group>();
         auto& plot = *frame.add_child<SVG::SVG>(SVG::SVGAttrib{{"x", "0"}, {"y", "0"}});
-        detail::add_axis_labels(plot, options);
-
         const auto series_order = segment_series_order(groups_);
         const auto series_colors = segment_series_colors(groups_, series_order);
         const auto legend_items = segment_legend_items(groups_);
@@ -354,6 +356,9 @@ private:
         bars_per_group = std::max<std::size_t>(1, bars_per_group);
 
         const auto layout = detail::chart_layout(options);
+        const auto labels = category_labels(groups_);
+        const auto label_plan = detail::plan_category_labels(labels, layout);
+        detail::add_axis_labels(plot, options, label_plan.min_axis_title_y);
         const auto legend_layout = detail::measure_legend(legend_items, options.legend);
 
         double y_max = 0.0;
@@ -411,13 +416,8 @@ private:
                 auto* rect = plot.add_child<SVG::Rect>(left, top, bar_width, baseline - top);
                 rect->class_list().add("bar").add("bar-grouped").add(color_class);
             }
-
-            auto* label = plot.add_child<SVG::Text>(layout.plot_left + slot * (static_cast<double>(i) + 0.5),
-                                                    baseline + 20.0,
-                                                    groups_[i].label);
-            detail::style_text(label, 11.0);
-            label->set_attr("class", "bar-label");
         }
+        detail::add_category_labels(plot, labels, layout, label_plan);
 
         detail::autoscale_svg_region(plot);
         const auto legend_place = detail::place_legend(

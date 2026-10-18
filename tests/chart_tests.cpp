@@ -2,6 +2,7 @@
 
 #include <svgplot/svgplot.hpp>
 
+#include <cmath>
 #include <cstddef>
 #include <filesystem>
 #include <fstream>
@@ -19,6 +20,20 @@ std::size_t count_occurrences(const std::string& text, const std::string& needle
         position += needle.size();
     }
     return count;
+}
+
+std::vector<std::string> monthly_labels(int count) {
+    std::vector<std::string> labels;
+    int year = 2024;
+    int month = 11;
+    for (int i = 0; i < count; ++i) {
+        labels.push_back(std::to_string(year) + "-" + (month < 10 ? "0" : "") + std::to_string(month));
+        if (++month > 12) {
+            month = 1;
+            ++year;
+        }
+    }
+    return labels;
 }
 
 } // namespace
@@ -426,6 +441,77 @@ TEST_CASE("Bar chart continuous y tick mode preserves fractional ticks") {
     CHECK(svg.find(">3.3</text>") != std::string::npos);
     CHECK(svg.find(">6.6</text>") != std::string::npos);
     CHECK(svg.find(">9.9</text>") != std::string::npos);
+}
+
+TEST_CASE("Bar chart keeps horizontal category labels when they fit") {
+    const auto svg = svgplot::BarChart()
+        .bar("W1", 1.0)
+        .bar("W2", 2.0)
+        .render()
+        .str();
+
+    CHECK(count_occurrences(svg, "class=\"bar-label\"") == 2);
+    CHECK(svg.find("bar-label-rotated") == std::string::npos);
+    CHECK(svg.find("rotate(-45") == std::string::npos);
+}
+
+TEST_CASE("Bar chart rotates crowded monthly category labels instead of overlapping them") {
+    // Regression for vincentlaucsb/csvzall#20: 24 monthly buckets in the default
+    // 720px chart leave ~26px per label, narrower than a YYYY-MM label.
+    const auto labels = monthly_labels(24);
+    svgplot::BarChart chart;
+    for (std::size_t i = 0; i < labels.size(); ++i) {
+        chart.bar(labels[i], static_cast<double>(i % 7 + 1));
+    }
+
+    svgplot::ChartOptions options;
+    options.x_label = "Month";
+    const auto svg = chart.render(options).str();
+
+    CHECK(count_occurrences(svg, "class=\"bar-label bar-label-rotated\"") == 24);
+    CHECK(count_occurrences(svg, "rotate(-45") == 24);
+    CHECK(svg.find(">2024-11</text>") != std::string::npos);
+    CHECK(svg.find(">2026-10</text>") != std::string::npos);
+
+    const auto layout = svgplot::detail::chart_layout(options);
+    const auto plan = svgplot::detail::plan_category_labels(labels, layout);
+    CHECK(plan.rotated);
+    CHECK(plan.stride == 1);
+    // The x-axis title must sit below the rotated labels.
+    CHECK(plan.min_axis_title_y > options.height - 16.0);
+}
+
+TEST_CASE("Bar chart thins rotated category labels when even rotated labels collide") {
+    const auto labels = monthly_labels(120);
+    svgplot::BarChart chart;
+    for (const auto& label : labels) {
+        chart.bar(label, 1.0);
+    }
+    const auto svg = chart.render().str();
+
+    const auto plan = svgplot::detail::plan_category_labels(
+        labels, svgplot::detail::chart_layout(svgplot::ChartOptions{}));
+    REQUIRE(plan.rotated);
+    REQUIRE(plan.stride > 1);
+    // Adjacent visible rotated labels are separated by at least the 11px font's em box.
+    CHECK(plan.slot * static_cast<double>(plan.stride) * std::sqrt(0.5) >= 11.0);
+
+    const auto drawn = count_occurrences(svg, "bar-label-rotated");
+    CHECK(drawn == (labels.size() + plan.stride - 1) / plan.stride);
+    CHECK(svg.find(">2024-11</text>") != std::string::npos);
+}
+
+TEST_CASE("Stacked and grouped bar charts share crowded category label layout") {
+    const auto labels = monthly_labels(24);
+    svgplot::BarChart stacked;
+    svgplot::BarChart grouped;
+    for (const auto& label : labels) {
+        stacked.stacked_bar(label, {{"Run", 2.0}, {"Ride", 3.0}});
+        grouped.grouped_bar(label, {{"Run", 2.0}, {"Ride", 3.0}});
+    }
+
+    CHECK(count_occurrences(stacked.render().str(), "bar-label-rotated") == 24);
+    CHECK(count_occurrences(grouped.render().str(), "bar-label-rotated") == 24);
 }
 
 TEST_CASE("Line chart auto y ticks stay continuous for fractional values") {
