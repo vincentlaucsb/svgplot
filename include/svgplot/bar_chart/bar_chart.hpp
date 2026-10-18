@@ -100,20 +100,17 @@ public:
         const auto max_it = std::max_element(bars_.begin(), bars_.end(), [](const Bar& a, const Bar& b) {
             return a.value < b.value;
         });
-        const auto y_max = std::max(0.0, max_it->value) * 1.1;
         const auto y_tick_mode = detail::resolve_tick_mode(options.y_tick_mode,
                                                            detail::integral_bar_values(bars_));
-        const Bounds y_domain{0.0, y_max == 0.0 ? 1.0 : y_max};
-        const auto axis_y_domain = y_tick_mode == TickMode::Integer
-            ? LinearScale::nice_integer_domain(y_domain, options.y_ticks)
-            : y_domain;
+        const auto axis_y_domain = detail::bar_value_domain(
+            std::max(0.0, max_it->value), y_tick_mode, options.y_ticks);
         const LinearScale x_scale({0.0, static_cast<double>(bars_.size())},
                                   {layout.plot_left, layout.plot_right});
         const LinearScale y_scale(axis_y_domain, {layout.plot_bottom, layout.plot_top});
         detail::add_axes(plot, options, layout,
                          LinearScale({0.0, static_cast<double>(bars_.size()) - 1.0},
                                      {layout.plot_left, layout.plot_right}),
-                         y_scale, y_tick_mode, false);
+                         y_scale, y_tick_mode, false, true);
 
         const auto plot_width = layout.plot_right - layout.plot_left;
         const auto slot = plot_width / static_cast<double>(bars_.size());
@@ -282,18 +279,13 @@ private:
             }
             y_max = std::max(y_max, total);
         }
-        y_max *= 1.1;
-
         const auto y_tick_mode = detail::resolve_tick_mode(options.y_tick_mode, integral_values);
-        const Bounds y_domain{0.0, y_max == 0.0 ? 1.0 : y_max};
-        const auto axis_y_domain = y_tick_mode == TickMode::Integer
-            ? LinearScale::nice_integer_domain(y_domain, options.y_ticks)
-            : y_domain;
+        const auto axis_y_domain = detail::bar_value_domain(y_max, y_tick_mode, options.y_ticks);
         const LinearScale y_scale(axis_y_domain, {layout.plot_bottom, layout.plot_top});
         detail::add_axes(plot, options, layout,
                          LinearScale({0.0, static_cast<double>(stacks_.size()) - 1.0},
                                      {layout.plot_left, layout.plot_right}),
-                         y_scale, y_tick_mode, false);
+                         y_scale, y_tick_mode, false, true);
 
         const auto plot_width = layout.plot_right - layout.plot_left;
         const auto slot = plot_width / static_cast<double>(stacks_.size());
@@ -371,18 +363,13 @@ private:
                 y_max = std::max(y_max, std::max(0.0, segment.value));
             }
         }
-        y_max *= 1.1;
-
         const auto y_tick_mode = detail::resolve_tick_mode(options.y_tick_mode, integral_values);
-        const Bounds y_domain{0.0, y_max == 0.0 ? 1.0 : y_max};
-        const auto axis_y_domain = y_tick_mode == TickMode::Integer
-            ? LinearScale::nice_integer_domain(y_domain, options.y_ticks)
-            : y_domain;
+        const auto axis_y_domain = detail::bar_value_domain(y_max, y_tick_mode, options.y_ticks);
         const LinearScale y_scale(axis_y_domain, {layout.plot_bottom, layout.plot_top});
         detail::add_axes(plot, options, layout,
                          LinearScale({0.0, static_cast<double>(groups_.size()) - 1.0},
                                      {layout.plot_left, layout.plot_right}),
-                         y_scale, y_tick_mode, false);
+                         y_scale, y_tick_mode, false, true);
 
         const auto plot_width = layout.plot_right - layout.plot_left;
         const auto slot = plot_width / static_cast<double>(groups_.size());
