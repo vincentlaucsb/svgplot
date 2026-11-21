@@ -1,0 +1,91 @@
+:root {
+    --vp-c-brand-1: #146d60;
+    --vp-c-brand-2: #197e6b;
+    --vp-c-brand-3: #1b7566;
+    --vp-c-brand-soft: #e5f2ec;
+    --vp-sidebar-bg-color: #f7f9f6;
+    --vp-code-block-bg: #f5f7f5;
+}
+.dark {
+    --vp-c-brand-1: #7ad9bd;
+    --vp-c-brand-2: #98e4c8;
+    --vp-c-brand-3: #278f78;
+    --vp-c-brand-soft: #203d34;
+    --vp-sidebar-bg-color: #1c211f;
+    --vp-code-block-bg: #202623;
+}
+.VPNavBarTitle .title {
+    font-size: 22px;
+    font-weight: 750;
+    letter-spacing: -1px;
+}
+.vp-doc h1 {
+    letter-spacing: -.045em;
+    font-weight: 680;
+}
+.vp-doc h1 + p {
+    font-size: 1.12rem;
+    color: var(--vp-c-text-2);
+    line-height: 1.65;
+}
+.chart-example {
+    margin: 1.5rem 0 2rem;
+    border: 1px solid var(--vp-c-divider);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--vp-c-bg);
+}
+.chart-host {
+    padding: clamp(6px, 2vw, 20px);
+    aspect-ratio: 720 / 420;
+    display: grid;
+    place-items: center;
+}
+.chart-host > svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+.chart-example figcaption {
+    border-top: 1px solid var(--vp-c-divider);
+    padding: 12px 18px;
+    background: var(--vp-sidebar-bg-color);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 14px;
+    color: var(--vp-c-text-2);
+    font-size: .875rem;
+    line-height: 1.45;
+}
+.chart-example button {
+    border-radius: 6px;
+    padding: 8px 14px;
+    background: #146d60;
+    color: white;
+    font-weight: 600;
+}
+.chart-example button:hover { background: #105a4f; }
+.chart-example button:focus-visible { outline: 2px solid var(--vp-c-brand-1); outline-offset: 3px; }
+.chart-example button:disabled { opacity: .55; }
+.chart-example [role="alert"] { margin: 12px 18px; }
+.chart-views { display: flex; flex-wrap: wrap; gap: 4px; }
+.chart-views button[aria-pressed="false"] { background: transparent; color: var(--vp-c-text-1); }
+.chart-views button[aria-pressed="false"]:hover { background: var(--vp-c-brand-soft); }
+/* The calendar palette uses pale labels against a dark plot background. */
+.sampling-calendar .chart-host { background: #0d1117; }
+.sampling-calendar .chart-host > svg { max-width: 490px; }
+.benchmark-picker { display: inline-flex; align-items: center; gap: 10px; font-weight: 600; }
+.benchmark-picker select {
+    appearance: auto;
+    padding: 4px 8px;
+    border: 1px solid var(--vp-c-divider);
+    border-radius: 6px;
+    background: var(--vp-c-bg);
+    color: var(--vp-c-text-1);
+}
+.benchmark-chart { margin-bottom: .75rem; }
+.benchmark-chart .chart-host { aspect-ratio: 650 / 305; }
+.vp-doc .benchmark-table { font-size: .875rem; font-variant-numeric: tabular-nums; }
+.benchmark-table th:first-child { text-align: left; }
+.benchmark-table td, .benchmark-table thead th:not(:first-child) { text-align: right; }
