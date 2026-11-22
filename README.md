@@ -4,6 +4,8 @@
 
 Simple SVG plots for C++
 
+The [documentation site](https://vincentlaucsb.github.io/svgplot/) includes live line, bar, and calendar heatmap examples for the published `svgplot-wasm` package, equivalent C++ examples, and browser benchmarks. To run it locally, use `npm ci`, `npm run docs:setup`, and `npm run docs:dev`. To check the production site, run `npm run docs:build`, `npx playwright install chromium`, and `npm run docs:test`. The site deploys to GitHub Pages after documentation changes pass on `main`.
+
 ## Features
  * Dark mode aware
  * Clean SVG output: graphs use CSS variables that may be easily modified
@@ -40,3 +42,7 @@ Update visual baselines after an intentional rendering change:
 ```sh
 npm run test:visual:update
 ```
+
+## GitHub releases
+
+Run `node scripts/version.mjs bump X.Y.Z`, then open a same-repository PR to `main` titled `Release X.Y.Z` (optionally followed by `: description`). Write the release notes in the PR body. Merging the PR validates the version markers, builds and smoke-tests the single header, then tags the merge commit and publishes the PR title, body, and tested `svgplot.hpp` on GitHub. Maintainers can also publish by pushing a version tag.

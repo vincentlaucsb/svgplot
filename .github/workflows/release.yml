@@ -1,15 +1,25 @@
 name: Release
 
 on:
+  pull_request:
+    branches: [main]
+    types: [closed]
   push:
     tags:
       - "*"
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   single-header:
+    if: >-
+      github.event_name == 'push' ||
+      (github.event.pull_request.merged &&
+       github.event.pull_request.head.repo.full_name == github.repository &&
+       startsWith(github.event.pull_request.title, 'Release '))
+    outputs:
+      tag: ${{ steps.metadata.outputs.result }}
     name: Generate single-header release asset
     runs-on: windows-latest
 
@@ -18,10 +28,27 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: svgplot
+          ref: ${{ github.event.pull_request.merge_commit_sha || github.sha }}
+
+      - name: Read the release version
+        id: metadata
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
+        with:
+          result-encoding: string
+          script: |
+            if (context.eventName === "push") return process.env.GITHUB_REF_NAME;
+            const pr = context.payload.pull_request;
+            const match = /^Release (\d+\.\d+\.\d+)(?:: .+)?$/.exec(pr.title);
+            if (!match || !pr.body?.trim()) {
+              throw new Error("Expected a Release X.Y.Z title and release notes in the PR body.");
+            }
+            return match[1];
 
       - name: Check version markers match the release tag
         working-directory: svgplot
-        run: node scripts/version.mjs check --tag "${{ github.ref_name }}"
+        env:
+          RELEASE_TAG: ${{ steps.metadata.outputs.result }}
+        run: node scripts/version.mjs check --tag "$env:RELEASE_TAG"
 
       - name: Check out svg dependency
         uses: actions/checkout@v4
@@ -75,8 +102,58 @@ jobs:
           path: svgplot/single_include/svgplot/svgplot.hpp
           if-no-files-found: error
 
-      - name: Publish GitHub release
+  publish:
+    needs: single-header
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    concurrency: release-${{ needs.single-header.outputs.tag }}
+    env:
+      RELEASE_TAG: ${{ needs.single-header.outputs.tag }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: svgplot-single-header
+      - name: Create release from the merged PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const tag = process.env.RELEASE_TAG;
+            const sha = pr.merge_commit_sha;
+            const repo = context.repo;
+            // A rerun can finish a partially created release, but must never move a tag.
+            const ref = `tags/${tag}`;
+            try {
+              const { data } = await github.rest.git.getRef({ ...repo, ref });
+              if (data.object.type !== "commit" || data.object.sha !== sha) {
+                throw new Error(`Existing tag ${tag} does not directly reference ${sha}.`);
+              }
+            } catch (error) {
+              if (error.status !== 404) throw error;
+              await github.rest.git.createRef({ ...repo, ref: `refs/${ref}`, sha });
+            }
+            try {
+              await github.rest.repos.getReleaseByTag({ ...repo, tag });
+              core.info(`Release ${tag} already exists.`);
+            } catch (error) {
+              if (error.status !== 404) throw error;
+              await github.rest.repos.createRelease({
+                ...repo, tag_name: tag, target_commitish: sha, name: pr.title, body: pr.body
+              });
+            }
+
+      - name: Attach the tested header to the PR release
+        if: github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: gh release upload "$RELEASE_TAG" svgplot.hpp --clobber
+
+      - name: Publish manually tagged release
+        if: github.event_name == 'push'
         uses: softprops/action-gh-release@v2
         with:
-          files: svgplot/single_include/svgplot/svgplot.hpp
+          files: svgplot.hpp
           fail_on_unmatched_files: true
