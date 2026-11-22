@@ -1,0 +1,52 @@
+name: Browser package
+
+on:
+  workflow_call:
+    inputs:
+      ref:
+        type: string
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            wasm/npm/consumer/package-lock.json
+      - name: Check out Emscripten SDK 6.0.0
+        uses: actions/checkout@v4
+        with:
+          repository: emscripten-core/emsdk
+          ref: d223ae73c6998296e3ab27cf81dc2c2c9fd383de
+          path: out/emsdk
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Build the browser package
+        run: |
+          out/emsdk/emsdk install 6.0.0
+          out/emsdk/emsdk activate 6.0.0
+          source out/emsdk/emsdk_env.sh
+          npm run pack:npm
+      - run: npm run test:wasm-charts
+      - run: npm run test:npm
+      - name: Checksum the tested tarball
+        working-directory: out/npm
+        run: sha256sum svgplot-wasm-*.tgz > SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: svgplot-browser-package
+          path: |
+            out/npm/*.tgz
+            out/npm/SHA256SUMS
+          if-no-files-found: error

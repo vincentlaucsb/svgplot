@@ -39,10 +39,10 @@ The native library is header-only. In a local svgplot checkout, save this exampl
 
 <<< @/examples/first-line.cpp
 
-With SVG for C++ checked out alongside svgplot in `../svg` and a C++23 compiler, build and run it from that directory. Open `upstream.svg` to see the result.
+With a C++23 compiler, build and run it from that directory. Open `upstream.svg` to see the result.
 
 ```sh
-c++ -std=c++23 -Iinclude -I../svg/src first-line.cpp -o first-line
+c++ -std=c++23 -Iinclude -Ithird_party/svg first-line.cpp -o first-line
 ./first-line
 ```
 

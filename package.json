@@ -1,6 +1,6 @@
 {
   "name": "svgplot",
-  "version": "0.4.2",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -9,9 +9,26 @@
     "docs:build": "npm --prefix docs run build",
     "docs:test": "playwright test --config docs/playwright.config.ts",
     "test:visual": "playwright test",
-    "test:visual:update": "playwright test --update-snapshots"
+    "test:visual:update": "playwright test --update-snapshots",
+    "build:wasm-line": "python wasm/build.py",
+    "build:wasm": "python wasm/build.py",
+    "pack:npm": "npm run build:wasm && python wasm/npm/pack.py",
+    "test:npm": "node wasm/npm/test-consumer.mjs",
+    "docs:preview": "npm --prefix docs run preview",
+    "bench:wasm-line": "node wasm/bench/run.mjs",
+    "bench:plot-libraries": "node wasm/bench/run.mjs --libraries",
+    "bench:line-updates": "node wasm/bench/run.mjs --updates",
+    "bench:labeled": "node wasm/bench/run.mjs --labeled",
+    "bench:bar-updates": "node wasm/bench/run.mjs --bar-updates",
+    "bench:segment-updates": "node wasm/bench/run.mjs --segment-updates",
+    "bench:multiline-updates": "node wasm/bench/run.mjs --multiline-updates",
+    "test:wasm-charts": "node wasm/bench/test-charts.mjs"
   },
   "devDependencies": {
-    "@playwright/test": "1.60.0"
+    "@playwright/test": "1.60.0",
+    "chart.js": "4.6.1",
+    "echarts": "6.1.0",
+    "plotly.js-basic-dist-min": "4.3.0",
+    "typescript": "5.9.3"
   }
 }

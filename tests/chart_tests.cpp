@@ -38,6 +38,26 @@ std::vector<std::string> monthly_labels(int count) {
 
 } // namespace
 
+TEST_CASE("SVG serialization preserves custom children, empty output and XML escaping") {
+    class CustomUse : public SVG::Use {
+        std::string svg_to_string(std::size_t level) const override {
+            return std::string(level, '\t') + "<custom />";
+        }
+        std::unique_ptr<SVG::Element> clone_element_impl() const override {
+            return clone_as<CustomUse>();
+        }
+    };
+    SVG::Group root;
+    auto* group = root.add_child<SVG::Group>();
+    group->add_child<CustomUse>();
+    group->add_child<SVG::SVG::Style>(); // Empty styles produce no line.
+    group->add_child<SVG::Title>("&<>'\"")->set_attr("data", "<&");
+    const std::string expected =
+        "<g>\n\t<g>\n\t\t<custom />\n\t\t<title data=\"&lt;&amp;\">&amp;&lt;&gt;&apos;&quot;</title>\n\t</g>\n</g>";
+    CHECK(static_cast<std::string>(root) == expected);
+    CHECK(static_cast<std::string>(*root.clone_element()) == expected);
+}
+
 TEST_CASE("Default series color palette is stable and wraps") {
     CHECK(svgplot::default_series_color(0) == "#2563eb");
     CHECK(svgplot::default_series_color(1) == "#059669");
@@ -186,6 +206,34 @@ TEST_CASE("Line chart free function remains a builder compatibility wrapper") {
 
 TEST_CASE("LineChart builder preserves empty input validation") {
     CHECK_THROWS_AS(svgplot::LineChart().render(), std::invalid_argument);
+}
+
+TEST_CASE("A narrow line plot includes marker edges beyond the axes") {
+    svgplot::ChartOptions options;
+    options.width = options.height = 15;
+    options.margins = {0, 0, 0, 0};
+    options.x_ticks = options.y_ticks = 1;
+    options.y_tick_mode = svgplot::TickMode::Continuous;
+
+    const auto svg = svgplot::LineChart()
+        .series("", {{0, 0}})
+        .series("", {{1, 1}})
+        .render(options).str();
+
+    // The left tick label sets the left edge. The upper-right marker sets
+    // the top and right edges, even though that end of each axis has no tick.
+    CHECK(svg.find("viewBox=\"-34.0 -2.2 51.9 42.6\"") != std::string::npos);
+}
+
+TEST_CASE("Widely spaced category labels stay visible in a dense bar chart") {
+    svgplot::BarChart chart;
+    for (int i = 0; i < 1000; ++i) {
+        chart.bar(i == 201 ? "Morning" : i == 801 ? "Evening" : "", 1.5);
+    }
+    const auto svg = chart.render().str();
+    CHECK(svg.find(">Morning</text>") != std::string::npos);
+    CHECK(svg.find(">Evening</text>") != std::string::npos);
+    CHECK(svg.find("class=\"bar-label bar-label-rotated\"") == std::string::npos);
 }
 
 TEST_CASE("Bar chart SVG contains bars, labels, and can be saved") {

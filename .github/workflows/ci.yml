@@ -6,6 +6,12 @@ on:
   pull_request:
 
 jobs:
+  browser-package:
+    name: Browser package
+    uses: ./.github/workflows/browser-package.yml
+    permissions:
+      contents: read
+
   version-check:
     name: Version consistency
     runs-on: ubuntu-latest
@@ -34,12 +40,6 @@ jobs:
       - name: Run C++ unit tests
         run: ctest --test-dir out/build/x64-Release -C Release --output-on-failure
 
-      - name: Check out svg dependency
-        uses: actions/checkout@v4
-        with:
-          repository: vincentlaucsb/svg
-          path: external/svg
-
       - name: Check out single_header
         uses: actions/checkout@v4
         with:
@@ -55,10 +55,7 @@ jobs:
       - name: Generate single header
         run: >
           out/build/single_header/Release/single_header.exe
-          --include-root include
-          --include-root external/svg/src
-          --entry include/svgplot/svgplot.hpp
-          --output single_include/svgplot/svgplot.hpp
+          --config single_header.json
 
       - name: Verify single header contents
         shell: pwsh

@@ -102,11 +102,7 @@ public:
         });
         const auto y_tick_mode = detail::resolve_tick_mode(options.y_tick_mode,
                                                            detail::integral_bar_values(bars_));
-        const auto axis_y_domain = detail::bar_value_domain(
-            std::max(0.0, max_it->value), y_tick_mode, options.y_ticks);
-        const LinearScale x_scale({0.0, static_cast<double>(bars_.size())},
-                                  {layout.plot_left, layout.plot_right});
-        const LinearScale y_scale(axis_y_domain, {layout.plot_bottom, layout.plot_top});
+        const auto y_scale = detail::bar_y_scale(max_it->value, y_tick_mode, options.y_ticks, layout);
         detail::add_axes(plot, options, layout,
                          LinearScale({0.0, static_cast<double>(bars_.size()) - 1.0},
                                      {layout.plot_left, layout.plot_right}),
@@ -120,7 +116,7 @@ public:
         detail::CssColorRegistry colors(detail::core_css_vars(root));
         for (std::size_t i = 0; i < bars_.size(); ++i) {
             const auto left = layout.plot_left + slot * static_cast<double>(i) + (slot - bar_width) / 2.0;
-            const auto top = y_scale.map(std::max(0.0, bars_[i].value));
+            const auto top = detail::bar_top(y_scale, bars_[i].value);
             const auto color_class = colors.class_for(
                 root, detail::palette::series_color(bars_[i].color, i));
             auto* rect = plot.add_child<SVG::Rect>(left, top, bar_width, baseline - top);
@@ -138,6 +134,16 @@ public:
         root.responsive_autoscale(SVG::AutoscaleOptions({8, 8, 8, 8}, false));
 
         return Chart(std::move(root));
+    }
+
+    // Source indices in SVG rectangle order, counting input segments row by row.
+    // Grouped bars may reorder by series label; nonpositive segments have no rectangle.
+    [[nodiscard]] std::pair<Chart, std::vector<std::size_t>> render_indexed_segments(ChartOptions options = {}) const {
+        std::vector<std::size_t> indices;
+        if (groups_.empty() && stacks_.empty()) throw std::invalid_argument("segmented chart requires at least one category");
+        auto chart = groups_.empty() ? render_stacked(std::move(options), &indices)
+                                     : render_grouped(std::move(options), &indices);
+        return {std::move(chart), std::move(indices)};
     }
 
 private:
@@ -249,7 +255,7 @@ private:
         return nullptr;
     }
 
-    [[nodiscard]] Chart render_stacked(ChartOptions options) const {
+    [[nodiscard]] Chart render_stacked(ChartOptions options, std::vector<std::size_t>* indices = nullptr) const {
         SVG::SVG root(SVG::SVGAttrib{{"xmlns", "http://www.w3.org/2000/svg"}});
 
         detail::add_common_styles(root);
@@ -280,8 +286,7 @@ private:
             y_max = std::max(y_max, total);
         }
         const auto y_tick_mode = detail::resolve_tick_mode(options.y_tick_mode, integral_values);
-        const auto axis_y_domain = detail::bar_value_domain(y_max, y_tick_mode, options.y_ticks);
-        const LinearScale y_scale(axis_y_domain, {layout.plot_bottom, layout.plot_top});
+        const auto y_scale = detail::bar_y_scale(y_max, y_tick_mode, options.y_ticks, layout);
         detail::add_axes(plot, options, layout,
                          LinearScale({0.0, static_cast<double>(stacks_.size()) - 1.0},
                                      {layout.plot_left, layout.plot_right}),
@@ -292,6 +297,7 @@ private:
         const auto bar_width = slot * 0.64;
 
         detail::CssColorRegistry colors(detail::core_css_vars(root));
+        std::size_t offset = 0;
         for (std::size_t i = 0; i < stacks_.size(); ++i) {
             const auto left = layout.plot_left + slot * static_cast<double>(i) + (slot - bar_width) / 2.0;
             double cumulative = 0.0;
@@ -309,8 +315,10 @@ private:
                     root, segment_color(segment, j, series_order, series_colors));
                 auto* rect = plot.add_child<SVG::Rect>(left, top, bar_width, bottom - top);
                 rect->class_list().add("bar").add("bar-segment").add(color_class);
+                if (indices) indices->push_back(offset + j);
                 cumulative = top_value;
             }
+            offset += stacks_[i].segments.size();
         }
         detail::add_category_labels(plot, labels, layout, label_plan);
 
@@ -326,7 +334,7 @@ private:
         return Chart(std::move(root));
     }
 
-    [[nodiscard]] Chart render_grouped(ChartOptions options) const {
+    [[nodiscard]] Chart render_grouped(ChartOptions options, std::vector<std::size_t>* indices = nullptr) const {
         SVG::SVG root(SVG::SVGAttrib{{"xmlns", "http://www.w3.org/2000/svg"}});
 
         detail::add_common_styles(root);
@@ -364,8 +372,7 @@ private:
             }
         }
         const auto y_tick_mode = detail::resolve_tick_mode(options.y_tick_mode, integral_values);
-        const auto axis_y_domain = detail::bar_value_domain(y_max, y_tick_mode, options.y_ticks);
-        const LinearScale y_scale(axis_y_domain, {layout.plot_bottom, layout.plot_top});
+        const auto y_scale = detail::bar_y_scale(y_max, y_tick_mode, options.y_ticks, layout);
         detail::add_axes(plot, options, layout,
                          LinearScale({0.0, static_cast<double>(groups_.size()) - 1.0},
                                      {layout.plot_left, layout.plot_right}),
@@ -382,6 +389,7 @@ private:
         const auto baseline = y_scale.map(0.0);
 
         detail::CssColorRegistry colors(detail::core_css_vars(root));
+        std::size_t offset = 0;
         for (std::size_t i = 0; i < groups_.size(); ++i) {
             const auto group_left = layout.plot_left + slot * static_cast<double>(i) +
                                     (slot - group_width) / 2.0;
@@ -402,7 +410,9 @@ private:
                     root, segment_color(*segment, j, series_order, series_colors));
                 auto* rect = plot.add_child<SVG::Rect>(left, top, bar_width, baseline - top);
                 rect->class_list().add("bar").add("bar-grouped").add(color_class);
+                if (indices) indices->push_back(offset + static_cast<std::size_t>(segment - groups_[i].segments.data()));
             }
+            offset += groups_[i].segments.size();
         }
         detail::add_category_labels(plot, labels, layout, label_plan);
 

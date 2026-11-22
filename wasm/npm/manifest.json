@@ -1,0 +1,23 @@
+{
+  "name": "svgplot-wasm",
+  "version": "1.0.0",
+  "description": "SVG line charts, bar charts and calendar heatmaps for the browser, powered by C++ and WebAssembly",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./charts.d.ts",
+      "import": "./charts.js"
+    },
+    "./line-engine.wasm": {
+      "types": "./line-engine.wasm.d.ts",
+      "default": "./line-engine.wasm"
+    }
+  },
+  "types": "./charts.d.ts",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vincentlaucsb/svgplot.git"
+  },
+  "keywords": ["svg", "charts", "webassembly", "typescript"]
+}

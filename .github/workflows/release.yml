@@ -50,12 +50,6 @@ jobs:
           RELEASE_TAG: ${{ steps.metadata.outputs.result }}
         run: node scripts/version.mjs check --tag "$env:RELEASE_TAG"
 
-      - name: Check out svg dependency
-        uses: actions/checkout@v4
-        with:
-          repository: vincentlaucsb/svg
-          path: svg
-
       - name: Check out single_header
         uses: actions/checkout@v4
         with:
@@ -102,8 +96,14 @@ jobs:
           path: svgplot/single_include/svgplot/svgplot.hpp
           if-no-files-found: error
 
-  publish:
+  browser-package:
     needs: single-header
+    uses: ./.github/workflows/browser-package.yml
+    with:
+      ref: ${{ github.event.pull_request.merge_commit_sha || github.sha }}
+
+  publish:
+    needs: [single-header, browser-package]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -114,6 +114,9 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: svgplot-single-header
+      - uses: actions/download-artifact@v4
+        with:
+          name: svgplot-browser-package
       - name: Create release from the merged PR
         if: github.event_name == 'pull_request'
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
@@ -144,16 +147,19 @@ jobs:
               });
             }
 
-      - name: Attach the tested header to the PR release
+      - name: Attach the tested release files
         if: github.event_name == 'pull_request'
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
-        run: gh release upload "$RELEASE_TAG" svgplot.hpp --clobber
+        run: gh release upload "$RELEASE_TAG" svgplot.hpp svgplot-wasm-*.tgz SHA256SUMS --clobber
 
       - name: Publish manually tagged release
         if: github.event_name == 'push'
         uses: softprops/action-gh-release@v2
         with:
-          files: svgplot.hpp
+          files: |
+            svgplot.hpp
+            svgplot-wasm-*.tgz
+            SHA256SUMS
           fail_on_unmatched_files: true

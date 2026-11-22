@@ -41,13 +41,20 @@ inline CategoryLabelPlan plan_category_labels(const std::vector<std::string>& la
 
     double max_width = 0.0;
     double max_height = 0.0;
-    for (const auto& label : labels) {
+    // Sparse categories can have many empty slots between visible labels.
+    std::size_t min_gap = labels.size();
+    std::size_t previous = labels.size();
+    for (std::size_t i = 0; i < labels.size(); ++i) {
+        const auto& label = labels[i];
+        if (label.empty()) continue;
+        if (previous != labels.size()) min_gap = std::min(min_gap, i - previous);
+        previous = i;
         const auto metrics = SVG::detail::TextEstimator(label, category_label_font_size, "").estimate();
         max_width = std::max(max_width, metrics.width);
         max_height = std::max(max_height, metrics.height);
     }
 
-    if (max_width + category_label_padding <= plan.slot) {
+    if (max_width + category_label_padding <= plan.slot * static_cast<double>(min_gap)) {
         return plan;
     }
 
@@ -70,7 +77,7 @@ inline void add_category_labels(SVG::SVG& plot,
                                 const ChartLayout& layout,
                                 const CategoryLabelPlan& plan) {
     for (std::size_t i = 0; i < labels.size(); ++i) {
-        if (i % plan.stride != 0) {
+        if (labels[i].empty() || i % plan.stride != 0) {
             continue;
         }
 

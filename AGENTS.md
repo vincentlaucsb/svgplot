@@ -24,11 +24,27 @@ Generated outputs such as `generated/`, `single_include/`, `out/`,
 `test-results/`, and local Visual Studio files are ignored and should not be
 committed.
 
+Use `third_party/svg/svg.hpp` for native builds, WASM benchmarks, and release
+amalgamation. Record the upstream revision and downstream changes in
+`third_party/svg/README.md`. When updating the dependency, reconcile those
+changes against upstream and check native tests, SVG fixtures and the generated
+single header. For a deliberate cross-repository experiment, pass the same
+include directory to CMake (`SVGPLOT_SVG_INCLUDE_DIR`) and
+`wasm/build.py --svg-include`, and record it with the results.
+
+When the destination scales and mark extents are known, compute the plot
+viewport directly. In `include/svgplot/line_chart/bounds.hpp`, `size_line_plot`
+combines scaled extrema and marker radius with the bounds of axes and labels
+before the markers are built. This avoids visiting every marker again during
+autoscaling. Account for SVG coordinate rounding and rotated labels when
+deriving bounds. The outer responsive SVG can still fit titles and legends
+using the plot's recorded `layout_bbox`.
+
 ## Versioning
 
 Git tags are the release markers. Every svgplot version marker
 (`CMakeLists.txt` `project(... VERSION)`, the `include/svgplot/svgplot.hpp`
-banner, `package.json`, and `package-lock.json`) is managed by
+banner, `package.json`, `wasm/npm/manifest.json`, and `package-lock.json`) is managed by
 `scripts/version.mjs`:
 
 - Bump with `node scripts/version.mjs bump X.Y.Z`. Do not edit the markers by
