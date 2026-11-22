@@ -16,6 +16,7 @@ const markers = [
   { file: "CMakeLists.txt", pattern: /(project\(svgplot VERSION )([^\s)]+)/g, count: 1 },
   { file: "include/svgplot/svgplot.hpp", pattern: /(svgplot for C\+\+ v)(\S+)/g, count: 1 },
   { file: "package.json", pattern: /("name": "svgplot",\s*"version": ")([^"]+)/g, count: 1 },
+  { file: "wasm/npm/manifest.json", pattern: /("name": "svgplot-wasm",\s*"version": ")([^"]+)/g, count: 1 },
   // Root package entry and packages[""] entry.
   { file: "package-lock.json", pattern: /("name": "svgplot",\s*"version": ")([^"]+)/g, count: 2 },
 ];

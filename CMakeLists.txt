@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.25)
 
-project(svgplot VERSION 0.4.2 LANGUAGES CXX)
+project(svgplot VERSION 1.0.0 LANGUAGES CXX)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 include(FetchModules)
@@ -11,19 +11,21 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 option(SVGPLOT_ENABLE_COVERAGE "Enable coverage instrumentation for svgplot tests" OFF)
 
-set(SVGPLOT_SIBLING_SVG_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../svg" CACHE PATH
-    "Path to a sibling svg checkout used instead of FetchContent when available")
-if(EXISTS "${SVGPLOT_SIBLING_SVG_DIR}/src/svg.hpp")
-    message(STATUS "Using sibling svg checkout: ${SVGPLOT_SIBLING_SVG_DIR}")
-    set(svg_SOURCE_DIR "${SVGPLOT_SIBLING_SVG_DIR}")
-else()
-    fetch_module(
-        svg
-        GIT_REPOSITORY https://github.com/vincentlaucsb/svg.git
-        GIT_TAG master
-        SOURCE_SUBDIR cmake-do-not-build-upstream-targets
-    )
+set(_svg_default "${CMAKE_CURRENT_SOURCE_DIR}/third_party/svg")
+if(DEFINED SVGPLOT_SIBLING_SVG_DIR)
+    # Migrate a custom checkout, but do not reactivate an old cache's automatic sibling lookup.
+    get_filename_component(_svg_legacy "${SVGPLOT_SIBLING_SVG_DIR}" ABSOLUTE)
+    get_filename_component(_svg_old_default "${CMAKE_CURRENT_SOURCE_DIR}/../svg" ABSOLUTE)
+    if(NOT _svg_legacy STREQUAL _svg_old_default AND EXISTS "${_svg_legacy}/src/svg.hpp")
+        set(_svg_default "${_svg_legacy}/src")
+    endif()
+    message(DEPRECATION "SVGPLOT_SIBLING_SVG_DIR is obsolete. For an external checkout set SVGPLOT_SVG_INCLUDE_DIR to its src directory.")
 endif()
+set(SVGPLOT_SVG_INCLUDE_DIR "${_svg_default}" CACHE PATH "Directory containing the svg.hpp backend")
+if(NOT EXISTS "${SVGPLOT_SVG_INCLUDE_DIR}/svg.hpp")
+    message(FATAL_ERROR "Missing svg.hpp in SVGPLOT_SVG_INCLUDE_DIR=${SVGPLOT_SVG_INCLUDE_DIR}")
+endif()
+message(STATUS "svgplot backend: ${SVGPLOT_SVG_INCLUDE_DIR}/svg.hpp")
 
 fetch_module(
     Catch2
@@ -34,7 +36,7 @@ fetch_module(
 add_library(svgplot INTERFACE)
 target_include_directories(svgplot INTERFACE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<BUILD_INTERFACE:${svg_SOURCE_DIR}/src>
+    $<BUILD_INTERFACE:${SVGPLOT_SVG_INCLUDE_DIR}>
     $<INSTALL_INTERFACE:include>
 )
 target_compile_features(svgplot INTERFACE cxx_std_23)

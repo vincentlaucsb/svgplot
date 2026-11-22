@@ -3,7 +3,9 @@
 #include "legend/types.hpp"
 
 #include <chrono>
+#include <optional>
 #include <string>
+#include <vector>
 
 namespace svgplot {
 
@@ -23,6 +25,11 @@ using Date = std::chrono::sys_days;
 struct Bounds {
     double min{};
     double max{};
+};
+
+struct AxisTick {
+    double value;
+    std::string label;
 };
 
 struct Margins {
@@ -48,6 +55,8 @@ struct ChartOptions : BaseChartOptions {
     int y_ticks = 5;
     TickMode y_tick_mode = TickMode::Auto;
     LegendOptions legend{};
+    std::optional<Bounds> x_domain;
+    std::vector<AxisTick> x_tick_labels;
 };
 
 } // namespace svgplot

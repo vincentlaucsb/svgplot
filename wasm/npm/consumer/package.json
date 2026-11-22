@@ -1,0 +1,12 @@
+{
+  "name": "svgplot-consumer-test",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc --noEmit && vite build --base=/demo/"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "vite": "8.3.8"
+  }
+}

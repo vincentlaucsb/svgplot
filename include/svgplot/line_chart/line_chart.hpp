@@ -65,21 +65,17 @@ public:
         const auto layout = detail::chart_layout(options);
         const auto legend_layout = detail::measure_legend(legend_items, options.legend);
 
-        const auto x_bounds = detail::padded(detail::point_bounds_x(series_), 0.02);
-        const auto y_bounds = detail::point_bounds_y(series_);
-        const auto y_tick_mode = detail::resolve_tick_mode(options.y_tick_mode,
-                                                           detail::integral_y_values(series_));
-        const auto y_domain = y_tick_mode == TickMode::Integer
-            ? LinearScale::nice_integer_domain(y_bounds, options.y_ticks)
-            : y_bounds;
-        const LinearScale x_scale(x_bounds, {layout.plot_left, layout.plot_right});
-        const LinearScale y_scale(y_domain, {layout.plot_bottom, layout.plot_top});
-        detail::add_axes(plot, options, layout, x_scale, y_scale, y_tick_mode);
+        const auto data_bounds = detail::point_bounds(series_);
+        const auto scales = detail::line_scales(data_bounds, detail::integral_y_values(series_), options, layout);
+        detail::add_axes(plot, options, layout, scales.x, scales.y, scales.y_tick_mode);
 
-        constexpr auto marker_radius = 3.2;
+        constexpr auto marker_radius = detail::line_marker_radius;
         constexpr auto marker_size = marker_radius * 2.0;
+        detail::size_line_plot(plot, data_bounds, scales.x, scales.y, marker_radius);
         const auto marker_symbol_id = "svgplot-line-marker";
         auto* marker_symbol = root.defs()->symbol(marker_symbol_id);
+        const auto marker_href = marker_symbol->href();
+        const auto marker_dimension = SVG::to_string(marker_size);
         marker_symbol->set_attr("viewBox", "0 0 " + detail::number(marker_size) + " " +
                                                detail::number(marker_size));
         marker_symbol->add_child<SVG::Circle>(marker_radius, marker_radius, marker_radius);
@@ -99,22 +95,19 @@ public:
                 {"stroke-width", "2.4"},
             });
             path->class_list().add("line-series").add(color_class);
-            path->start(x_scale.map(s.points.front().x), y_scale.map(s.points.front().y));
-            for (std::size_t i = 1; i < s.points.size(); ++i) {
-                path->line_to(x_scale.map(s.points[i].x), y_scale.map(s.points[i].y));
-            }
+            path->set_attr("d", detail::line_path_data(s.points, scales));
 
+            const SVG::SVGAttrib marker_attributes{
+                {"class", "line-marker " + color_class}, {"href", marker_href},
+                {"width", marker_dimension}, {"height", marker_dimension},
+            };
             for (const auto& p : s.points) {
-                auto* marker = plot.add_child<SVG::Use>(
-                    marker_symbol->use(x_scale.map(p.x) - marker_radius,
-                                       y_scale.map(p.y) - marker_radius,
-                                       marker_size,
-                                       marker_size));
-                marker->class_list().add("line-marker").add(color_class);
+                auto* marker = plot.add_child<SVG::Use>(marker_attributes);
+                marker->set_attr("x", scales.x.map(p.x) - marker_radius);
+                marker->set_attr("y", scales.y.map(p.y) - marker_radius);
             }
         }
 
-        detail::autoscale_svg_region(plot);
         const auto legend_place = detail::place_legend(
             detail::svg_region_layout(plot), legend_layout, options.legend, 0.0);
         detail::add_legend(frame, root, colors, legend_items, options.legend,

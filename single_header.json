@@ -1,7 +1,7 @@
 {
   "includeRoots": [
     "include",
-    "../svg/src"
+    "third_party/svg"
   ],
   "output": "single_include/svgplot/svgplot.hpp",
   "entry": "include/svgplot/svgplot.hpp"

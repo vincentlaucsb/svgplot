@@ -82,8 +82,8 @@ inline void add_axes(SVG::SVG& root, const ChartOptions& options,
     add_axis_line(root, left, left, top, bottom);
 
     if (include_x_ticks) {
-        for (const auto tick : x_scale.ticks(options.x_ticks)) {
-            const auto x = x_scale.map(tick);
+        const auto add_x_tick = [&](double value, const std::string& text) {
+            const auto x = x_scale.map(value);
             const auto vars = core_css_vars(root);
             auto* grid = root.add_child<SVG::Line>(x, x, top, bottom);
             grid->set_attrs({
@@ -97,9 +97,14 @@ inline void add_axes(SVG::SVG& root, const ChartOptions& options,
                 {"stroke", vars.var(CoreCssVar::Axis)},
                 {"stroke-width", "1"},
             });
-            auto* label = root.add_child<SVG::Text>(x, bottom + 21.0, number(tick));
+            auto* label = root.add_child<SVG::Text>(x, bottom + 21.0, text);
             style_text(label, 11.0);
             label->set_attr("class", "x-tick");
+        };
+        if (options.x_tick_labels.empty()) {
+            for (const auto tick : x_scale.ticks(options.x_ticks)) add_x_tick(tick, number(tick));
+        } else {
+            for (const auto& tick : options.x_tick_labels) add_x_tick(tick.value, tick.label);
         }
     }
 

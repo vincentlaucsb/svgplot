@@ -4,6 +4,8 @@
 
 Simple SVG plots for C++
 
+Link the CMake target `svgplot`, or add `include/` and `third_party/svg/` to the C++ include path. The single-header release bundles both libraries. The [TypeScript interface](wasm/README.md) exposes line charts, bars, and calendar heatmaps in the browser.
+
 The [documentation site](https://vincentlaucsb.github.io/svgplot/) includes live line, bar, and calendar heatmap examples for the published `svgplot-wasm` package, equivalent C++ examples, and browser benchmarks. To run it locally, use `npm ci`, `npm run docs:setup`, and `npm run docs:dev`. To check the production site, run `npm run docs:build`, `npx playwright install chromium`, and `npm run docs:test`. The site deploys to GitHub Pages after documentation changes pass on `main`.
 
 ## Features
